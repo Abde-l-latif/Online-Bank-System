@@ -1,0 +1,90 @@
+﻿using BankDataAccess;
+using Microsoft.Data.SqlClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BankBusinessAccess
+{
+    public class RegisterDTO
+    {
+        // Customer
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime BirthDate { get; set; }
+        public string PhoneNumber { get; set; }
+        public string NationalID { get; set; }
+
+        // User
+        public string EmailAddress { get; set; }
+        public string Password { get; set; }
+
+        // Address
+        public string Country { get; set; }
+        public string City { get; set; }
+        public string Street { get; set; }
+        public string PostalCode { get; set; }
+    }
+
+    public class Authentication
+    {
+        enum Roles { Admin = 1 , Customer, Employee }
+
+
+        public UserDTO Register(RegisterDTO registerDTO)
+        {
+    
+            using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+            {
+                connection.Open();
+
+                SqlTransaction transaction = connection.BeginTransaction();
+
+                try
+                {
+                    // Create AddressDTO
+                    AddressDTO addressDTO = new AddressDTO(registerDTO.Country, registerDTO.City, registerDTO.Street, registerDTO.PostalCode);
+                    addressDTO.AddressID = AddressesData.InsertAddress(addressDTO, connection, transaction);
+
+
+                    // Create CustomersDTO
+                    CustomersDTO customersDTO = new CustomersDTO
+                    (
+                        registerDTO.FirstName,
+                        registerDTO.LastName,
+                        registerDTO.BirthDate,
+                        registerDTO.PhoneNumber,
+                        addressDTO.AddressID,
+                        registerDTO.NationalID
+                    );
+                    customersDTO.CustomerId = CustomersData.InsertCustomer(customersDTO, connection, transaction);
+
+                    // Create UserDTO
+                    UserDTO userDTO = new UserDTO
+                    (
+                        registerDTO.EmailAddress,
+                        registerDTO.Password,
+                        true,
+                        DateTime.MinValue,
+                        customersDTO.CustomerId,
+                        (int)Roles.Customer
+                    );
+                    userDTO.UserID = UsersData.InsertUser(userDTO, connection, transaction);
+
+                    transaction.Commit();
+
+                    return userDTO;
+
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+            
+        }
+    }
+}

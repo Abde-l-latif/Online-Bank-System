@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37314.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankDataAccess", "BankDataAccess\BankDataAccess.csproj", "{AA9956CD-771D-4798-99FA-6F09D0FEE6C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankBusinessAccess", "BankBusinessAccess\BankBusinessAccess.csproj", "{05351A87-5874-2CE0-B656-B1B375EB35E7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA9956CD-771D-4798-99FA-6F09D0FEE6C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA9956CD-771D-4798-99FA-6F09D0FEE6C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA9956CD-771D-4798-99FA-6F09D0FEE6C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA9956CD-771D-4798-99FA-6F09D0FEE6C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05351A87-5874-2CE0-B656-B1B375EB35E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05351A87-5874-2CE0-B656-B1B375EB35E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05351A87-5874-2CE0-B656-B1B375EB35E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05351A87-5874-2CE0-B656-B1B375EB35E7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BFD5946A-B572-4C88-8EEE-4CC4455C2703}
+	EndGlobalSection
+EndGlobal
