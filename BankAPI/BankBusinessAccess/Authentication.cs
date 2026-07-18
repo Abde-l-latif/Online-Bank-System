@@ -32,6 +32,12 @@ namespace BankBusinessAccess
     {
         enum Roles { Admin = 1 , Customer, Employee }
 
+        private readonly IPasswordService _passwordService;
+
+        public Authentication(IPasswordService passwordService)
+        {
+            _passwordService = passwordService;
+        }
 
         public UserDTO Register(RegisterDTO registerDTO)
         {
@@ -65,12 +71,13 @@ namespace BankBusinessAccess
                     UserDTO userDTO = new UserDTO
                     (
                         registerDTO.EmailAddress,
-                        registerDTO.Password,
+                        _passwordService.HashPassword(registerDTO.Password),
                         true,
                         DateTime.MinValue,
                         customersDTO.CustomerId,
                         (int)Roles.Customer
                     );
+
                     userDTO.UserID = UsersData.InsertUser(userDTO, connection, transaction);
 
                     transaction.Commit();

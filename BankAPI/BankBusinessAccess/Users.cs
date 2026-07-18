@@ -21,6 +21,8 @@ namespace BankBusinessAccess
             mode = enMode.UpdateMode;
         }
 
+        public Users() { }
+
         private bool _AddUser()
         {
             if (string.IsNullOrWhiteSpace(userDTO.EmailAddress) || string.IsNullOrWhiteSpace(userDTO.HashPassword))
