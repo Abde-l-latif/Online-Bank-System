@@ -17,6 +17,19 @@ namespace BankWebApi.Controllers
         }
 
 
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetUserById(int id)
+        {
+            var user = Users.Find(id);
+
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
+        }
+
+
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -25,8 +38,8 @@ namespace BankWebApi.Controllers
         {
             try
             {  
-                var user = _authentication.Register(registerDTO);
-                return StatusCode(StatusCodes.Status201Created, user);
+                var userResponse = _authentication.Register(registerDTO);
+                return CreatedAtAction(nameof(GetUserById), new { id = userResponse.UserID }, userResponse);
 
             }
             catch (CustomExceptions.ValidationException ex)

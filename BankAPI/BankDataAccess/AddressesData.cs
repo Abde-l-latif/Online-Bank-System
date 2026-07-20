@@ -23,6 +23,7 @@ namespace BankDataAccess
             Street = street;
             PostalCode = postalCode;
         }
+        public AddressDTO() { }
     }
     public class AddressesData
     {
@@ -42,6 +43,7 @@ namespace BankDataAccess
             {
 
                 string query = "INSERT INTO Addresses (Country, City, Street, PostalCode) VALUES (@Country, @City, @Street, @PostalCode); SELECT SCOPE_IDENTITY();";
+
                 using (SqlCommand command = new SqlCommand(query, connection, transaction))
                 {
                     command.Parameters.AddWithValue("@Country", address.Country);
@@ -53,7 +55,7 @@ namespace BankDataAccess
 
                     return id;
                 }
-              
+
             }
             catch (Exception ex)
             {
@@ -62,5 +64,46 @@ namespace BankDataAccess
             }
         }
 
+        static public AddressDTO? GetAddressById(int addressID)
+        {
+
+            string Query = "SELECT * FROM Addresses WHERE AddressID = @AddressID";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(Query, connection))
+                    {
+
+                        command.Parameters.AddWithValue("@AddressID", addressID);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                return new AddressDTO(
+                                    reader["Country"].ToString() ?? "",
+                                    reader["City"].ToString() ?? "",
+                                    reader["Street"].ToString() ?? "",
+                                    reader["PostalCode"].ToString() ?? ""
+                                );
+                            }
+                        }
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving address: {ex.Message}");
+                return null;
+            }
+
+            return null;
+        }
     }
 }

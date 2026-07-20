@@ -2,3 +2,5 @@ SecureInfo.cs
 .vs/
 [Bb]in/
 [Oo]bj/
+BankWebApi.csproj.user
+appsettings.Development.json

@@ -15,11 +15,21 @@ namespace BankBusinessAccess
         enMode mode = enMode.AddMode;
 
         public UserDTO userDTO { get; set; }
+        public userResponseDTO userResponseDTO { get; set; }
+
 
         private readonly IPasswordService _passwordService;
+
+
         public Users(UserDTO userDTO)
         {
             this.userDTO = userDTO;
+            mode = enMode.UpdateMode;
+        }
+
+        public Users(userResponseDTO userResponseDTO)
+        {
+            this.userResponseDTO = userResponseDTO;
             mode = enMode.UpdateMode;
         }
 
@@ -30,7 +40,11 @@ namespace BankBusinessAccess
 
         public Users() { }
 
+
+
+
         Validations Validations = new Validations();
+
         private bool _AddUser()
         {
             if (string.IsNullOrWhiteSpace(userDTO.EmailAddress) || string.IsNullOrWhiteSpace(userDTO.HashPassword))
@@ -49,7 +63,7 @@ namespace BankBusinessAccess
                 throw new CustomExceptions.ValidationException("HashPassword", "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.");
             }
 
-            if(UsersData.IsEmailExists(userDTO))
+            if(UsersData.IsEmailExists(userDTO.EmailAddress))
             {
                 throw new CustomExceptions.ValidationException("EmailAddress", "Email already exists.");
             }
@@ -59,6 +73,19 @@ namespace BankBusinessAccess
             userDTO.UserID = UsersData.InsertUser(userDTO);
 
             return userDTO.UserID > 0;
+        }
+
+        static public Users? Find(int id)
+        {
+            userResponseDTO? userResponseDTO = UsersData.GetUserById(id);
+            if (userResponseDTO != null)
+            {
+                return new Users(userResponseDTO);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public bool Save()

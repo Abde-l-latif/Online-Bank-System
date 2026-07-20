@@ -43,7 +43,7 @@ namespace BankBusinessAccess
 
         Validations validations = new Validations();
 
-        public UserDTO Register(RegisterDTO registerDTO)
+        public userResponseDTO Register(RegisterDTO registerDTO)
         {
 
             validations.ValidateRegisterDTO(registerDTO);
@@ -74,7 +74,7 @@ namespace BankBusinessAccess
                         registerDTO.NationalID
                     );
 
-                    if (CustomersData.IsNationalIDExists(customersDTO))
+                    if (CustomersData.IsNationalIDExists(customersDTO.NationalID))
                     {
                         throw new CustomExceptions.ValidationException("NationalID", "National ID already exists.");
                     }
@@ -93,7 +93,7 @@ namespace BankBusinessAccess
                         registerDTO.ImagePath
                     );
 
-                    if (UsersData.IsEmailExists(userDTO))
+                    if (UsersData.IsEmailExists(userDTO.EmailAddress))
                     {
                         throw new CustomExceptions.ValidationException("EmailAddress", "Email address already exists.");
                     }
@@ -102,7 +102,7 @@ namespace BankBusinessAccess
 
                     transaction.Commit();
 
-                    return userDTO;
+                    return new userResponseDTO(userDTO);
 
                 }
                 catch

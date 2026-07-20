@@ -22,6 +22,20 @@ namespace BankBusinessAccess
 
         Validations Validations = new Validations();
 
+        static public Customers? Find(int id)
+        {
+            CustomersDTO? customersDTO = CustomersData.GetCustomerById(id);
+
+            if (customersDTO != null)
+            {
+                return new Customers(customersDTO);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         private bool _AddCustomer()
         {
             if (string.IsNullOrWhiteSpace(customersDTO.FirstName) || string.IsNullOrWhiteSpace(customersDTO.LastName) ||
@@ -40,7 +54,7 @@ namespace BankBusinessAccess
                 throw new CustomExceptions.ValidationException("NationalID", "Invalid national ID format.");
             }
 
-            if(CustomersData.IsNationalIDExists(customersDTO))
+            if(CustomersData.IsNationalIDExists(customersDTO.NationalID))
             {
                 throw new CustomExceptions.ValidationException("NationalID", "National ID already exists.");
             }

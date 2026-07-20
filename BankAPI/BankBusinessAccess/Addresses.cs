@@ -1,4 +1,5 @@
 ﻿using BankDataAccess;
+using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
 
 namespace BankBusinessAccess
@@ -29,6 +30,20 @@ namespace BankBusinessAccess
             addressDTO.AddressID = AddressesData.InsertAddress(addressDTO);
 
             return addressDTO.AddressID > 0;
+        }
+
+        static public Addresses? Find(int id)
+        {
+            AddressDTO? addressDTO = AddressesData.GetAddressById(id);
+
+            if (addressDTO != null)
+            {
+                return new Addresses(addressDTO);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public bool Save()

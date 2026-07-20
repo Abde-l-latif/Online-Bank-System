@@ -34,7 +34,7 @@ namespace BankDataAccess
             NationalID = nationalID;
         }
 
-
+        public CustomersDTO() { }
     }
     public class CustomersData
     {
@@ -74,7 +74,7 @@ namespace BankDataAccess
             }
         }
 
-        static public bool IsNationalIDExists(CustomersDTO customer)
+        static public bool IsNationalIDExists(string nationalId)
         {
             string query = "SELECT COUNT(*) FROM Customers WHERE NationalID = @NationalID";
 
@@ -85,7 +85,7 @@ namespace BankDataAccess
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@NationalID", customer.NationalID);
+                        command.Parameters.AddWithValue("@NationalID", nationalId);
                         int count = (int)command.ExecuteScalar();
                         return count > 0;
                     }
@@ -96,6 +96,49 @@ namespace BankDataAccess
                     return false;
                 }
             }
+        }
+
+        static public CustomersDTO? GetCustomerById(int customerID)
+        {
+            string query = "SELECT * FROM Customers WHERE CustomerID = @CustomerID";
+
+            using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@CustomerID", customerID);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                return new CustomersDTO(
+                                    reader["FirstName"].ToString() ?? "",
+                                    reader["LastName"].ToString() ?? "",
+                                    Convert.ToDateTime(reader["BirthDate"]),
+                                    reader["PhoneNumber"].ToString() ?? "",
+                                    Convert.ToInt32(reader["AddressID"]),
+                                    reader["NationalID"].ToString() ?? ""
+                                )
+                                {
+                                    CustomerId = Convert.ToInt32(reader["CustomerID"]),
+                                    Status = (CustomersDTO.CustomerStatus)Convert.ToInt32(reader["Status"]),
+                                    Address = AddressesData.GetAddressById(Convert.ToInt32(reader["AddressID"])) ?? new AddressDTO()
+                                };
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error retrieving customer: {ex.Message}");
+                }
+            }
+
+            return null;
         }
     }
 }
