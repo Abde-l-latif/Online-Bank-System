@@ -40,8 +40,7 @@ namespace BankDataAccess
         {
             try
             {
-                
-                connection.Open();
+
                 string query = "INSERT INTO Addresses (Country, City, Street, PostalCode) VALUES (@Country, @City, @Street, @PostalCode); SELECT SCOPE_IDENTITY();";
                 using (SqlCommand command = new SqlCommand(query, connection, transaction))
                 {

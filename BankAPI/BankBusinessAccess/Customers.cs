@@ -20,22 +20,47 @@ namespace BankBusinessAccess
             mode = enMode.UpdateMode; 
         }
 
+        Validations Validations = new Validations();
+
         private bool _AddCustomer()
         {
             if (string.IsNullOrWhiteSpace(customersDTO.FirstName) || string.IsNullOrWhiteSpace(customersDTO.LastName) ||
                 string.IsNullOrWhiteSpace(customersDTO.PhoneNumber) || string.IsNullOrWhiteSpace(customersDTO.NationalID))
             {
-                throw new ArgumentException("All customer fields must be provided and cannot be empty.");
+                throw new CustomExceptions.ValidationException("FirstName, LastName, PhoneNumber, NationalID", "All customer fields must be provided and cannot be empty.");
             }
 
-            if((DateTime.Now.Year - customersDTO.BirthDate.Year) < 18)
+            if(!Validations.ValidatePhoneNumber(customersDTO.PhoneNumber))
             {
-                throw new ArgumentException("Customer must be at least 18 years old.");
+                throw new CustomExceptions.ValidationException("PhoneNumber", "Invalid phone number format.");
             }
 
-            if(customersDTO.AddressID <= 0)
+            if(!Validations.ValidateMorrocanCIN(customersDTO.NationalID))
             {
-                throw new ArgumentException("Invalid address.");
+                throw new CustomExceptions.ValidationException("NationalID", "Invalid national ID format.");
+            }
+
+            if(CustomersData.IsNationalIDExists(customersDTO))
+            {
+                throw new CustomExceptions.ValidationException("NationalID", "National ID already exists.");
+            }
+
+            if (customersDTO.BirthDate.Date > DateTime.Today)
+            {
+                throw new CustomExceptions.ValidationException("BirthDate", "Birth date cannot be in the future.");
+            }
+            else if (customersDTO.BirthDate.Date > DateTime.Today.AddYears(-18))
+            {
+                throw new CustomExceptions.ValidationException("BirthDate", "Customer must be at least 18 years old.");
+            }
+            else if (customersDTO.BirthDate.Date < DateTime.Today.AddYears(-100))
+            {
+                throw new CustomExceptions.ValidationException("BirthDate", "Customer age cannot be more than 100 years.");
+            }
+
+            if (customersDTO.AddressID <= 0)
+            {
+                throw new CustomExceptions.ValidationException("AddressID", "Invalid address.");
             }
 
             customersDTO.Status = CustomersDTO.CustomerStatus.pending;

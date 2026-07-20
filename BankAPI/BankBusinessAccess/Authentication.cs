@@ -1,5 +1,6 @@
 ﻿using BankDataAccess;
 using Microsoft.Data.SqlClient;
+using System.Text.RegularExpressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace BankBusinessAccess
         // User
         public string EmailAddress { get; set; }
         public string Password { get; set; }
+        public string ImagePath { get; set; } = "";
 
         // Address
         public string Country { get; set; }
@@ -39,9 +41,15 @@ namespace BankBusinessAccess
             _passwordService = passwordService;
         }
 
+        Validations validations = new Validations();
+
         public UserDTO Register(RegisterDTO registerDTO)
         {
-    
+
+            validations.ValidateRegisterDTO(registerDTO);
+
+
+
             using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
             {
                 connection.Open();
@@ -58,13 +66,19 @@ namespace BankBusinessAccess
                     // Create CustomersDTO
                     CustomersDTO customersDTO = new CustomersDTO
                     (
-                        registerDTO.FirstName,
-                        registerDTO.LastName,
+                        registerDTO.FirstName.Trim(),
+                        registerDTO.LastName.Trim(),
                         registerDTO.BirthDate,
                         registerDTO.PhoneNumber,
                         addressDTO.AddressID,
                         registerDTO.NationalID
                     );
+
+                    if (CustomersData.IsNationalIDExists(customersDTO))
+                    {
+                        throw new CustomExceptions.ValidationException("NationalID", "National ID already exists.");
+                    }
+
                     customersDTO.CustomerId = CustomersData.InsertCustomer(customersDTO, connection, transaction);
 
                     // Create UserDTO
@@ -75,8 +89,14 @@ namespace BankBusinessAccess
                         true,
                         DateTime.MinValue,
                         customersDTO.CustomerId,
-                        (int)Roles.Customer
+                        (int)Roles.Customer,
+                        registerDTO.ImagePath
                     );
+
+                    if (UsersData.IsEmailExists(userDTO))
+                    {
+                        throw new CustomExceptions.ValidationException("EmailAddress", "Email address already exists.");
+                    }
 
                     userDTO.UserID = UsersData.InsertUser(userDTO, connection, transaction);
 

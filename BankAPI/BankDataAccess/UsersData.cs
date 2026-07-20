@@ -9,18 +9,19 @@ namespace BankDataAccess
 {
     public class UserDTO
     {
-        public int UserID;
-        public string EmailAddress;
-        public string HashPassword;
-        public bool IsActive;
-        public DateTime LastLogin;
-        public int CustomerID;
-        public CustomersDTO Customer;
-        public int RoleID;
-        public RoleDTO Role;
-        public DateTime CreatedAt;
-        public DateTime UpdatedAt;
-        public UserDTO(string EmailAddress, string hashPassword, bool isActive, DateTime lastLogin, int customerId, int roleId)
+        public int UserID { get; set; }
+        public string EmailAddress { get; set; }
+        public string HashPassword { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime LastLogin { get; set; }
+        public int CustomerID { get; set; }
+        public CustomersDTO Customer { get; set; }
+        public int RoleID { get; set; }
+        public RoleDTO Role { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public string ImagePath { get; set; }
+        public UserDTO(string EmailAddress, string hashPassword, bool isActive, DateTime lastLogin, int customerId, int roleId, string imagePath)
         {
             this.EmailAddress = EmailAddress;
             this.HashPassword = hashPassword;
@@ -28,6 +29,7 @@ namespace BankDataAccess
             this.LastLogin = lastLogin;
             this.CustomerID = customerId;
             this.RoleID = roleId;
+            this.ImagePath = imagePath;
         }
     }   
     public class UsersData
@@ -49,7 +51,7 @@ namespace BankDataAccess
         {
             try
             {
-                string query = "INSERT INTO Users (EmailAddress, HashPassword, IsActive, LastLogin, CustomerID, RoleID) VALUES (@EmailAddress, @HashPassword, @IsActive, @LastLogin, @CustomerID, @RoleID); SELECT SCOPE_IDENTITY();";
+                string query = "INSERT INTO Users (EmailAddress, HashPassword, IsActive, LastLogin, CustomerID, RoleID, ImagePath) VALUES (@EmailAddress, @HashPassword, @IsActive, @LastLogin, @CustomerID, @RoleID, @ImagePath); SELECT SCOPE_IDENTITY();";
 
                 using (SqlCommand command = new SqlCommand(query, connection, transaction))
                 {
@@ -68,6 +70,16 @@ namespace BankDataAccess
 
                     command.Parameters.AddWithValue("@CustomerID", userDTO.CustomerID);
                     command.Parameters.AddWithValue("@RoleID", userDTO.RoleID);
+
+                    if (string.IsNullOrEmpty(userDTO.ImagePath))
+                    {
+                        command.Parameters.AddWithValue("@ImagePath", DBNull.Value);
+                    }
+                    else
+                    {
+                        command.Parameters.AddWithValue("@ImagePath", userDTO.ImagePath);
+                    }
+
                     int id = Convert.ToInt32(command.ExecuteScalar());
                     return id;
                 }
@@ -77,6 +89,29 @@ namespace BankDataAccess
             {
                 Console.WriteLine($"Error inserting user: {ex.Message}");
                 return -1;
+            }
+        }
+
+        static public bool IsEmailExists(UserDTO userDTO)
+        {
+            string query = "SELECT COUNT(*) FROM Users WHERE EmailAddress = @EmailAddress";
+            using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@EmailAddress", userDTO.EmailAddress);
+                        int count = (int)command.ExecuteScalar();
+                        return count > 0;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error checking email existence: {ex.Message}");
+                    return false;
+                }
             }
         }
     }
