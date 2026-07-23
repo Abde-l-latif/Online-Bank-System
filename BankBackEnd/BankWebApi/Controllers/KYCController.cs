@@ -43,7 +43,7 @@ namespace BankWebApi.Controllers
 
                 workflow_id = workflowId,
                 vendor_data = userId,
-                callback = "https://folic-cackle-barrel.ngrok-free.dev/api/webhooks/didit"
+                callback = "https://folic-cackle-barrel.ngrok-free.dev" // where the user's browser is redirected after they finish the verification.
             };
 
             var json = JsonSerializer.Serialize(body);
