@@ -75,12 +75,17 @@ namespace BankBusinessAccess
             return userDTO.UserID > 0;
         }
 
+        private bool _UpdateUser()
+        {
+            return UsersData.UpdateUser(this.userDTO) > 0;
+        }
+
         static public Users? Find(int id)
         {
-            userResponseDTO? userResponseDTO = UsersData.GetUserById(id);
-            if (userResponseDTO != null)
+            UserDTO? userDTO = UsersData.GetUserById(id);
+            if (userDTO != null)
             {
-                return new Users(userResponseDTO);
+                return new Users(new userResponseDTO(userDTO));
             }
             else
             {
@@ -90,17 +95,20 @@ namespace BankBusinessAccess
 
         public bool Save()
         {
-   
+
             if (mode == enMode.AddMode)
             {
-                
+
                 if (_AddUser())
                 {
                     mode = enMode.UpdateMode;
                     return true;
                 }
+                else
+                    return false;   
             }
-            return false;
+            else 
+                return _UpdateUser();    
         }
     }
 }

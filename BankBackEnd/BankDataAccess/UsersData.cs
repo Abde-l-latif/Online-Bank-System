@@ -36,30 +36,7 @@ namespace BankDataAccess
         public UserDTO() { }
     }   
 
-    public class userResponseDTO
-    {
-        public int UserID { get; set; }
-        public string EmailAddress { get; set; }
-        public bool IsActive { get; set; }
-        public DateTime LastLogin { get; set; }
-        public int CustomerID { get; set; }
-        public CustomersDTO Customer { get; set; }
-        public int RoleID { get; set; }
-        public RoleDTO Role { get; set; }
-        public string ImagePath { get; set; }
-        public userResponseDTO(UserDTO user)
-        {
-            UserID = user.UserID;
-            EmailAddress = user.EmailAddress;
-            IsActive = user.IsActive;
-            LastLogin = user.LastLogin;
-            CustomerID = user.CustomerID;
-            Customer = CustomersData.GetCustomerById(CustomerID) ?? new CustomersDTO();
-            RoleID = user.RoleID;
-            Role = RolesData.GetRoleById(RoleID) ?? new RoleDTO();
-            ImagePath = user.ImagePath;
-        }
-    }
+   
     public class UsersData
     {
         static public int InsertUser(UserDTO userDTO)
@@ -143,7 +120,7 @@ namespace BankDataAccess
             }
         }
 
-        static public userResponseDTO? GetUserById(int userID)
+        static public UserDTO? GetUserById(int userID)
         {
             string query = "SELECT * FROM Users WHERE UserID = @UserID";
 
@@ -161,7 +138,7 @@ namespace BankDataAccess
                         {
                             if (reader.Read())
                             {
-                                return new userResponseDTO(new UserDTO(
+                                return new UserDTO(
                                     reader["EmailAddress"].ToString() ?? "",
                                     reader["HashPassword"].ToString() ?? "",
                                     Convert.ToBoolean(reader["IsActive"]),
@@ -172,9 +149,7 @@ namespace BankDataAccess
                                 )
                                 {
                                     UserID = Convert.ToInt32(reader["UserID"]),
-                                    //Customer = CustomersData.GetCustomerById(Convert.ToInt32(reader["CustomerID"])) ?? new CustomersDTO(),
-                                    //Role = RolesData.GetRoleById(Convert.ToInt32(reader["RoleID"])) ?? new RoleDTO(),
-                                });
+                                };
                             }
                         }
                     }
@@ -187,5 +162,89 @@ namespace BankDataAccess
             }
             return null;
         }
+
+        static public UserDTO? GetUserByEmail(string emailAddress)
+        {
+            string query = "SELECT * FROM Users WHERE EmailAddress = @EmailAddress";
+            using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@EmailAddress", emailAddress);
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                return new UserDTO(
+                                    reader["EmailAddress"].ToString() ?? "",
+                                    reader["HashPassword"].ToString() ?? "",
+                                    Convert.ToBoolean(reader["IsActive"]),
+                                    reader["LastLogin"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(reader["LastLogin"]),
+                                    Convert.ToInt32(reader["CustomerID"]),
+                                    Convert.ToInt32(reader["RoleID"]),
+                                    reader["ImagePath"].ToString() ?? ""
+                                )
+                                {
+                                    UserID = Convert.ToInt32(reader["UserID"]),
+                                };
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error retrieving user: {ex.Message}");
+                    return null;
+                }
+            }
+            return null;
+        }
+
+        static public int UpdateUser(UserDTO userDTO)
+        {
+            string query = "UPDATE Users SET EmailAddress = @EmailAddress, HashPassword = @HashPassword, IsActive = @IsActive, LastLogin = @LastLogin, CustomerID = @CustomerID, RoleID = @RoleID, ImagePath = @ImagePath, UpdatedAt = GETDATE() WHERE UserID = @UserID";
+            using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@UserID", userDTO.UserID);
+                        command.Parameters.AddWithValue("@EmailAddress", userDTO.EmailAddress);
+                        command.Parameters.AddWithValue("@HashPassword", userDTO.HashPassword);
+                        command.Parameters.AddWithValue("@IsActive", userDTO.IsActive);
+                        if (userDTO.LastLogin == DateTime.MinValue)
+                        {
+                            command.Parameters.AddWithValue("@LastLogin", DBNull.Value);
+                        }
+                        else
+                        {
+                            command.Parameters.AddWithValue("@LastLogin", userDTO.LastLogin);
+                        }
+                        command.Parameters.AddWithValue("@CustomerID", userDTO.CustomerID);
+                        command.Parameters.AddWithValue("@RoleID", userDTO.RoleID);
+                        if (string.IsNullOrEmpty(userDTO.ImagePath))
+                        {
+                            command.Parameters.AddWithValue("@ImagePath", DBNull.Value);
+                        }
+                        else
+                        {
+                            command.Parameters.AddWithValue("@ImagePath", userDTO.ImagePath);
+                        }
+                        return command.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error updating user: {ex.Message}");
+                    return -1;
+                }
+            }
+        }
+
     }
 }

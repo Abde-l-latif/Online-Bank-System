@@ -21,7 +21,7 @@ namespace BankBusinessAccess
         {
             return _hashPassword.HashPassword(new Users(), plainPassword);
         }
-        public bool VerifyPassword(string hashedPassword, string providedPassword)
+        public bool VerifyPassword(string providedPassword, string hashedPassword)
         {
             var result = _hashPassword.VerifyHashedPassword(new Users(), hashedPassword, providedPassword);
             return result == PasswordVerificationResult.Success

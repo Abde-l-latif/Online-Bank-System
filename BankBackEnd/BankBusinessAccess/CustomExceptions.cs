@@ -19,5 +19,24 @@ namespace BankBusinessAccess
             }
         }
 
+        public class AuthenticationException : Exception
+        {
+            public string Field { get; }
+
+            public AuthenticationException(string field, string message)
+                : base(message)
+            {
+                Field = field;
+            }
+        }
+
+        public class DataAccessException : Exception
+        {
+            public DataAccessException(string message, Exception innerException)
+                : base(message, innerException)
+            {
+            }
+
+        }
     }
 }

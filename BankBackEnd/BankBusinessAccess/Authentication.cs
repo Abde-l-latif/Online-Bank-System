@@ -30,6 +30,31 @@ namespace BankBusinessAccess
         public string PostalCode { get; set; }
     }
 
+    public class userResponseDTO
+    {
+        public int UserID { get; set; }
+        public string EmailAddress { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime LastLogin { get; set; }
+        public int CustomerID { get; set; }
+        public CustomersDTO Customer { get; set; }
+        public int RoleID { get; set; }
+        public RoleDTO Role { get; set; }
+        public string ImagePath { get; set; }
+        public userResponseDTO(UserDTO user)
+        {
+            UserID = user.UserID;
+            EmailAddress = user.EmailAddress;
+            IsActive = user.IsActive;
+            LastLogin = user.LastLogin;
+            CustomerID = user.CustomerID;
+            Customer = CustomersData.GetCustomerById(CustomerID) ?? new CustomersDTO();
+            RoleID = user.RoleID;
+            Role = RolesData.GetRoleById(RoleID) ?? new RoleDTO();
+            ImagePath = user.ImagePath;
+        }
+    }
+
     public class Authentication
     {
         enum Roles { Admin = 1 , Customer, Employee }
@@ -112,6 +137,48 @@ namespace BankBusinessAccess
                 }
             }
             
+        }
+
+        public userResponseDTO Login(string emailAddress, string password)
+        {
+            if (string.IsNullOrWhiteSpace(emailAddress))
+            {
+                throw new CustomExceptions.ValidationException("EmailAddress", "Email address is required.");
+            }
+    
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                throw new CustomExceptions.ValidationException("Password", "Password is required.");
+            }
+
+            UserDTO? user = UsersData.GetUserByEmail(emailAddress);
+            
+            if (user == null || !_passwordService.VerifyPassword(password, user.HashPassword))
+            {
+                throw new CustomExceptions.AuthenticationException("Credentials", "Invalid email or password.");
+            }
+
+            if (!user.IsActive)
+            {
+                throw new CustomExceptions.AuthenticationException(
+                    "Account",
+                    "Your account has been disabled.");
+            }
+
+            user.LastLogin = DateTime.Now;
+
+            Users U = new Users(user);
+
+            try
+            {
+                U.Save();
+            }
+            catch (SqlException ex)
+            {
+                throw new CustomExceptions.DataAccessException("Failed to update last login.", ex);
+            }
+
+            return new userResponseDTO(user);
         }
     }
 }

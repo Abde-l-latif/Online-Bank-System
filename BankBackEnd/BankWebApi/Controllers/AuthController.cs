@@ -51,5 +51,26 @@ namespace BankWebApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Internal server error: {ex.Message}");
             }
         }
+
+        [HttpPost("login")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public IActionResult Login(string emailAddress, string password)
+        {
+            try
+            {
+                var userResponse = _authentication.Login(emailAddress, password);
+                return Ok(userResponse);
+            }
+            catch (CustomExceptions.AuthenticationException ex)
+            {
+                return Unauthorized($"Authentication error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }
