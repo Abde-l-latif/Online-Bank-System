@@ -12,12 +12,13 @@ namespace BankBusinessAccess
         enum enMode { AddMode, UpdateMode }
 
         enMode mode = enMode.AddMode;
+
         public CustomersDTO customersDTO { get; set; }
 
         public Customers(CustomersDTO customersDTO)
         {
             this.customersDTO = customersDTO;
-            mode = enMode.UpdateMode; 
+            mode = enMode.UpdateMode;
         }
 
         Validations Validations = new Validations();
@@ -38,27 +39,75 @@ namespace BankBusinessAccess
 
         private bool _AddCustomer()
         {
+            Validate();
+
+            if (CustomersData.IsNationalIDExists(customersDTO.NationalID))
+            {
+                throw new CustomExceptions.ValidationException("NationalID", "National ID already exists.");
+            }
+
+            customersDTO.Status = CustomersDTO.CustomerStatus.pending;
+
+            customersDTO.CustomerId = CustomersData.InsertCustomer(customersDTO);
+
+
+            return customersDTO.CustomerId > 0;
+        }
+
+
+        private bool _UpdateCustomer()
+        {
+            Validate();
+
+            return CustomersData.UpdateCustomer(customersDTO) > 0;
+        }
+        public bool Save()
+        {
+            if (mode == enMode.AddMode)
+            {
+                if (_AddCustomer())
+                {
+                    mode = enMode.UpdateMode;
+                    return true;
+                }
+            }
+            else if (mode == enMode.UpdateMode)
+            {
+                return _UpdateCustomer();
+            }
+
+            return false;
+        }
+
+        public bool Activate()
+        {
+            this.customersDTO.Status = CustomersDTO.CustomerStatus.active;
+
+            return this.Save();
+        }
+
+        public bool Suspend()
+        {
+            this.customersDTO.Status = CustomersDTO.CustomerStatus.suspended;
+
+            return this.Save();
+        }
+
+        public void Validate()
+        {
             if (string.IsNullOrWhiteSpace(customersDTO.FirstName) || string.IsNullOrWhiteSpace(customersDTO.LastName) ||
                 string.IsNullOrWhiteSpace(customersDTO.PhoneNumber) || string.IsNullOrWhiteSpace(customersDTO.NationalID))
             {
                 throw new CustomExceptions.ValidationException("FirstName, LastName, PhoneNumber, NationalID", "All customer fields must be provided and cannot be empty.");
             }
-
-            if(!Validations.ValidatePhoneNumber(customersDTO.PhoneNumber))
+            if (!Validations.ValidatePhoneNumber(customersDTO.PhoneNumber))
             {
                 throw new CustomExceptions.ValidationException("PhoneNumber", "Invalid phone number format.");
             }
-
-            if(!Validations.ValidateMorrocanCIN(customersDTO.NationalID))
+            if (!Validations.ValidateMorrocanCIN(customersDTO.NationalID))
             {
                 throw new CustomExceptions.ValidationException("NationalID", "Invalid national ID format.");
             }
-
-            if(CustomersData.IsNationalIDExists(customersDTO.NationalID))
-            {
-                throw new CustomExceptions.ValidationException("NationalID", "National ID already exists.");
-            }
-
             if (customersDTO.BirthDate.Date > DateTime.Today)
             {
                 throw new CustomExceptions.ValidationException("BirthDate", "Birth date cannot be in the future.");
@@ -71,32 +120,10 @@ namespace BankBusinessAccess
             {
                 throw new CustomExceptions.ValidationException("BirthDate", "Customer age cannot be more than 100 years.");
             }
-
             if (customersDTO.AddressID <= 0)
             {
                 throw new CustomExceptions.ValidationException("AddressID", "Invalid address.");
             }
-
-            customersDTO.Status = CustomersDTO.CustomerStatus.pending;
-
-            customersDTO.CustomerId = CustomersData.InsertCustomer(customersDTO);
-
-
-            return customersDTO.CustomerId > 0;
-        }
-
-        public bool Save()
-        {
-            if (mode == enMode.AddMode)
-            {
-                if (_AddCustomer())
-                {
-                    mode = enMode.UpdateMode;
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }

@@ -140,5 +140,42 @@ namespace BankDataAccess
 
             return null;
         }
+
+        static public int UpdateCustomer(CustomersDTO customer)
+        {
+            string Query = @"UPDATE Customers SET FirstName = @FirstName,
+                 LastName = @LastName,
+                 BirthDate = @BirthDate,
+                 Status = @Status,
+                 PhoneNumber = @PhoneNumber,
+                 NationalID = @NationalID,
+                 UpdatedAt = getdate() WHERE CustomerID = @CustomerID";
+
+            using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+            {
+                connection.Open();
+
+                using (SqlCommand command = new SqlCommand(Query, connection))
+                {
+                    command.Parameters.AddWithValue("@CustomerID", customer.CustomerId);
+                    command.Parameters.AddWithValue("@FirstName", customer.FirstName);
+                    command.Parameters.AddWithValue("@LastName", customer.LastName);
+                    command.Parameters.AddWithValue("@BirthDate", customer.BirthDate);
+                    command.Parameters.AddWithValue("@Status", (int)customer.Status);
+                    command.Parameters.AddWithValue("@PhoneNumber", customer.PhoneNumber);
+                    command.Parameters.AddWithValue("@NationalID", customer.NationalID);
+
+                    try
+                    {
+                        return command.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error updating customer: {ex.Message}");
+                        return -1;
+                    }
+                }
+            }
+        }
     }
 }
