@@ -182,16 +182,23 @@ namespace BankWebApi.Controllers
             switch (webhook.Status)
             {
                 case "Approved":
-                    if (!C.Activate())
-                    {
-                        return StatusCode(500);
+                    if (C.customersDTO.Status != BankDataAccess.CustomersDTO.CustomerStatus.active)
+                    { 
+                        if (!C.Activate())
+                        {
+                            return StatusCode(500);
+                        }
                     }
+
                     break;
 
                 case "Declined":
-                    if (!C.Suspend())
-                    {
-                        return StatusCode(500);
+                    if (C.customersDTO.Status != BankDataAccess.CustomersDTO.CustomerStatus.suspended)
+                    { 
+                        if (!C.Suspend())
+                        {
+                            return StatusCode(500);
+                        }
                     }
                     break;
 

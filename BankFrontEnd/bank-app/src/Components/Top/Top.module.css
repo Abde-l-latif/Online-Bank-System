@@ -1,0 +1,86 @@
+section.Top {
+    background-color: var(--secondary-color);
+    width: 100%;
+    padding: 10px 15%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Top select,
+::picker(select) {
+  appearance: base-select;
+}
+
+.Top select {
+    padding: 5px 20px;
+    border-radius: 30px;
+    outline: none;
+    border: 2px solid var(--border-secondary-color);
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 15px;
+    background-color: rgba(110, 110, 109, 0.342);
+    transition:  .4s ease;
+    cursor: pointer;
+}
+
+.Top select:hover {
+  background: rgba(105, 127, 48, 0.731);;
+  color: white;
+}
+
+.Top select::picker-icon {
+  transition: 0.4s rotate;
+}
+
+.Top select:open::picker-icon {
+  rotate: 180deg;
+}
+
+@starting-style {
+  :open::picker(.Top select) {
+    opacity: 0;
+  }
+}
+
+::picker(select) {
+   border: none;
+   border-radius: 8px;
+   opacity: 0;
+   transition: all 0.4s allow-discrete;
+}
+
+:open::picker(select) {
+  opacity: 1;
+}
+
+.Top select option
+{
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  border: 2px solid #dddddd;
+  background: #e2e2e2;
+  padding: 5px;
+  transition: 0.4s;
+}
+
+.Top select option:nth-of-type(odd) {
+  background: white;
+}
+
+.Top select option:hover:not(:disabled),
+.Top select option:focus:not(:disabled) {
+  background: rgba(105, 127, 48, 0.731);
+  color: white;
+}
+
+
+.Top select option::checkmark
+{
+    display: none;
+}
+
+
+
