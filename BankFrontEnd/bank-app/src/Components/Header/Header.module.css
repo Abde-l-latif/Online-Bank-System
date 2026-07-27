@@ -1,6 +1,6 @@
 section.header {
     width: 70%;
-    margin: 20px auto ;
+    margin: 40px auto ;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -59,4 +59,37 @@ section.header {
 .header button:hover
 {
     background-color: var(--primary-hover-color);
+}
+
+.header .headerAuth 
+{
+    display: flex;
+    gap: 20px;
+}
+
+.header .headerAuth p {
+    color: var(--smallpara-color);
+    font-weight: 500;
+    font-size: 15px;
+    position: relative;
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+.header .headerAuth p::after
+{
+    content: "";
+    position:absolute;
+    top: 100%;
+    left: 0;
+    width: 50%;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 30px;
+    transition: .4s ease;
+} 
+
+.header .headerAuth p:hover::after {
+    width: 100%;
+    color: var(--primary-color);
 }

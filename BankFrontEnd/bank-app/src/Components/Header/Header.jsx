@@ -20,10 +20,12 @@ export default function Header()
                     <li>Contactez-nous</li>
                 </ul>
             </nav>
-
-            <button>
-                Ouvrir un compte
-            </button>
+            <div className={Style.headerAuth}>
+                <p>Se Connecter</p>
+                <button>
+                    Ouvrir un compte
+                </button>
+            </div>
         </section>
     )
 }

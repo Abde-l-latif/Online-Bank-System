@@ -1,0 +1,66 @@
+section.Auth form
+{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+section.Auth form h3
+{
+    text-align: center;
+    color: var(--title-color);
+}
+
+section.Auth form fieldset
+{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    border: none; 
+}
+
+section.Auth form fieldset legend{
+    color: var(--title-color);
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+section.Auth form div
+{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+section.Auth form div input
+{
+    padding: 8px 20px;
+    border: none;
+    border-bottom: 2px solid rgba(128, 128, 128, 0.552);
+    outline: none;
+    font-size: 16px;
+    width: 100%;
+    background-color: transparent;
+}
+
+
+section.Auth form div input:focus
+{
+    border-bottom: 2px solid var(--primary-color);
+}
+
+section.Auth form button
+{
+    padding: 10px 15px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: .4s ease;
+}
+
+section.Auth form button:hover
+{
+    background-color: var(--primary-hover-color);
+}
