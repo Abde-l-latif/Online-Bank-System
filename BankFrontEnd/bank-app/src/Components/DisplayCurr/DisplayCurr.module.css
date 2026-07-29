@@ -1,0 +1,40 @@
+section.Curr {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+}
+
+.Curr p 
+{
+    color: var(--smallpara-color);
+}
+
+.Curr .CurrInfo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.Curr .CurrInfo p 
+{
+    color: var(--primary-color);
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.Curr .CurrInfo .FlagContainer {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+}
+
+.Curr .CurrInfo .FlagContainer p 
+{
+    color: black;
+    font-size: 16px;
+    font-weight: 700;
+}

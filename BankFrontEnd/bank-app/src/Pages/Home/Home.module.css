@@ -110,10 +110,17 @@ section.Home
 .Home .CurrencyData {
     position: absolute;
     width: 100%;
-    height: 200px;
     border-radius: 40px;
     top: 50%;
     left: 0;
     background-color: white;
+    padding: 20px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.231);
+}
+
+.Home .CurrencyData .CurrencyContainer {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 40px;
 }
 
