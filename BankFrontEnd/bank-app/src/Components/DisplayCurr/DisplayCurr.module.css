@@ -15,10 +15,11 @@ section.Curr {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 20px;
 
 }
 
-.Curr .CurrInfo p 
+.Curr .CurrInfo p
 {
     color: var(--primary-color);
     font-size: 25px;
@@ -37,4 +38,21 @@ section.Curr {
     color: black;
     font-size: 16px;
     font-weight: 700;
+}
+
+.Curr .CurrInfo input {
+    width: 200px;
+    padding: 5px;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid gray;
+    font-size: 20px;
+    color: var(--primary-color);
+    font-weight: 900;
+    font-variant-numeric: lining-nums;
+}
+
+.Curr .CurrInfo input:focus {
+    border-bottom: 2px solid var(--primary-color);
+
 }

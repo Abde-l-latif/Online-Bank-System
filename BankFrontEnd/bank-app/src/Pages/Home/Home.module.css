@@ -118,9 +118,9 @@ section.Home
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.231);
 }
 
-.Home .CurrencyData .CurrencyContainer {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 40px;
+.Home .CurrencyData p.Sep 
+{
+    border: 1px solid rgba(128, 128, 128, 0.357);
+    margin: 10px 0;
 }
 

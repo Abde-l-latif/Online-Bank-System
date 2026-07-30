@@ -3,7 +3,7 @@ import Top from "../../Components/Top/Top"
 import Authentication from "../../Components/Authentication/Authentication"
 import Style from "./Home.module.css"
 import BankCard from "../../Components/BankCard/BankCard"
-import { useEffect, useState} from "react"
+import { useEffect, useState, useRef} from "react"
 import DisplayCurr from "../../Components/DisplayCurr/DisplayCurr"
 import usa from "../../assets/usa.png"
 import Euro from "../../assets/Euro.png"
@@ -15,6 +15,8 @@ export default function Home()
     const [data , setData ] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [usaNum, setUsaNum] = useState(1);
+    const [euroNum, setEuroNum] = useState(1);
 
     useEffect(() =>
     {
@@ -68,14 +70,11 @@ export default function Home()
                 <div className={Style.Currency}>
                     <h2>CONVERTIR EUROS ET USDS EN DIRHAMS MAROCAINS</h2>
                     <div className={Style.CurrencyData}>
-                        <div className={Style.CurrencyContainer}>
-                            <DisplayCurr name="USD" flag={usa} Num="1,00"/>
-                            <DisplayCurr name="MAD" flag={morocco} Num={loading == true ? "..." : (1 / data?.mad?.usd).toFixed(2)}/>
-                        </div>
-                        <div className={Style.CurrencyContainer}>
-                            <DisplayCurr name="EUR" flag={Euro} Num="1,00"/>
-                            <DisplayCurr name="MAD" flag={morocco} Num={loading == true ? "..." : (1 / data?.mad?.eur).toFixed(2)}/>
-                        </div>
+                        <DisplayCurr name="USD" flag={usa} Num={null} CurrNum={setUsaNum} currentNum={usaNum} />
+                        <DisplayCurr name="MAD" flag={morocco} Num={loading == true ? "..." : ((1 / data?.mad?.usd) * usaNum).toFixed(2)}/>
+                        <p className={Style.Sep}></p>
+                        <DisplayCurr name="EUR" flag={Euro} Num={null} CurrNum={setEuroNum} currentNum={euroNum}/>
+                        <DisplayCurr name="MAD" flag={morocco} Num={loading == true ? "..." : ((1 / data?.mad?.eur) * euroNum).toFixed(2)}/>
                     </div>
                 </div>
             </section>
