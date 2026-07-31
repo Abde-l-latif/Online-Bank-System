@@ -1,8 +1,11 @@
 import Style from "./Header.module.css"
 import bankLogo from "../../assets/bankLogo.svg"
+import { useTranslation } from 'react-i18next';
 
 export default function Header()
 {
+    const { t, i18n } = useTranslation();
+
     return (
         <section className={Style.header}>
             <div>
@@ -14,16 +17,16 @@ export default function Header()
             
             <nav>
                 <ul>
-                    <li className={Style.active}>Accueil</li>
-                    <li>À propos</li>
-                    <li>Services</li>
-                    <li>Contactez-nous</li>
+                    <li className={Style.active}>{t("headerNavOne")}</li>
+                    <li>{t("headerNavTwo")}</li>
+                    <li>{t("headerNavThree")}</li>
+                    <li>{t("headerNavFour")}</li>
                 </ul>
             </nav>
             <div className={Style.headerAuth}>
-                <p>Se Connecter</p>
+                <p>{t("HeaderLogin")}</p>
                 <button>
-                    Ouvrir un compte
+                    {t("HeaderSignup")}
                 </button>
             </div>
         </section>

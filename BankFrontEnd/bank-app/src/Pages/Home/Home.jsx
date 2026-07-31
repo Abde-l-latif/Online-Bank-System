@@ -8,10 +8,13 @@ import DisplayCurr from "../../Components/DisplayCurr/DisplayCurr"
 import usa from "../../assets/usa.png"
 import Euro from "../../assets/Euro.png"
 import morocco from "../../assets/morocco.svg"
+import { useTranslation } from 'react-i18next';
+
 
 
 export default function Home()
 {
+    const { t, i18n } = useTranslation();
     const [data , setData ] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -62,13 +65,13 @@ export default function Home()
             <Top/>
             <Header/>
             <section className={Style.Home}>
-                <aside>
-                    <h1>Simplifiez votre vie avec une banque toujours à vos côté</h1>
-                    <p>Vos services bancaires accessibles en un seul clic</p>
-                    <button> En savoir plus </button>
+                <aside> 
+                    <h1>{t("HomeTitle")}</h1>
+                    <p>{t("HomePara")}</p>
+                    <button> {t("HomeButton")} </button>
                 </aside>
                 <div className={Style.Currency}>
-                    <h2>CONVERTIR EUROS ET USDS EN DIRHAMS MAROCAINS</h2>
+                    <h2>{t("HomeConvertTitle")}</h2>
                     <div className={Style.CurrencyData}>
                         <DisplayCurr name="USD" flag={usa} Num={null} CurrNum={setUsaNum} currentNum={usaNum} />
                         <DisplayCurr name="MAD" flag={morocco} Num={loading == true ? "..." : ((1 / data?.mad?.usd) * usaNum).toFixed(2)}/>

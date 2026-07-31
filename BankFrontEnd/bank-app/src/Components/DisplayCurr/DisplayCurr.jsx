@@ -1,12 +1,14 @@
 import Style from "./DisplayCurr.module.css"
+import { useTranslation } from 'react-i18next';
 
 
 export default function DisplayCurr(props)
 {
+    const { t, i18n } = useTranslation();
 
     return (
         <section className={Style.Curr}>
-            <p style={{paddingTop : "10px"}}>{props.name} devise </p>
+            <p style={{paddingTop : "10px"}}>{props.name} {t("paraCurrency")} </p>
             <div className={Style.CurrInfo}>
                 <div className={Style.FlagContainer}> 
                     <img src={props.flag} alt="flagImage" />
