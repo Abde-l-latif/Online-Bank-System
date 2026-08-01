@@ -12,10 +12,6 @@ export default function Top()
     return (
         <>
             <section className={Style.Top}>
-                <select name="Account-type" defaultValue={"Particuliers"}>
-                    <option value="Particuliers"> {t("TopTypeTitle")} </option>
-                </select>
-
                 <select name="Language" defaultValue={"French"}>
                     <option value="French" onClick={() => changeLanguage('fr')}>FR</option>
                     <option value="English" onClick={() => changeLanguage('en')}>EN</option>

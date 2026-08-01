@@ -1,0 +1,10 @@
+section.Login {
+    width: 70%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+}
+
+.Login .AuthContainer {
+    width: 500px;
+}

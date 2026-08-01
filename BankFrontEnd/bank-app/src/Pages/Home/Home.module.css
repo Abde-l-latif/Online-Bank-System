@@ -9,8 +9,8 @@ section.Home
 
 .Home aside
 {
-    text-align: center;
-    margin-top: 40px;
+    text-align: start;
+    margin: 160px 0px;
 }
 
 .Home aside h1
@@ -93,6 +93,7 @@ section.Home
 .Home .Currency {
     position: relative;
     width: 100%;
+    height: 350px;
     border-radius: 20px;
     padding: 15px;
     background-image: url('../../assets/green.jpg');
@@ -111,7 +112,7 @@ section.Home
     position: absolute;
     width: 100%;
     border-radius: 40px;
-    top: 50%;
+    top: 30%;
     left: 0;
     background-color: white;
     padding: 20px;

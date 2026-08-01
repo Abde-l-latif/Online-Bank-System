@@ -5,7 +5,7 @@
     "HomeConvertTitle" : "CONVERT EUROS AND USD TO MOROCCAN DIRHAMS",
 
     "HeaderSignup" : "Sign Up",
-    "HeaderLogin" : "Login",
+    "HeaderLogin" : "Log in",
     "headerNavOne" : "Home",
     "headerNavTwo" : "About",
     "headerNavThree" : "Services",
@@ -13,5 +13,17 @@
 
     "paraCurrency" : "Currency",
 
-    "TopTypeTitle" : "Individuals"
+    "TopTypeTitle" : "Individuals",
+
+    "AuthTitle" : "Welcome Back",
+    "AuthTitle2" : "Authentication",
+    "AuthTitle3" : "Connection",
+    "AuthEmailPlaceholder" : "Email",
+    "AuthPasswordPlaceholder" : "Password",
+    "AuthButtonLogin" : "LOG IN",
+    "AuthLittlePara" : "New to",
+    "AuthErrorRequired" : "This field is required",
+    "AuthErrorEmailFormat" : "Invalid email format",
+    "AuthErrorPasswordMin" : "Minimum 8 characters",
+    "AuthErrorPasswordFormat" : "Password must contain 1 uppercase, 1 lowercase, 1 digit, and 1 special character"
 }

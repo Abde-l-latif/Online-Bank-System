@@ -1,6 +1,7 @@
 import Style from "./Header.module.css"
 import bankLogo from "../../assets/bankLogo.svg"
 import { useTranslation } from 'react-i18next';
+import { Link } from "react-router";
 
 export default function Header()
 {
@@ -24,7 +25,9 @@ export default function Header()
                 </ul>
             </nav>
             <div className={Style.headerAuth}>
-                <p>{t("HeaderLogin")}</p>
+                <Link to="/login">
+                   <p>{t("HeaderLogin")}</p>
+                </Link>
                 <button>
                     {t("HeaderSignup")}
                 </button>

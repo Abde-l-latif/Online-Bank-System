@@ -16,6 +16,8 @@
   margin: 0;
   box-sizing: border-box;
   font-family: "Raleway", sans-serif;
+  text-decoration: none;
+  font-variant-numeric: lining-nums;
 }
 
 ul{

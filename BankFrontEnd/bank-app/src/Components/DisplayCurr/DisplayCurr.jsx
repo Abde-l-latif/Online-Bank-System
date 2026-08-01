@@ -17,12 +17,12 @@ export default function DisplayCurr(props)
                 { props.Num != null ? 
                     <p style={{fontVariantNumeric: "lining-nums"}}>{props.Num}</p> :
                     <input type="number"
-                        min="1"
+                        min="0"
                         max="10000000"
                     onChange={(e) => {
-                        let val = Number(e.target.value);
+                        let val = e.target.value;
                         if (val > 10000000) val = 10000000;
-                        if (val < 1) val = 1;
+                        if (val < 0) val = 0;
                         props.CurrNum(val)
                     }}
                     value={props.currentNum}/>  

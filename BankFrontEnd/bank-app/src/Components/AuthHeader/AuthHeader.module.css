@@ -1,0 +1,44 @@
+section.Top {
+    background-color: var(--secondary-color);
+    width: 100%;
+    padding: 10px 15%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.AuthHeader {
+    padding: 10px;
+    width: 70%;
+    margin: 0 auto ;
+    display: flex;
+    justify-content: space-between;
+}
+
+.logoContainer {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.AuthHeaderLogo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.AuthHeader img[alt = "return icon"] {
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 2px;
+    transition: transform .4s ease;
+}
+
+.AuthHeader img[alt = "return icon"]:hover{
+    transform: scale(1.3);
+}
+

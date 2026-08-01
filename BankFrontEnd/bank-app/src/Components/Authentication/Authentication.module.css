@@ -1,3 +1,15 @@
+section.Auth p {
+    padding: 10px 20px;
+    color: var(--smallpara-color);
+    font-size: 14px;
+}
+
+section.Auth p span {
+    color: var(--primary-color);
+    font-weight: 700;
+    cursor: pointer;
+}
+
 section.Auth form
 {
     padding: 20px;
@@ -63,4 +75,15 @@ section.Auth form button
 section.Auth form button:hover
 {
     background-color: var(--primary-hover-color);
+}
+
+section.Auth form fieldset .error {
+    color: red;
+    border: 1px solid red;
+    padding: none!important;
+    background-color: rgba(255, 0, 0, 0.216);
+}
+
+section.Auth .Eye {
+    cursor: pointer;
 }
