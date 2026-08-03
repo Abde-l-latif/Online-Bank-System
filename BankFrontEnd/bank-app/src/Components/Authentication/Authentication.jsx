@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { EyeClosed, Eye  } from 'lucide-react';
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
+import { Link } from "react-router";
 
 export default function Authentication()
 {
@@ -17,7 +18,29 @@ export default function Authentication()
         formState: { errors },
     } = useForm()
 
-    const onSubmit = (data) => console.log(data)
+    const onSubmit = async (data) => {
+        try {
+            var postData = await fetch("http://localhost:5073/api/Auth/login", {
+                method : "post",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body : JSON.stringify({
+                    emailAddress : data.EmailRequired,
+                    password : data.PasswordRequired
+                })
+            });
+    
+            if(postData.ok)
+            {
+                const dataResponse = postData.json(); 
+                console.log(dataResponse);
+            }
+        }
+        catch(e) {
+            console.log("error occurs " + e.message);
+        }
+    }
 
     return (
         <>
@@ -39,7 +62,7 @@ export default function Authentication()
 
                         <div>
                             <img src={passwordAuth} alt="passwordIcon" />
-                            <input type={!ShowPassword ? "password" : "text"} placeholder={t("AuthPasswordPlaceholder")}  {...register("passwordRequired", { required: true , minLength: {
+                            <input type={!ShowPassword ? "password" : "text"} placeholder={t("AuthPasswordPlaceholder")}  {...register("PasswordRequired", { required: true , minLength: {
                                 value: 8,
                                 message: t("AuthErrorPasswordMin")
                             },
@@ -57,7 +80,7 @@ export default function Authentication()
                     </fieldset>
                     <button >{t("AuthButtonLogin")} </button>
                 </form>
-                <p>{t("AuthLittlePara")} AbdoBank ? <span>{t("HeaderSignup")}</span></p>
+                <p>{t("AuthLittlePara")} AbdoBank ? <Link to="/register"><span>{t("HeaderSignup")}</span></Link></p>
             </section>
             
         </>

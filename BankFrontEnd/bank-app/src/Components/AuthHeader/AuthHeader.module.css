@@ -31,6 +31,8 @@ section.Top {
     gap: 10px;
 }
 
+.AuthHeaderLogo p {font-weight: bold;}
+
 .AuthHeader img[alt = "return icon"] {
     cursor: pointer;
     border-radius: 50%;

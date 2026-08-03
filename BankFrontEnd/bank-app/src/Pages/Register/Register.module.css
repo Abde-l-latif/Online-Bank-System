@@ -1,0 +1,60 @@
+section.Register {
+    width: 70%;
+    margin: 20px auto;
+}
+
+section.Register .Title {
+    display: flex;
+    gap: 20px;
+    border-bottom: 2px solid var(--primary-color);
+    padding: 10px 5px;
+    color: var(--primary-color);
+    align-items: center;
+    margin: 20px 0px;
+}
+
+section.Register .Row {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 20px;
+}
+
+section.Register .Rowtwo
+{
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 20px;
+}
+
+section.Register input {
+    border: none;
+    outline: none;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.619);
+    padding: 5px;
+    font-size: 18px;
+    width: 100%;
+}
+
+section.Register input:focus {
+    border-bottom: 1px solid var(--primary-color);
+}
+
+section.Register button {
+    margin: 40px 0px;
+    padding: 10px;
+    width: 100%;
+    color: white;
+    background-color: var(--primary-color);
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: .4s ease;
+}
+
+section.Register button:hover {
+    background-color: var( --primary-hover-color);
+}

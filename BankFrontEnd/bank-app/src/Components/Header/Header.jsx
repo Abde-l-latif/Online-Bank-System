@@ -28,9 +28,11 @@ export default function Header()
                 <Link to="/login">
                    <p>{t("HeaderLogin")}</p>
                 </Link>
-                <button>
-                    {t("HeaderSignup")}
-                </button>
+                <Link to="/register">
+                    <button>
+                        {t("HeaderSignup")}
+                    </button>
+                </Link>
             </div>
         </section>
     )
