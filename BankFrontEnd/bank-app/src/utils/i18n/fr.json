@@ -25,6 +25,8 @@
     "AuthErrorRequired" : "Ce champ est requis",
     "AuthErrorEmailFormat" : "Format d'e-mail invalide",
     "AuthErrorPasswordMin" : "Minimum 8 caractères",
-    "AuthErrorPasswordFormat" : "Le mot de passe doit contenir 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial"
+    "AuthErrorPasswordFormat" : "Le mot de passe doit contenir 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial",
+    "AuthErrorPasswordMismatch" : "Les mots de passe ne correspondent pas",
+    "AuthErrorAge": "Vous devez avoir au moins 18 ans"
 
 }

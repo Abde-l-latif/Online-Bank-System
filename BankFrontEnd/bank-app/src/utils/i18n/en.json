@@ -25,5 +25,7 @@
     "AuthErrorRequired" : "This field is required",
     "AuthErrorEmailFormat" : "Invalid email format",
     "AuthErrorPasswordMin" : "Minimum 8 characters",
-    "AuthErrorPasswordFormat" : "Password must contain 1 uppercase, 1 lowercase, 1 digit, and 1 special character"
+    "AuthErrorPasswordFormat" : "Password must contain 1 uppercase, 1 lowercase, 1 digit, and 1 special character",
+    "AuthErrorPasswordMismatch" : "Passwords do not match",
+    "AuthErrorAge_en": "You must be at least 18 years old"
 }

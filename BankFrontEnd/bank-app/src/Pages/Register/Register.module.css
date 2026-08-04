@@ -58,3 +58,9 @@ section.Register button {
 section.Register button:hover {
     background-color: var( --primary-hover-color);
 }
+
+.Register .Error 
+{
+    margin-top: 5px;
+    color: red;
+}
