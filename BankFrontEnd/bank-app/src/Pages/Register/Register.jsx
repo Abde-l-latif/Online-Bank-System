@@ -18,11 +18,44 @@ const Register = () => {
     const [ShowPassword, SetShowPassword] = useState(false) ;
 
     const onSubmit = async (data) => {
-        console.log(data); 
+        try {
+
+            const regData = await fetch("http://localhost:5073/api/Auth/register", {
+                    method : "post",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body : JSON.stringify({
+                        firstName: data.name,
+                        lastName: data.lastName,
+                        birthDate: data.BirthDateRequired,
+                        phoneNumber: ("+212" + data.PhoneRequired),
+                        nationalID: data.cin,
+                        emailAddress: data.EmailRequired,
+                        password: data.PasswordRequired,
+                        imagePath: "",
+                        country: "Maroc",
+                        city: data.Ville,
+                        street: data.Rue,
+                        postalCode: data.CodePostal
+                    })
+                }
+            )
+
+            if(regData.ok)
+            {
+                console.log(regData);
+            }
+
+        } catch(ex)
+        {
+            console.log("Error message : " + ex);
+        }
+
     }
 
     const { onChange: rhfOnChange, ...rest } = register("PhoneRequired", { 
-        required: "PhoneNumber is required", 
+        required: t("AuthErrorRequired"), 
         pattern: {
             value: /^[1-9][0-9]{0,8}$/,
             message: "Invalid format: the number needs to start with a digit other than 0"
@@ -32,23 +65,23 @@ const Register = () => {
 
     return (
         <section className={Style.Register}>
-            <h2 style={{textAlign : "center", marginBottom: "10px"}}>Bonjour !</h2>
-            <p style={{textAlign : "center" , color : "var(--smallpara-color)"}}>ici vous pouvez créer votre compte</p>
+            <h2 style={{textAlign : "center", marginBottom: "10px"}}>{t("RegPara1")}</h2>
+            <p style={{textAlign : "center" , color : "var(--smallpara-color)"}}>{t("RegPara2")}</p>
 
             <form action="" onSubmit={handleSubmit(onSubmit)}>
 
                 <div className={Style.Title}>
                     <Mail size={48} />
-                    <h2>Coordonnées</h2>
+                    <h2>{t("Reg1Title")}</h2>
                 </div>
 
                 <div className={Style.Row}>
                     <div>
-                        <input type="text" placeholder="Nom" {...register("name", { required: "Name is required"})} />
+                        <input type="text" placeholder={t("RegNamePlaceholder")} {...register("name", { required:  t("AuthErrorRequired")})} />
                         <p className={Style.Error}>{errors.name && errors.name.message}</p>
                     </div>
                     <div>
-                        <input type="text" placeholder="Prénom" {...register("lastName", { required: "Last name is required"})} />
+                        <input type="text" placeholder={t("RegLastNamePlaceholder")} {...register("lastName", { required:  t("AuthErrorRequired")})} />
                         <p className={Style.Error}>{errors.lastName && errors.lastName.message}</p>
                     </div>
                 </div>
@@ -79,8 +112,8 @@ const Register = () => {
                         )}
                     </div>
                     <div>
-                        <h6>Nationalité</h6>
-                        <input type="text" value="Maroc" disabled/>
+                        <h6>{t("RegCountry")}</h6>
+                        <input type="text" value="Maroc" disabled name="country"/>
                     </div>
                 </div>
 
@@ -98,7 +131,7 @@ const Register = () => {
                                     color : "var(--primary-color)"
                                 }}>+212</p>
 
-                            <input type="text" maxLength={9} 
+                            <input type="text" maxLength={9} minLength={9}
                             onChange={(e) => {
                                 let entry = e.target.value;
                                 if(isNaN(entry))
@@ -117,10 +150,10 @@ const Register = () => {
                             e.target.value = value;
                         }}
                         {...register("cin", { 
-                            required: "CIN is required", 
+                            required:  t("AuthErrorRequired"), 
                             pattern: {
                                 value: /^[a-zA-Z]{1,2}[0-9]{4,6}$/,
-                                message: "Invalid CIN format (e.g., AB123456)"
+                                message: t("RegCinFormat")
                             }
                         })} />
                         <p className={Style.Error}>{errors.cin && errors.cin.message}</p>
@@ -132,15 +165,15 @@ const Register = () => {
 
                 <div className={Style.Rowtwo}>
                     <div>
-                        <input type="text" placeholder="Ville" {...register("Ville", { required: "Ville is required"})}/>
+                        <input type="text" placeholder={t("RegCityPlaceholder")} {...register("Ville", { required:  t("AuthErrorRequired")})}/>
                         <p className={Style.Error}>{errors.Ville && errors.Ville.message}</p>
                     </div>
                     <div>
-                        <input type="text" placeholder="Rue" {...register("Rue", { required: "Rue is required"})}/>
+                        <input type="text" placeholder={t("RegStreetPlaceholder")} {...register("Rue", { required:  t("AuthErrorRequired")})}/>
                         <p className={Style.Error}>{errors.Rue && errors.Rue.message}</p>
                     </div>
                     <div>
-                        <input type="number" placeholder="Code postal" {...register("CodePostal", { required: "Code postal is required"})}/> 
+                        <input type="number" placeholder={t("RegPostalCodePlaceholder")} {...register("CodePostal", { required:  t("AuthErrorRequired")})}/> 
                         <p className={Style.Error}>{errors.CodePostal && errors.CodePostal.message}</p>
                     </div>               
                 </div>
@@ -148,7 +181,7 @@ const Register = () => {
 
                 <div className={Style.Title}>
                     <UserRoundKey size={48} />
-                    <h2>Suivi votre demande</h2>
+                    <h2>{t("Reg2Title")}</h2>
                 </div>
 
                 <input type="text" placeholder={t("AuthEmailPlaceholder")}  {...register("EmailRequired", { required: true, pattern: {
@@ -161,7 +194,7 @@ const Register = () => {
                 <div className={Style.Row}>
                     <div>
                         <div style={{display : "flex" , gap : "10px", alignItems : "end"}}>
-                            <input type={ShowPassword ? "text" : "password"} placeholder="Mot de passe" 
+                            <input type={ShowPassword ? "text" : "password"} placeholder={t("AuthPasswordPlaceholder")}
                             {...register("PasswordRequired", { required: true , minLength: {
                                     value: 8,
                                     message: t("AuthErrorPasswordMin")
@@ -181,7 +214,7 @@ const Register = () => {
                     </div>
 
                     <div className="PassField">                 
-                        <input type={ShowPassword ? "text" : "password"} placeholder="Répéte mot de passe" {...register("ConfirmPasswordRequired", {
+                        <input type={ShowPassword ? "text" : "password"} placeholder={t("RegRepeatPassword")} {...register("ConfirmPasswordRequired", {
                             required: t("AuthErrorRequired"),
                             validate: (value) => 
                                 value === getValues("PasswordRequired") || t("AuthErrorPasswordMismatch")
@@ -193,7 +226,7 @@ const Register = () => {
 
                 </div>
 
-                <button>S'inscrire</button>
+                <button>{t("RegButton")}</button>
 
             </form>
         </section>

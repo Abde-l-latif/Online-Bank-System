@@ -27,5 +27,19 @@
     "AuthErrorPasswordMin" : "Minimum 8 characters",
     "AuthErrorPasswordFormat" : "Password must contain 1 uppercase, 1 lowercase, 1 digit, and 1 special character",
     "AuthErrorPasswordMismatch" : "Passwords do not match",
-    "AuthErrorAge_en": "You must be at least 18 years old"
+    "AuthErrorAge_en": "You must be at least 18 years old",
+
+    "RegPara1" : "Hello !",
+    "RegPara2" : "here you can create your account",
+    "RegRepeatPassword" : "Repeat Password",
+    "RegButton" : "Sign Up",
+    "Reg1Title" : "Contact details",
+    "Reg2Title" : "Track your request",
+    "RegNamePlaceholder" : "Name",
+    "RegLastNamePlaceholder" : "Last name",
+    "RegCountry" : "Country",
+    "RegCityPlaceholder" : "City",
+    "RegStreetPlaceholder" : "Street",
+    "RegPostalCodePlaceholder" : "Postal code",
+    "RegCinFormat" : "Invalid CIN format (e.g., AB123456)"
 }

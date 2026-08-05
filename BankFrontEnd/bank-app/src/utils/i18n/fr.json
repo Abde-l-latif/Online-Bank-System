@@ -27,6 +27,20 @@
     "AuthErrorPasswordMin" : "Minimum 8 caractères",
     "AuthErrorPasswordFormat" : "Le mot de passe doit contenir 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial",
     "AuthErrorPasswordMismatch" : "Les mots de passe ne correspondent pas",
-    "AuthErrorAge": "Vous devez avoir au moins 18 ans"
+    "AuthErrorAge": "Vous devez avoir au moins 18 ans",
+
+    "RegPara1" : "Bonjour !",
+    "RegPara2" : "ici vous pouvez créer votre compte",
+    "RegRepeatPassword" : "Répéte mot de passe",
+    "RegButton" : "S'inscrire",
+    "Reg1Title" : "Coordonnées",
+    "Reg2Title" : "Suivi votre demande",
+    "RegNamePlaceholder" : "Nom",
+    "RegLastNamePlaceholder" : "Prénom",
+    "RegCountry" : "Nationalité",
+    "RegCityPlaceholder" : "Ville",
+    "RegStreetPlaceholder" : "Rue",
+    "RegPostalCodePlaceholder" : "Code postal",
+    "RegCinFormat" : "Format CIN invalide (par exemple, AB123456)"
 
 }
