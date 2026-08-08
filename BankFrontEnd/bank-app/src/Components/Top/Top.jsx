@@ -7,12 +7,15 @@ export default function Top()
 
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
+        window.localStorage.setItem("Lang" , lng)
     };
+
+    const SavedLanguage = window.localStorage.getItem("Lang") || "fr";
 
     return (
         <>
             <section className={Style.Top}>
-                <select name="Language" defaultValue={"French"}>
+                <select name="Language" defaultValue={SavedLanguage == "fr" ? "French" : "English"}>
                     <option value="French" onClick={() => changeLanguage('fr')}>FR</option>
                     <option value="English" onClick={() => changeLanguage('en')}>EN</option>
                 </select>
