@@ -1,0 +1,11 @@
+
+section.Dashboard {
+    margin: 40px;
+}
+
+.SideMenu {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+}

@@ -6,15 +6,7 @@ section.header {
     justify-content: space-between;
 }
 
-.logoContainer {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: var(--secondary-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+
 
 .header div {
     display: flex;

@@ -5,7 +5,7 @@ import { useForm} from "react-hook-form"
 import { EyeClosed, Eye  } from 'lucide-react';
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export default function Authentication()
 {
@@ -18,23 +18,30 @@ export default function Authentication()
         formState: { errors },
     } = useForm()
 
+    const nav = useNavigate()
+
     const onSubmit = async (data) => {
         try {
-            var postData = await fetch("http://localhost:5073/api/Auth/login", {
+            var postData = await fetch("https://localhost:7194/api/Auth/login", {
                 method : "post",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body : JSON.stringify({
                     emailAddress : data.EmailRequired,
-                    password : data.PasswordRequired
+                    password : data.passwordRequired
                 })
             });
+
+            const dataResponse = await postData.json(); 
+
+            console.log("Status:", postData.status);
+            console.log("Response:", dataResponse);
     
             if(postData.ok)
             {
-                const dataResponse = postData.json(); 
-                console.log(dataResponse);
+                localStorage.setItem("token", dataResponse.token);
+                nav("/dashboard")
             }
         }
         catch(e) {

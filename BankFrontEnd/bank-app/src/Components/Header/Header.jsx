@@ -2,6 +2,7 @@ import Style from "./Header.module.css"
 import bankLogo from "../../assets/bankLogo.svg"
 import { useTranslation } from 'react-i18next';
 import { Link } from "react-router";
+import Brand from "../Brand/Brand";
 
 export default function Header()
 {
@@ -9,13 +10,7 @@ export default function Header()
 
     return (
         <section className={Style.header}>
-            <div>
-                <div className={Style.logoContainer}>
-                    <img src={bankLogo} alt="Logo" />
-                </div>
-                <p>AbdoBank</p>
-            </div>
-            
+            <Brand/> 
             <nav>
                 <ul>
                     <li className={Style.active}>{t("headerNavOne")}</li>
