@@ -7,9 +7,9 @@ namespace BankDataAccess
         public enum CustomerStatus
         {
             pending = 0,
-            active,
-            suspended, 
-            closed
+            active = 1,
+            suspended = 2, 
+            closed = 3
         }
         public int CustomerId { get; set; }
         public string FirstName { get; set; }
@@ -161,7 +161,7 @@ namespace BankDataAccess
                     command.Parameters.AddWithValue("@FirstName", customer.FirstName);
                     command.Parameters.AddWithValue("@LastName", customer.LastName);
                     command.Parameters.AddWithValue("@BirthDate", customer.BirthDate);
-                    command.Parameters.AddWithValue("@Status", (int)customer.Status);
+                    command.Parameters.AddWithValue("@Status", (byte)customer.Status);
                     command.Parameters.AddWithValue("@PhoneNumber", customer.PhoneNumber);
                     command.Parameters.AddWithValue("@NationalID", customer.NationalID);
 

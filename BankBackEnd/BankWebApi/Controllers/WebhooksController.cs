@@ -157,34 +157,40 @@ namespace BankWebApi.Controllers
                 return BadRequest();
             }
 
-            if (webhook.Webhook_Type != "status.updated")
-                return Ok();
 
             if (!int.TryParse(webhook.Vendor_Data, out int userId))
             {
                 return BadRequest("Invalid vendor data.");
             }
 
+
             Users? user = Users.Find(userId);
 
             if (user == null)
             {
                 return BadRequest();
-            } 
-        
+            }
+
+
             Customers? C = Customers.Find(user.userResponseDTO.CustomerID);
 
             if (C == null) {
                 return BadRequest();
             }
-            
+
+
 
             switch (webhook.Status)
             {
                 case "Approved":
+
+
                     if (C.customersDTO.Status != BankDataAccess.CustomersDTO.CustomerStatus.active)
-                    { 
-                        if (!C.Activate())
+                    {
+
+                        bool res = C.Activate();
+
+                        if (!res)
                         {
                             return StatusCode(500);
                         }
