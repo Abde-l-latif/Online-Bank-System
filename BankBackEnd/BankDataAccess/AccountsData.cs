@@ -51,6 +51,85 @@ namespace BankDataAccess
 
     public class AccountsData
     {
+
+        static public AccountsDTO GetAccountByAccountNumber(string AccountNumber, SqlConnection connection, SqlTransaction? transaction)
+        {
+            string query = "SELECT * FROM Accounts where AccountNumber = @AccountNumber;";
+
+            try
+            {
+                using (SqlCommand command = new SqlCommand(query, connection, transaction))
+                {
+                    command.Parameters.AddWithValue("@AccountNumber", AccountNumber);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+
+                        if (reader.Read())
+                        {
+                            return new AccountsDTO(
+                                reader.GetInt32(reader.GetOrdinal("AccountID")),
+                                reader.GetString(reader.GetOrdinal("AccountNumber")),
+                                reader.GetDecimal(reader.GetOrdinal("AccountBalance")),
+                                (AccountsDTO.AccountTypeEnum)reader.GetByte(reader.GetOrdinal("AccountType")),
+                                (AccountsDTO.AccountStatusEnum)reader.GetByte(reader.GetOrdinal("AccountStatus")),
+                                reader.GetInt32(reader.GetOrdinal("CustomerID"))
+                            );
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error retrieving account: {ex.Message}");
+            }
+        }
+
+        static public List<AccountsDTO> GetAccountsByAccountNumberUpdate(string FromAccountNumber, string ToAccountNumber, SqlConnection connection, SqlTransaction? transaction)
+        {
+            List<AccountsDTO> accounts = new List<AccountsDTO>();
+            string query = "SELECT * FROM Accounts WITH (UPDLOCK, ROWLOCK) WHERE AccountNumber IN (@FromAccountNumber, @ToAccountNumber) ORDER BY AccountID;";
+
+            try
+            {
+                using (SqlCommand command = new SqlCommand(query, connection, transaction))
+                {
+                    command.Parameters.AddWithValue("@FromAccountNumber", FromAccountNumber);
+                    command.Parameters.AddWithValue("@ToAccountNumber", ToAccountNumber);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+
+                        while (reader.Read())
+                        {
+                            accounts.Add(new AccountsDTO(
+                                reader.GetInt32(reader.GetOrdinal("AccountID")),
+                                reader.GetString(reader.GetOrdinal("AccountNumber")),
+                                reader.GetDecimal(reader.GetOrdinal("AccountBalance")),
+                                (AccountsDTO.AccountTypeEnum)reader.GetByte(reader.GetOrdinal("AccountType")),
+                                (AccountsDTO.AccountStatusEnum)reader.GetByte(reader.GetOrdinal("AccountStatus")),
+                                reader.GetInt32(reader.GetOrdinal("CustomerID"))
+                            ));
+                        }
+
+                        return accounts;
+
+                    }
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error retrieving account: {ex.Message}");
+            }
+        }
+
+
         static public List<AccountsDTO> GetAllAccountsByCustomerID(int customerID)
         {
             List<AccountsDTO> result = new List<AccountsDTO>();
@@ -73,14 +152,14 @@ namespace BankDataAccess
                             while (reader.Read())
                             {
 
-                               result.Add(new AccountsDTO(
-                                   reader.GetInt32(reader.GetOrdinal("AccountID")),
-                                   reader.GetString(reader.GetOrdinal("AccountNumber")),
-                                   reader.GetDecimal(reader.GetOrdinal("AccountBalance")),
-                                   (AccountsDTO.AccountTypeEnum)reader.GetByte(reader.GetOrdinal("AccountType")),
-                                   (AccountsDTO.AccountStatusEnum)reader.GetByte(reader.GetOrdinal("AccountStatus")),
-                                   reader.GetInt32(reader.GetOrdinal("CustomerID"))
-                               ));
+                                result.Add(new AccountsDTO(
+                                    reader.GetInt32(reader.GetOrdinal("AccountID")),
+                                    reader.GetString(reader.GetOrdinal("AccountNumber")),
+                                    reader.GetDecimal(reader.GetOrdinal("AccountBalance")),
+                                    (AccountsDTO.AccountTypeEnum)reader.GetByte(reader.GetOrdinal("AccountType")),
+                                    (AccountsDTO.AccountStatusEnum)reader.GetByte(reader.GetOrdinal("AccountStatus")),
+                                    reader.GetInt32(reader.GetOrdinal("CustomerID"))
+                                ));
 
                             }
 
@@ -95,9 +174,40 @@ namespace BankDataAccess
             catch (Exception ex)
             {
                 throw new Exception($"Error retrieving accounts: {ex.Message}");
-              
+
             }
 
-        } 
+        }
+
+        static public int UpdateAccount(AccountsDTO account , SqlConnection connection, SqlTransaction? transaction )
+        {
+            string Query = @"UPDATE Accounts SET AccountBalance = @AccountBalance,
+                 AccountType = @AccountType,
+                 AccountStatus = @AccountStatus,
+                 UpdatedAt = getdate() WHERE AccountID = @AccountID";
+
+             using (SqlCommand command = new SqlCommand(Query, connection, transaction))
+             {
+                 command.Parameters.AddWithValue("@AccountID", account.AccountID);
+                 command.Parameters.AddWithValue("@AccountBalance", account.AccountBalance);
+                 command.Parameters.AddWithValue("@AccountType", (byte)account.AccountType);
+                 command.Parameters.AddWithValue("@AccountStatus", (byte)account.AccountStatus);
+
+                 return command.ExecuteNonQuery();
+             }
+            
+        }
+
+        static public int UpdateAccount(AccountsDTO account)
+        {
+            using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+            {
+                connection.Open();
+
+                return UpdateAccount(account, connection, null);
+
+            }
+
+        }
     }
 }
