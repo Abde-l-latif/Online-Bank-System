@@ -74,7 +74,7 @@ const Dashboard = () => {
 
                 <div className={Style.Content}>
                     {activeMenu === 'overview' && <Overview />}
-                    {activeMenu === 'accounts' && <Account />}
+                    {activeMenu === 'accounts' && <Account UserInfo={user} />}
                     {activeMenu === 'cards' && <MyCard />}
                     {activeMenu === 'transactions' && <Transaction />}
                     {activeMenu === 'messages' && <Message />}

@@ -34,9 +34,6 @@ export default function Authentication()
             });
 
             const dataResponse = await postData.json(); 
-
-            console.log("Status:", postData.status);
-            console.log("Response:", dataResponse);
     
             if(postData.ok)
             {

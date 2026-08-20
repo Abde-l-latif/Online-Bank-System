@@ -43,7 +43,7 @@ namespace BankDataAccess
 
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
-        public TransactionsDTO(int transactionID, transType transactionType, decimal amount, decimal balanceAfter, transStatus status, string reference, int accountID, int relatedAccountID)
+        public TransactionsDTO(int transactionID, transType transactionType, decimal amount, decimal balanceAfter, transStatus status, string reference, int accountID, int? relatedAccountID)
         {
             TransactionID = transactionID;
             TransactionType = transactionType;
@@ -88,6 +88,61 @@ namespace BankDataAccess
                 ID = (int)command.ExecuteScalar();
 
                 return ID;
+            }
+        }
+
+        static public List<TransactionsDTO> getTransactionsByAccountID(int accountID)
+        {
+            List<TransactionsDTO> result = new List<TransactionsDTO> ();
+            string query = "SELECT * FROM Transactions WHERE AccountID = @accountID;";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+
+                        command.Parameters.AddWithValue("@accountID", accountID);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+
+                                result.Add(new TransactionsDTO(
+                                    (int)reader["TransactionID"],
+                                    (TransactionsDTO.transType)reader["TransactionType"],
+                                    (decimal)reader["Amount"],
+                                    (decimal)reader["BalanceAfter"],
+                                    (TransactionsDTO.transStatus)reader["Status"],
+                                    (string)reader["Reference"],
+                                    (int)reader["AccountID"],
+                                    reader["RelatedAccountID"] == DBNull.Value
+                                    ? (int?)null
+                                    : (int)reader["RelatedAccountID"]
+                                )
+                                {
+                                    CreatedAt = (DateTime)reader["CreatedAt"]
+                                }
+                                );
+
+                            }
+
+                            return result;
+
+                        }
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error retrieving accounts: {ex.Message}");
+
             }
         }
     }

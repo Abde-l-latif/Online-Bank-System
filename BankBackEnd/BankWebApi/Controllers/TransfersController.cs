@@ -45,5 +45,24 @@ namespace BankWebApi.Controllers
             return BadRequest("Transfer failed.");
             
         }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [HttpGet("All")]
+        public IActionResult GetTransfers()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdInt))
+            {
+                return Unauthorized("User ID is missing or invalid.");
+            }
+
+          
+            return Ok(Transactions.GetAllTransactionByUser(userIdInt));
+
+        }
     }
 }

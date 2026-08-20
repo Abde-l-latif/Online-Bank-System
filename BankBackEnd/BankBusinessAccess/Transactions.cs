@@ -10,6 +10,15 @@ namespace BankBusinessAccess
 {
     public class Transactions
     {
+
+        public class AccountTransactionsDTO
+        {
+            public int AccountID { get; set; }
+            public AccountsDTO.AccountTypeEnum AccountType { get; set; }
+            public decimal Balance { get; set; } 
+            public List<TransactionsDTO> Transactions { get; set; }
+        }
+
         static private bool _VerifyAccountOwnership(int userId, string fromAccountNumber, string toAccountNumber)
         {
             Users? user = Users.Find(userId);
@@ -33,6 +42,33 @@ namespace BankBusinessAccess
 
 
             return true;
+        }
+
+        static public List<AccountTransactionsDTO> GetAllTransactionByUser(int userId)
+        {
+
+            List<AccountTransactionsDTO> data = new List<AccountTransactionsDTO>();
+
+            Users? user = Users.Find(userId);
+
+            if (user != null)
+            {
+                var accounts = Accounts.GetAllAccountsByCustomerID(user.userResponseDTO.CustomerID);
+
+                foreach (var account in accounts) {
+                    data.Add(
+                        new AccountTransactionsDTO
+                        { 
+                            AccountID = account.AccountID,
+                            AccountType = account.AccountType ,
+                            Balance = account.AccountBalance,
+                            Transactions = TransactionsData.getTransactionsByAccountID(account.AccountID)
+                        }
+                    );
+                }
+            }
+
+            return data;
         }
 
         static public bool Transfer(int userId, string fromAccountNumber, string toAccountNumber, decimal amount)
