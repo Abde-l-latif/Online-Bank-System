@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using System.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +59,20 @@ namespace BankDataAccess
         public TransactionsDTO() { }
 
     }
+
+    public class TransactionResult
+    {
+        public List<TransactionsDTO> Transactions { get; set; } = new List<TransactionsDTO>();
+
+        public int TotalCount { get; set; }
+
+        public int pagesNumber { get; set; }
+
+        public decimal TotalIncome { get; set; }
+
+        public decimal TotalExpense { get; set; }
+
+    }
     public class TransactionsData
     {
         static public int AddTransaction(TransactionsDTO transaction, SqlConnection connection, SqlTransaction sqlTransaction)
@@ -91,6 +106,71 @@ namespace BankDataAccess
             }
         }
 
+        static public async Task<TransactionResult> GetCustomerTransactions(int customerId, int pageNumber, int pageSize)
+        {
+            var result = new TransactionResult();
+
+            using var connection = new SqlConnection(SettingsData.ConnectionString);
+
+            using var command = new SqlCommand(
+                "GetCustomerTransactions",
+                connection);
+
+            command.CommandType = CommandType.StoredProcedure;
+
+            command.Parameters.Add("@CustomerID", SqlDbType.Int).Value = customerId;
+            command.Parameters.Add("@PageNumber", SqlDbType.Int).Value = pageNumber;
+            command.Parameters.Add("@PageSize", SqlDbType.Int).Value = pageSize;
+
+            await connection.OpenAsync();
+
+            using var reader = await command.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                result.TotalCount = reader.GetInt32(
+                    reader.GetOrdinal("TotalCount"));
+                result.TotalIncome = reader.GetDecimal(
+                    reader.GetOrdinal("TotalIncome"));
+                result.TotalExpense = reader.GetDecimal(
+                    reader.GetOrdinal("TotalExpense"));
+
+                result.Transactions.Add(new TransactionsDTO
+                {
+                    TransactionID = reader.GetInt32(
+                        reader.GetOrdinal("TransactionID")),
+
+                    TransactionType = (TransactionsDTO.transType)reader.GetByte(
+                        reader.GetOrdinal("TransactionType")),
+
+                    Amount = reader.GetDecimal(
+                        reader.GetOrdinal("Amount")),
+
+                    BalanceAfter = reader.GetDecimal(
+                        reader.GetOrdinal("BalanceAfter")),
+
+                    Status = (TransactionsDTO.transStatus)reader.GetByte(
+                        reader.GetOrdinal("Status")),
+
+                    Reference = reader.GetString(
+                        reader.GetOrdinal("Reference")),
+
+                    AccountID = reader.GetInt32(
+                        reader.GetOrdinal("AccountID")),
+
+                    RelatedAccountID = reader.IsDBNull(
+                        reader.GetOrdinal("RelatedAccountID"))
+                        ? null
+                        : reader.GetInt32(
+                            reader.GetOrdinal("RelatedAccountID")),
+
+                    CreatedAt = reader.GetDateTime(
+                        reader.GetOrdinal("CreatedAt"))
+                });
+            }
+
+            return result;
+        }
         static public List<TransactionsDTO> getTransactionsByAccountID(int accountID)
         {
             List<TransactionsDTO> result = new List<TransactionsDTO> ();

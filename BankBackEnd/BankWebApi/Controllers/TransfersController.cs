@@ -64,5 +64,31 @@ namespace BankWebApi.Controllers
             return Ok(Transactions.GetAllTransactionByUser(userIdInt));
 
         }
+
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [HttpGet("Customer/{pageNumber}")]
+        public async Task<IActionResult> GetTransfersUsingCustomerID(int pageNumber)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdInt))
+            {
+                return Unauthorized("User ID is missing or invalid.");
+            }
+
+            var result = Transactions.getAllTransactionsUsingCustomerID(userIdInt, pageNumber);
+
+            if (result == null)
+            {
+                return NotFound();  
+            }
+
+            return Ok(await result);
+
+        }
     }
 }

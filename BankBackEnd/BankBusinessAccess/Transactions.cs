@@ -19,6 +19,25 @@ namespace BankBusinessAccess
             public List<TransactionsDTO> Transactions { get; set; }
         }
 
+        static public async Task<TransactionResult> getAllTransactionsUsingCustomerID(int userId, int PageNumber)
+        {
+            int PageSize = 10;
+
+            Users? user = Users.Find(userId);
+
+            if (user == null)
+            {
+                throw new KeyNotFoundException("User not found.");
+            }
+
+            var result = await TransactionsData.GetCustomerTransactions(user.userResponseDTO.CustomerID, PageNumber , PageSize);
+
+            result.pagesNumber = (int)Math.Ceiling((double)result.TotalCount / PageSize); 
+
+            return result;
+
+        } 
+
         static private bool _VerifyAccountOwnership(int userId, string fromAccountNumber, string toAccountNumber)
         {
             Users? user = Users.Find(userId);
