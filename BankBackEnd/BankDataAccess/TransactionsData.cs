@@ -171,6 +171,93 @@ namespace BankDataAccess
 
             return result;
         }
+
+        static public async Task<TransactionResult> GetCustomerFiltredTransactions(int customerId, int pageNumber, int pageSize, List<byte> TransType, byte? AccountType = null, byte? status = null , DateTime? FromDate = null, DateTime? ToDate = null)
+        {
+            var table = new DataTable();
+
+            table.Columns.Add("TransactionType", typeof(byte));
+
+            foreach (var type in TransType)
+            {
+                table.Rows.Add(type);
+            }
+
+            var result = new TransactionResult();
+
+            using var connection = new SqlConnection(SettingsData.ConnectionString);
+
+            using var command = new SqlCommand(
+                "GetFilteredCustomerTransactions",
+                connection);
+
+            command.CommandType = CommandType.StoredProcedure;
+
+            command.Parameters.Add("@CustomerID", SqlDbType.Int).Value = customerId;
+            command.Parameters.Add("@PageNumber", SqlDbType.Int).Value = pageNumber;
+            command.Parameters.Add("@PageSize", SqlDbType.Int).Value = pageSize;
+            command.Parameters.Add("@AccountType", SqlDbType.TinyInt).Value = AccountType;
+            command.Parameters.Add("@Status", SqlDbType.TinyInt).Value = status;
+            command.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+            command.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+
+            var parameter = command.Parameters.Add(
+                "@TransactionTypes",
+                SqlDbType.Structured
+            );
+
+            parameter.TypeName = "TransactionTypeList";
+            parameter.Value = table;
+
+            await connection.OpenAsync();
+
+            using var reader = await command.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                result.TotalCount = reader.GetInt32(
+                    reader.GetOrdinal("TotalCount"));
+                result.TotalIncome = reader.GetDecimal(
+                    reader.GetOrdinal("TotalIncome"));
+                result.TotalExpense = reader.GetDecimal(
+                    reader.GetOrdinal("TotalExpense"));
+
+                result.Transactions.Add(new TransactionsDTO
+                {
+                    TransactionID = reader.GetInt32(
+                        reader.GetOrdinal("TransactionID")),
+
+                    TransactionType = (TransactionsDTO.transType)reader.GetByte(
+                        reader.GetOrdinal("TransactionType")),
+
+                    Amount = reader.GetDecimal(
+                        reader.GetOrdinal("Amount")),
+
+                    BalanceAfter = reader.GetDecimal(
+                        reader.GetOrdinal("BalanceAfter")),
+
+                    Status = (TransactionsDTO.transStatus)reader.GetByte(
+                        reader.GetOrdinal("Status")),
+
+                    Reference = reader.GetString(
+                        reader.GetOrdinal("Reference")),
+
+                    AccountID = reader.GetInt32(
+                        reader.GetOrdinal("AccountID")),
+
+                    RelatedAccountID = reader.IsDBNull(
+                        reader.GetOrdinal("RelatedAccountID"))
+                        ? null
+                        : reader.GetInt32(
+                            reader.GetOrdinal("RelatedAccountID")),
+
+                    CreatedAt = reader.GetDateTime(
+                        reader.GetOrdinal("CreatedAt"))
+                });
+            }
+
+            return result;
+        }
         static public List<TransactionsDTO> getTransactionsByAccountID(int accountID)
         {
             List<TransactionsDTO> result = new List<TransactionsDTO> ();

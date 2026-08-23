@@ -18,6 +18,21 @@ namespace BankWebApi.Controllers
             public decimal Amount { get; set; }
         }
 
+        public class TransferFiltredRequest
+        {
+            public List<byte> TransType { get; set; } = new List<byte>();
+
+            public byte? AccountType { get; set; }
+
+            public byte? status { get; set; }
+            public DateTime? FromDate { get; set; }
+
+            public DateTime? ToDate { get; set; }
+
+            public int pageNumber { get; set; } = 1;
+  
+        }
+
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -85,6 +100,31 @@ namespace BankWebApi.Controllers
             if (result == null)
             {
                 return NotFound();  
+            }
+
+            return Ok(await result);
+
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [HttpPost("Customer/filtred")]
+        public async Task<IActionResult> GetFiltredTransfersUsingCustomerID([FromBody] TransferFiltredRequest reqData)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdInt))
+            {
+                return Unauthorized("User ID is missing or invalid.");
+            }
+
+            var result = Transactions.getAllFilteredTransactionsUsingCustomerID(userIdInt, reqData.pageNumber, reqData.TransType, reqData.AccountType, reqData.status, reqData.FromDate, reqData.ToDate);
+
+            if (result == null)
+            {
+                return NotFound();
             }
 
             return Ok(await result);

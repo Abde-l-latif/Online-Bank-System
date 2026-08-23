@@ -1,10 +1,13 @@
-
+import Style from "./Transaction.module.css";
 
 const Transaction = () => {
     return (
-        <div>
-            <h1>Transaction</h1>
-        </div>
+        <section className={Style.transaction}>
+            <div>
+                <h2>Transaction</h2>
+            </div>
+
+        </section>
     )
 }
 
