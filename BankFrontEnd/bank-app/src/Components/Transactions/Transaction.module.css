@@ -7,3 +7,93 @@
     margin-bottom: 10px;
     color: var(--primary-color)
 }
+
+.transHeader {
+    display: grid;
+    grid-template-columns: auto 3px auto 3px auto ;
+    gap: 10px;
+    margin-top: 10px;
+    background-color: rgba(138, 172, 148, 0.504);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.Income, .Outcome, .Transaction {
+    font-weight: 600;
+}
+
+.Income {color: #0ba03c;}
+.Outcome {color: #800b0b;}
+.Transaction {color: #896912;}
+
+.Column {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.Column > p:first-child {
+    color: var(--smallpara-color);
+    font-weight: 500;
+}
+
+.line {
+    height: 50px;
+    background-color: var(--primary-color);
+}
+
+.Selectsfilter {
+    display: flex;
+    gap: 10px;
+}
+
+.FilterContainer {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.filterBTN, .BtnPre, .BtnNext {
+    padding: 10px 20px;
+    color: white;
+    background-color: var(--primary-color);
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: .3s ease;
+}
+
+.BtnNext, .BtnPre {
+    background-color: var(--border-secondary-color);
+}
+
+.BtnNext:hover, .BtnPre:hover {
+    background-color: var(--primary-hover-color);
+}
+
+.filterBTN:hover
+{
+    background-color: var(--primary-hover-color);
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+th {
+    padding: 10px;
+    background-color: rgba(128, 128, 128, 0.337);
+    
+}
+
+td {
+    padding: 8px 5px;
+}
+
+.TransFooter {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
