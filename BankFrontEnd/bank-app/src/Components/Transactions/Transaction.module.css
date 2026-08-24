@@ -44,11 +44,11 @@
 
 .Selectsfilter {
     display: flex;
-    gap: 10px;
+    gap: 30px;
 }
 
 .FilterContainer {
-    margin-top: 10px;
+    margin-top: 40px;
     display: flex;
     justify-content: space-between;
 }
@@ -90,10 +90,40 @@ th {
 
 td {
     padding: 8px 5px;
+    text-align: center;
+    font-weight: 600;
+    color: var(--smallpara-color);
 }
 
 .TransFooter {
-    margin-top: 15px;
+    margin-top: 20px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.PageNumbers {
+    display: flex;
+    gap: 5px;
+}
+
+.PageNumber {
+    border: none;
+    width: 30px;
+    height: 30px;
+    background-color: rgba(128, 128, 128, 0.433);
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+.Active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.BtnNext:disabled, .BtnPre:disabled  {
+    background: #b4b8bd;
+    color: #737882;
+    cursor: not-allowed;
+    opacity: 0.6;
 }

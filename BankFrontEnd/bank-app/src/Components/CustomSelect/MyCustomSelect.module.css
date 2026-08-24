@@ -1,3 +1,8 @@
+.Select {
+    position: relative;
+    overflow: hidden;
+}
+
 .SelectContainer {
     display: flex;
     align-items: center;
@@ -22,4 +27,25 @@
     background-color: rgb(79, 128, 69);;
 }
 
+.optionsContainer {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    color: var(--primary-color);
+    font-weight: 500;
+    position: absolute;
+    bottom: 100%;
+}
 
+.option {
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: .5s ease;
+    background-color: white;
+}
+
+.option:hover {
+    background-color: rgb(79, 137, 79);
+}

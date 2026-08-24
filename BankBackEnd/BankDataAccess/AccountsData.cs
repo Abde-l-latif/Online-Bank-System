@@ -129,6 +129,53 @@ namespace BankDataAccess
             }
         }
 
+        static public AccountsDTO GetAllAccountByAccountID(int AccountID)
+        {
+
+            string query = "SELECT * FROM Accounts WHERE AccountID = @AccountID;";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+
+                        command.Parameters.AddWithValue("@AccountID", AccountID);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if(reader.Read())
+                            {
+
+                                return new AccountsDTO(
+                                    reader.GetInt32(reader.GetOrdinal("AccountID")),
+                                    reader.GetString(reader.GetOrdinal("AccountNumber")),
+                                    reader.GetDecimal(reader.GetOrdinal("AccountBalance")),
+                                    (AccountsDTO.AccountTypeEnum)reader.GetByte(reader.GetOrdinal("AccountType")),
+                                    (AccountsDTO.AccountStatusEnum)reader.GetByte(reader.GetOrdinal("AccountStatus")),
+                                    reader.GetInt32(reader.GetOrdinal("CustomerID"))
+                                );
+
+                            }
+
+                            return null; 
+                        }
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error retrieving accounts: {ex.Message}");
+
+            }
+
+        }
+
 
         static public List<AccountsDTO> GetAllAccountsByCustomerID(int customerID)
         {

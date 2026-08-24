@@ -5,14 +5,15 @@ import MyCustomSelect from "../CustomSelect/MyCustomSelect.jsx";
 const Transaction = () => {
 
     const [transactions , setTtransaction ] = useState(null);
-    const [pagesNumber , setPagesNumber] = useState(0)
+    const [pagesNumber , setPagesNumber] = useState(0);
+    const [selectedPage, setSelectedPage] = useState(1);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
 
         async function getTransaction() {
             try {
-                const response = await fetch(`https://localhost:7194/api/Transfers/Customer/1`,
+                const response = await fetch(`https://localhost:7194/api/Transfers/Customer/${selectedPage}`,
                     {
                         method: 'GET',
                         headers: {
@@ -41,27 +42,59 @@ const Transaction = () => {
 
         return () => { }
         
-    }, []);
+    }, [selectedPage, setSelectedPage]);
 
 
     const DisplayTransaction = transactions?.transactions.map((trans) => {
 
-        const shortDate = new Date(trans?.createdAt).toLocaleDateString('en-US', {
-            dateStyle: 'short' 
+       const shortDate = new Date(trans?.createdAt).toLocaleString('en-US', {
+            dateStyle: 'short',
+            timeStyle: 'short'
         });
 
         return (
             <tr key={trans?.transactionID}>
                 <td>{shortDate}</td>
                 <td>{trans?.transactionType}</td>
-                <td>next time</td>
-                <td>{trans?.amount}</td>
-                <td>{trans?.status}</td>
+                <td>{trans?.account?.accountType} Account</td>
+                <td className={trans?.transactionType == "transferTo" ? Style.Outcome : Style.Income}>{trans?.transactionType == "transferTo" ? "-" + trans?.amount : "+" + trans?.amount} MAD</td>
+                <td className={trans?.status == "completed" ? Style.Income : Style.Transaction}>{trans?.status}</td>
             </tr>
         )
     })
 
-   
+    function NextButton()
+    {
+        setSelectedPage(currentPage => currentPage + 1);
+    }
+
+    function PrevButton()
+    {
+        setSelectedPage(currentPage => currentPage - 1);
+    }
+
+    const AccountTypes = {
+        0 : "Checking account",
+        1 : "Saving account",
+    }
+
+    const transactionStatus = {
+        0 : "Completed",
+        1 : "Reversed",
+    }
+
+    const transactionTypes = {
+        0 : "Deposit",
+        1 : "Withdraw",
+        2 : "Transfer to",
+        3 : "Transfer from" 
+    }
+
+    const transactionDate = {
+        0 : "Today",
+        1 : "Last 7 days",
+        2 : "Last 30 days",
+    }
 
     return (
 
@@ -92,10 +125,10 @@ const Transaction = () => {
 
             <div className={Style.FilterContainer}>
                 <div className={Style.Selectsfilter}>
-                    <MyCustomSelect label={"Account Type"}/>
-                    <MyCustomSelect label={"Transaction Type"}/>
-                    <MyCustomSelect label={"States"}/>
-                    <MyCustomSelect label={"Date"}/>
+                    <MyCustomSelect label={"Account Type"} options={AccountTypes}/>
+                    <MyCustomSelect label={"Transaction Type"} options={transactionTypes}/>
+                    <MyCustomSelect label={"Status"} options={transactionStatus}/>
+                    <MyCustomSelect label={"Date"} options={transactionDate}/>
                 </div>
                 <button className={Style.filterBTN}>View</button>
             </div>
@@ -120,11 +153,17 @@ const Transaction = () => {
 
             <div className={Style.TransFooter}>
 
-                <button className={Style.BtnPre}>Previous</button>
+                <button disabled={selectedPage <= 1}  className={Style.BtnPre} onClick={PrevButton}>Previous</button>
 
-                <div></div>
+                <div className={Style.PageNumbers}>
+                    {Array.from({ length: pagesNumber }, (_, index) => (
+                        <button key={index + 1} className={`${Style.PageNumber} ${selectedPage == (index + 1) ?  Style.Active : ""}`}>
+                            {index + 1}
+                        </button>
+                    ))}
+                </div>
 
-                <button className={Style.BtnNext}>Next</button>
+                <button disabled={selectedPage >= pagesNumber} className={Style.BtnNext} onClick={NextButton}>Next</button>
 
             </div>
 

@@ -21,7 +21,7 @@ namespace BankBusinessAccess
 
         static public async Task<TransactionResult> getAllTransactionsUsingCustomerID(int userId, int PageNumber)
         {
-            int PageSize = 10;
+            int PageSize = 5;
 
             Users? user = Users.Find(userId);
 
@@ -40,7 +40,7 @@ namespace BankBusinessAccess
 
         static public async Task<TransactionResult> getAllFilteredTransactionsUsingCustomerID(int userId, int PageNumber, List<byte> TransType, byte? AccountType = null, byte? status = null, DateTime? FromDate = null, DateTime? ToDate = null)
         {
-            int PageSize = 10;
+            int PageSize = 5;
 
             Users? user = Users.Find(userId);
 

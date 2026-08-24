@@ -38,8 +38,6 @@ namespace BankDataAccess
 
         public int? RelatedAccountID { get; set; }
 
-        public AccountsDTO RelatedAccount { get; set; }
-
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
@@ -165,7 +163,10 @@ namespace BankDataAccess
                             reader.GetOrdinal("RelatedAccountID")),
 
                     CreatedAt = reader.GetDateTime(
-                        reader.GetOrdinal("CreatedAt"))
+                        reader.GetOrdinal("CreatedAt")),
+
+                    Account = AccountsData.GetAllAccountByAccountID(reader.GetInt32(
+                        reader.GetOrdinal("AccountID")))
                 });
             }
 
@@ -252,7 +253,10 @@ namespace BankDataAccess
                             reader.GetOrdinal("RelatedAccountID")),
 
                     CreatedAt = reader.GetDateTime(
-                        reader.GetOrdinal("CreatedAt"))
+                        reader.GetOrdinal("CreatedAt")),
+
+                    Account = AccountsData.GetAllAccountByAccountID(reader.GetInt32(
+                        reader.GetOrdinal("AccountID")))
                 });
             }
 
