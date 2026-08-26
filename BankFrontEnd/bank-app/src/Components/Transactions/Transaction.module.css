@@ -44,7 +44,7 @@
 
 .Selectsfilter {
     display: flex;
-    gap: 30px;
+    gap: 50px;
 }
 
 .FilterContainer {
@@ -84,7 +84,7 @@ table {
 
 th {
     padding: 10px;
-    background-color: rgba(128, 128, 128, 0.337);
+    background-color: rgba(54, 87, 63, 0.337);
     
 }
 

@@ -7,20 +7,60 @@ const Transaction = () => {
     const [transactions , setTtransaction ] = useState(null);
     const [pagesNumber , setPagesNumber] = useState(0);
     const [selectedPage, setSelectedPage] = useState(1);
+    const [filterData , setFilterData] = useState({
+        "Account Type" : null,
+        "Status" : null,
+        "Transaction Type" : [],
+        "Date" : null
+    });
+    const [isFiltered, setIsFiltered] = useState(false);
+    const [filterRequest, setFilterRequest] = useState(0);
+
+    
+
+    const TodayDate = new Date();
+
+    const last7Days = new Date(TodayDate);
+    last7Days.setDate(TodayDate.getDate() - 7);
+
+    const last30Days = new Date(TodayDate);
+    last30Days.setDate(TodayDate.getDate() - 30);
+    
+    const token = localStorage.getItem('token');
+
+    console.log(filterData);
+    
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
 
         async function getTransaction() {
             try {
-                const response = await fetch(`https://localhost:7194/api/Transfers/Customer/${selectedPage}`,
-                    {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
+                const response = await fetch(
+                    isFiltered
+                        ? `https://localhost:7194/api/Transfers/Customer/filtred`
+                        : `https://localhost:7194/api/Transfers/Customer/${selectedPage}`,
+                    isFiltered
+                        ? {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify({
+                                transType: filterData["Transaction Type"],
+                                accountType: filterData["Account Type"],
+                                status: filterData["Status"],
+                                fromDate: filterData["Date"],
+                                pageNumber: selectedPage
+                            })
                         }
-                    }
+                        : {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            }
+                        }
                 );
 
                 const data = await response.json() ; 
@@ -42,7 +82,7 @@ const Transaction = () => {
 
         return () => { }
         
-    }, [selectedPage, setSelectedPage]);
+    }, [selectedPage, isFiltered, filterRequest]);
 
 
     const DisplayTransaction = transactions?.transactions.map((trans) => {
@@ -73,27 +113,38 @@ const Transaction = () => {
         setSelectedPage(currentPage => currentPage - 1);
     }
 
+    function getFiltredTransaction() {
+        setSelectedPage(1);
+        setIsFiltered(true);
+        setFilterRequest(currentRequest => currentRequest + 1);
+    }
+
+
     const AccountTypes = {
         0 : "Checking account",
         1 : "Saving account",
+        2 : "All accounts"
     }
 
     const transactionStatus = {
         0 : "Completed",
         1 : "Reversed",
+        2 : "All status"
     }
 
     const transactionTypes = {
         0 : "Deposit",
         1 : "Withdraw",
         2 : "Transfer to",
-        3 : "Transfer from" 
+        3 : "Transfer from" ,
+        4 : "All types"
     }
 
     const transactionDate = {
-        0 : "Today",
-        1 : "Last 7 days",
-        2 : "Last 30 days",
+        [TodayDate.toISOString()] : "Today",
+        [last7Days.toISOString()] : "Last 7 days",
+        [last30Days.toISOString()] : "Last 30 days",
+        3 : "All days"
     }
 
     return (
@@ -125,12 +176,12 @@ const Transaction = () => {
 
             <div className={Style.FilterContainer}>
                 <div className={Style.Selectsfilter}>
-                    <MyCustomSelect label={"Account Type"} options={AccountTypes}/>
-                    <MyCustomSelect label={"Transaction Type"} options={transactionTypes}/>
-                    <MyCustomSelect label={"Status"} options={transactionStatus}/>
-                    <MyCustomSelect label={"Date"} options={transactionDate}/>
+                    <MyCustomSelect label={"Account Type"} options={AccountTypes}  setData={setFilterData} mode={"single"}/>
+                    <MyCustomSelect label={"Transaction Type"} options={transactionTypes}  setData={setFilterData} mode={"multiple"}/>
+                    <MyCustomSelect label={"Status"} options={transactionStatus}  setData={setFilterData} mode={"single"}/>
+                    <MyCustomSelect label={"Date"} options={transactionDate} setData={setFilterData} mode={"single"}/>
                 </div>
-                <button className={Style.filterBTN}>View</button>
+                <button className={Style.filterBTN} onClick={getFiltredTransaction}>View</button>
             </div>
 
 

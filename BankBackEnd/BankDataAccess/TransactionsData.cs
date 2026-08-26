@@ -265,6 +265,7 @@ namespace BankDataAccess
         static public List<TransactionsDTO> getTransactionsByAccountID(int accountID)
         {
             List<TransactionsDTO> result = new List<TransactionsDTO> ();
+
             string query = "SELECT * FROM Transactions WHERE AccountID = @accountID;";
 
             try
