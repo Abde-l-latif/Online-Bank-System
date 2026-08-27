@@ -38,10 +38,8 @@ namespace BankBusinessAccess
 
         }
 
-        static public async Task<TransactionResult> getAllFilteredTransactionsUsingCustomerID(int userId, int PageNumber, List<byte> TransType, byte? AccountType = null, byte? status = null, DateTime? FromDate = null, DateTime? ToDate = null)
+        static public async Task<TransactionResult> getAllFilteredTransactionsUsingCustomerID(int userId, int PageNumber, List<byte> TransType, int pageSize, byte? AccountType = null, byte? status = null, DateTime? FromDate = null, DateTime? ToDate = null)
         {
-            int PageSize = 5;
-
             Users? user = Users.Find(userId);
 
             if (user == null)
@@ -49,9 +47,9 @@ namespace BankBusinessAccess
                 throw new KeyNotFoundException("User not found.");
             }
 
-            var result = await TransactionsData.GetCustomerFiltredTransactions(user.userResponseDTO.CustomerID, PageNumber, PageSize,  TransType, AccountType, status, FromDate, ToDate);
+            var result = await TransactionsData.GetCustomerFiltredTransactions(user.userResponseDTO.CustomerID, PageNumber, pageSize,  TransType, AccountType, status, FromDate, ToDate);
 
-            result.pagesNumber = (int)Math.Ceiling((double)result.TotalCount / PageSize);
+            result.pagesNumber = (int)Math.Ceiling((double)result.TotalCount / pageSize);
 
             return result;
 

@@ -25,11 +25,14 @@ namespace BankWebApi.Controllers
             public byte? AccountType { get; set; }
 
             public byte? status { get; set; }
+
             public DateTime? FromDate { get; set; }
 
             public DateTime? ToDate { get; set; }
 
             public int pageNumber { get; set; } = 1;
+
+            public int pageSize { get; set; } = 5;
   
         }
 
@@ -120,7 +123,7 @@ namespace BankWebApi.Controllers
                 return Unauthorized("User ID is missing or invalid.");
             }
 
-            var result = Transactions.getAllFilteredTransactionsUsingCustomerID(userIdInt, reqData.pageNumber, reqData.TransType, reqData.AccountType, reqData.status, reqData.FromDate, reqData.ToDate);
+            var result = Transactions.getAllFilteredTransactionsUsingCustomerID(userIdInt ,reqData.pageNumber, reqData.TransType, reqData.pageSize, reqData.AccountType, reqData.status, reqData.FromDate, reqData.ToDate);
 
             if (result == null)
             {
