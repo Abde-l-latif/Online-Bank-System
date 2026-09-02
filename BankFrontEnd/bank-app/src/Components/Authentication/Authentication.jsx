@@ -6,11 +6,15 @@ import { EyeClosed, Eye  } from 'lucide-react';
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from "react-router";
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+
 
 export default function Authentication()
 {
     const { t, i18n } = useTranslation();
-    const [ShowPassword, SetShowPassword] = useState(false) ;
+    const [ShowPassword, SetShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
     const {
         register,
         handleSubmit,
@@ -21,6 +25,9 @@ export default function Authentication()
     const nav = useNavigate()
 
     const onSubmit = async (data) => {
+
+        setIsLoading(true);
+
         try {
             var postData = await fetch("https://localhost:7194/api/Auth/login", {
                 method : "post",
@@ -33,16 +40,20 @@ export default function Authentication()
                 })
             });
 
-            const dataResponse = await postData.json(); 
-    
-            if(postData.ok)
-            {
+             if (postData.ok) {
+                const dataResponse = await postData.json();
                 localStorage.setItem("token", dataResponse.token);
-                nav("/dashboard")
+                nav("/dashboard");
+            } 
+            else if (!postData.ok) {
+                const error = await postData.json();
+                setError(t(`errors.${error.code}`));
+                setIsLoading(false);
             }
         }
         catch(e) {
-            console.log("error occurs " + e.message);
+            setIsLoading(false);
+            console.log("error occurs " + e);
         }
     }
 
@@ -77,8 +88,12 @@ export default function Authentication()
 
                     </fieldset>
 
-                    <button >{t("AuthButtonLogin")} </button>
+                    <button type="submit" disabled={isLoading}>
+                        {isLoading ? <DotLottieReact src="/Lotties/loading.lottie" loop autoplay style={{ width: "50px", height: "50px" }} /> 
+                        : t("AuthButtonLogin")}
+                    </button>
                 </form>
+                {error && <p className={Style.errorMsg}>{error}</p>}
                 <p>{t("AuthLittlePara")} AbdoBank ? <Link to="/register"><span>{t("HeaderSignup")}</span></Link></p>
             </section>
             

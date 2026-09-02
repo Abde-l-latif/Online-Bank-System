@@ -1,4 +1,12 @@
 {
+    "errors": {
+        "INVALID_CREDENTIALS": "Adresse e-mail ou mot de passe incorrect.",
+        "ACCOUNT_LOCKED": "Votre compte a été verrouillé.",
+        "USER_NOT_FOUND": "Utilisateur introuvable."
+    },
+    "successs": {
+        "REGISTER_SUCCESS": "Inscription réussie. Vous pouvez maintenant vous connecter."
+    },
     "HomeTitle" : "Simplifiez votre vie avec une banque toujours à vos côté",
     "HomePara" : "Vos services bancaires accessibles en un seul clic",
     "HomeButton" : "En savoir plus",

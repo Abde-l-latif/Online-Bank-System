@@ -1,4 +1,12 @@
 {
+    "errors": {
+        "INVALID_CREDENTIALS": "Invalid email or password.",
+        "ACCOUNT_LOCKED": "Your account has been locked.",
+        "USER_NOT_FOUND": "User not found."
+    },
+    "successs": {
+        "REGISTER_SUCCESS": "Registration successful. You can now log in."
+    },
     "HomeTitle" : "Simplify your life with a bank that's always by your side",
     "HomePara" : "Your banking services accessible in one click",
     "HomeButton" : "Learn more",

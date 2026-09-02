@@ -1,0 +1,81 @@
+
+
+
+
+.header {
+    display: flex;
+    gap: 20px;
+}
+
+.AccountBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(128, 128, 128, 0.219);
+    padding: 10px 10px;
+    border-radius: 10px;
+    height: 100px;
+    gap: 30px;
+    box-shadow: 0 10px 20px rgba(128, 128, 128, 0.337);
+    transition: 0.7s ease;
+    cursor: pointer;
+}
+
+.border {
+    border: 1px solid var(--primary-color);
+}
+
+.AccountBox:hover {
+    transform: scale(1.1);
+}
+
+.AccountTitle {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.CheckIcon {
+    color: var(--primary-color);
+}
+
+.Information {
+    margin: 40px 0;
+}
+
+.Information h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.Information > p:last-of-type {
+    font-size: 14px;
+    color: var(--smallpara-color);
+}
+
+.Information > p:first-of-type {
+    font-weight: bold;
+    color: rgb(84, 84, 84);
+    margin-bottom: 5px;
+}
+
+.Footer {
+    color: white;
+    background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+    padding: 10px 15px;
+    justify-content: center;
+    transition: .4s ease;
+    cursor: pointer;
+}
+
+
+.Footer:hover {
+    background-color: var(--primary-hover-color);
+    letter-spacing: 1.5px;
+}

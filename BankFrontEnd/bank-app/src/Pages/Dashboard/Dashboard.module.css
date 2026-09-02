@@ -26,9 +26,20 @@ section.Dashboard {
 }
 
 .Active {
+    position: relative;    
     color: white;
     background-color: var(--primary-hover-color);
     font-weight: 600;
+}
+
+.Active::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(193, 234, 88, 0.352);;
+    filter: blur(30px);
+    left: 0;
 }
 
 .UserAvatar {

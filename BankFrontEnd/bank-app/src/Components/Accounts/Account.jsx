@@ -1,6 +1,7 @@
 import Style from "./Account.module.css";
-import { Plus } from 'lucide-react';
+import { Plus , Undo2  } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import AddAccount from "../AddAccount/AddAccount";
 
 
 
@@ -9,6 +10,8 @@ const Account = ({ UserInfo }) => {
     const [accounts, setAccounts] = useState([]);
     
     const [transAccounts, setTransAccounts] = useState([]);
+
+    const [addStatus, setAddStatus] = useState(false);
 
     useEffect(() =>{
 
@@ -151,30 +154,50 @@ const Account = ({ UserInfo }) => {
             </div>
         )
     });
-
+    
     return (
-        <section className={Style.Account}>
-            <div className={Style.AccountHeader}>
-                <div>
-                    <h2>My Accounts</h2>
-                    <p>This is the accounts information page.</p>
-                </div>
-                <div className={Style.AddAccountBtn}>
-                    <Plus size={20} color="white" />
-                    <p>Add new account</p>
-                </div>
-            </div>
-            
-            <div className={Style.AccountList}>
-                {accountList}
-            </div>
+        <>
+            {addStatus ? (
+                <section className={Style.Account}>
+                    <div className={Style.AccountHeader}>
+                        <div>
+                            <h2>Add New Account</h2>
+                            <p>This is the account creation area.</p>
+                        </div>
+                        <div className={Style.AddAccountBtn} onClick={() => setAddStatus(false)}>
+                            <Undo2 size={20} color="white" />
+                            <p>Back to accounts</p>
+                        </div>
+                    </div>
 
-            <div className={Style.AccountSummary}>
-                <h3>Account Summary</h3>
-                {Transactions}
-            </div>
-            
-        </section>
+                    <div className={Style.AccountList}>
+                        <AddAccount/>
+                    </div>
+                </section>
+            ) : (
+                <section className={Style.Account}>
+                    <div className={Style.AccountHeader}>
+                        <div>
+                            <h2>My Accounts</h2>
+                            <p>This is the accounts information page.</p>
+                        </div>
+                        <div className={Style.AddAccountBtn} onClick={() => setAddStatus(true)}>
+                            <Plus size={20} color="white" />
+                            <p>Add new account</p>
+                        </div>
+                    </div>
+                    
+                    <div className={Style.AccountList}>
+                        {accountList}
+                    </div>
+
+                    <div className={Style.AccountSummary}>
+                        <h3>Account Summary</h3>
+                        {Transactions}
+                    </div>
+                </section>
+            )}
+        </>
     )
 }
 

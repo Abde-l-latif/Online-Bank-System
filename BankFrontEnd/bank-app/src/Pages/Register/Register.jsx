@@ -4,6 +4,8 @@ import mk from "../../assets/morocco2.svg";
 import { useForm } from "react-hook-form"
 import { useTranslation } from 'react-i18next';
 import { useState } from "react";
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { useNavigate } from "react-router";
 
 const Register = () => {
     const { t, i18n } = useTranslation();
@@ -15,12 +17,16 @@ const Register = () => {
         formState: { errors },
     } = useForm();
 
+    const [isLoading, setIsLoading] = useState(false);
     const [ShowPassword, SetShowPassword] = useState(false) ;
+    const [showMsg, setShowMsg] = useState(null);
+
+    const nav = useNavigate();
 
     const onSubmit = async (data) => {
         try {
-
-            const regData = await fetch("http://localhost:5073/api/Auth/register", {
+            setIsLoading(true);
+            const regData = await fetch("https://localhost:7194/api/Auth/register", {
                     method : "post",
                     headers: {
                         "Content-Type": "application/json"
@@ -44,12 +50,20 @@ const Register = () => {
 
             if(regData.ok)
             {
-                console.log(regData);
+                const dataResponse = await regData.json();
+                const msg = dataResponse.code;
+                setShowMsg(t(`successs.${msg}`));
+                setTimeout(() => {
+                    nav("/login");
+                }, 2000);
             }
 
         } catch(ex)
         {
             console.log("Error message : " + ex);
+        }
+        finally {
+            setIsLoading(false);
         }
 
     }
@@ -226,9 +240,11 @@ const Register = () => {
 
                 </div>
 
-                <button>{t("RegButton")}</button>
+                <button disabled={isLoading}> {isLoading ? <DotLottieReact src="/Lotties/loading.lottie" loop autoplay style={{ width: "50px", height: "50px" }} /> 
+                        : t("RegButton")}</button>
 
             </form>
+            {showMsg && <p className={Style.Success}>{showMsg}</p>}
         </section>
     )
 }
