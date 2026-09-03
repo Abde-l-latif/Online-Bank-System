@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace BankDataAccess
 {
@@ -88,6 +89,52 @@ namespace BankDataAccess
             {
                 throw new Exception($"Error retrieving account: {ex.Message}");
             }
+        }
+
+        static public AccountsDTO GetAccountByAccountNumber(string AccountNumber)
+        {
+        
+            using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+            {
+                connection.Open();
+                return GetAccountByAccountNumber(AccountNumber, connection, null);
+            }
+        
+        }
+
+        static public int InsertAccount(AccountsDTO account)
+        {
+            
+            string query = @"INSERT INTO Accounts (AccountNumber, AccountBalance, AccountType, AccountStatus, CustomerID, CreatedAt, UpdatedAt) VALUES 
+                            (@AccountNumber, @AccountBalance, @AccountType, @AccountStatus, @CustomerID, GETDATE(), GETDATE()); 
+                             SELECT SCOPE_IDENTITY();";
+            try
+            {
+
+                using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@AccountNumber", account.AccountNumber);
+                        command.Parameters.AddWithValue("@AccountBalance", account.AccountBalance);
+                        command.Parameters.AddWithValue("@AccountType", (int)account.AccountType);
+                        command.Parameters.AddWithValue("@AccountStatus", (int)account.AccountStatus);
+                        command.Parameters.AddWithValue("@CustomerID", (int)account.CustomerID);
+
+
+                        int id = Convert.ToInt32(command.ExecuteScalar());
+                        return id;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error inserting customer: {ex.Message}", ex);
+            }
+
+
         }
 
         static public List<AccountsDTO> GetAccountsByAccountNumberUpdate(string FromAccountNumber, string ToAccountNumber, SqlConnection connection, SqlTransaction? transaction)
@@ -225,6 +272,38 @@ namespace BankDataAccess
             }
 
         }
+
+        static public bool isAccountTypeAlreadyExist(int customerID, int accountType)
+        {
+            string query = "SELECT 1 FROM Accounts WHERE CustomerID = @CustomerID and AccountType = @AccountType;";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+
+                        command.Parameters.AddWithValue("@CustomerID", customerID);
+                        command.Parameters.AddWithValue("@AccountType", accountType);
+
+                        object result = command.ExecuteScalar();
+                        
+                        return (result != null && (int)result == 1);
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error retrieving accounts: {ex.Message}");
+
+            }
+        }
+
 
         static public int UpdateAccount(AccountsDTO account , SqlConnection connection, SqlTransaction? transaction )
         {

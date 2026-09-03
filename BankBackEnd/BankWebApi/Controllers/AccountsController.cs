@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BankBusinessAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using BankBusinessAccess;
+using System.Security.Claims;
 
 namespace BankWebApi.Controllers
 {
@@ -25,6 +26,29 @@ namespace BankWebApi.Controllers
             var accounts = Accounts.GetAllAccountsByCustomerID(customerID);
 
             return Ok(accounts);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpPost("Add")]
+        public IActionResult AddAccount([FromBody]int AccountType)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdInt))
+            {
+                return Unauthorized("User ID is missing or invalid.");
+            }
+
+            Accounts account = new Accounts();
+
+            bool status = account.AddNewAccount(userIdInt, AccountType);
+
+            if(status == true)
+                return Ok("Account Added successfully");
+            else
+                return Ok("This Account Type Already exist");
         }
     }
 }

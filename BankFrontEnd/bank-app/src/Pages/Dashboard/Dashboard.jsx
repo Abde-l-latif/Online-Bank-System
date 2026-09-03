@@ -9,6 +9,7 @@ import MyCard from '../../Components/MyCards/MyCard';
 import Setting from '../../Components/Settings/Setting';
 import Top from '../../Components/Top/Top';
 import Money from "../../Assets/money-100.png";
+import Robot from "../../Assets/greenRobotCom.png";
 
 const Dashboard = () => {
 
@@ -171,6 +172,9 @@ const Dashboard = () => {
                             </div>
                         ))}
                     </ul>
+                    <div className={Style.SideMenuButtomItem}>  
+                    </div>
+                    <img src={Robot} alt="RobotImage" />
                 </div>
 
                 <div className={Style.Content}>

@@ -7,11 +7,19 @@ section.Dashboard {
 } 
 
 .SideMenu {
+    position : relative;
     padding: 20px;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     gap: 40px;
+}
+
+.SideMenu > :last-child {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    bottom: 0;
 }
 
 .SideMenuItem {
@@ -23,6 +31,25 @@ section.Dashboard {
     cursor: pointer;
     border-radius: 20px;
     color : gray;
+}
+
+.SideMenuButtomItem {
+    position: relative;
+    height: 163px;
+    border-radius: 20px;
+    background-color: var(--primary-color);
+    overflow: hidden;
+    box-shadow: 0px 0px 15px rgba(102, 102, 102, 0.309);
+}
+
+.SideMenuButtomItem::after {
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background-color: rgba(193, 234, 88, 0.352);
+    border-radius: 100%;
+    right: -20px;
 }
 
 .Active {
@@ -138,3 +165,4 @@ section.Dashboard {
 
 .Income {color: #0ba03c;}
 .Outcome {color: #800b0b;}
+

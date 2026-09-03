@@ -1,9 +1,14 @@
+import Style from './Overview.module.css';
+
+
 
 const Overview = () => {
     return (
-        <div>
-            <h1>Overview</h1>
-        </div>
+        <section className={Style.overview}>
+             <div>
+                <h2>Overview</h2>
+            </div>
+        </section>      
     )
 }
 

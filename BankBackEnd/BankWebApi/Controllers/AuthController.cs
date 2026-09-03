@@ -37,7 +37,7 @@ namespace BankWebApi.Controllers
             try
             {  
                 var userResponse = _authentication.Register(registerDTO);
-                return Ok(new { message = "Registration successful." });
+                return Ok(new { code = "REGISTER_SUCCESS" });
 
             }
             catch (CustomExceptions.ValidationException ex)
@@ -91,7 +91,10 @@ namespace BankWebApi.Controllers
             }
             catch (CustomExceptions.AuthenticationException ex)
             {
-                return Unauthorized($"Authentication error: {ex.Message}");
+                return Unauthorized(new
+                {
+                    code = "INVALID_CREDENTIALS"
+                });
             }
             catch (Exception ex)
             {
