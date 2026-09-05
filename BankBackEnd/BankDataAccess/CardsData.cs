@@ -116,5 +116,77 @@ namespace BankDataAccess
 
             return Cards;
         }
+
+        static public bool isCardExistsByCardNumber(string cardNumber)
+        {
+            string query = @"select 1 from Cards where CardNumber = @CardNumber;";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@CardNumber", cardNumber);
+
+                        object res = command.ExecuteScalar();
+
+                        if (res != null)
+                            return (Convert.ToInt32(res) == 1);
+          
+                    
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return false;
+
+        }
+
+        static public int InsertCard(CardsDTO Card)
+        {
+            string query = @"insert into Cards (AccountID, CardNumber, CardHolderName, ExpirationDate, CardType, CardBrand, Status, CreatedAt, UpdatedAt) 
+            values (@AccountID, @CardNumber, @CardHolderName, DATEADD(year, 10, GETDATE()), @CardType, @CardBrand, 0, GETDATE(), GETDATE());
+            SELECT SCOPE_IDENTITY() ;";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@AccountID", Card.AccountID);
+                        command.Parameters.AddWithValue("@CardNumber", Card.CardNumber);
+                        command.Parameters.AddWithValue("@CardHolderName", Card.CardHolderName);
+                        command.Parameters.AddWithValue("@CardType", (int)Card.CardType);
+                        command.Parameters.AddWithValue("@CardBrand", (int)Card.CardBrand);
+
+                        object res = command.ExecuteScalar();
+
+                        if (res != null)
+                            return Convert.ToInt32(res);
+
+
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return -1;
+
+        }
     }
 }

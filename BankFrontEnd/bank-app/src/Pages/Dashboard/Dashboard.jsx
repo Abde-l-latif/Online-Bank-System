@@ -180,7 +180,7 @@ const Dashboard = () => {
                 <div className={Style.Content}>
                     {activeMenu === 'overview' && <Overview />}
                     {activeMenu === 'accounts' && <Account UserInfo={user} />}
-                    {activeMenu === 'cards' && <MyCard />}
+                    {activeMenu === 'cards' && <MyCard customerId={user?.customerID} />}
                     {activeMenu === 'transactions' && <Transaction/>}
                     {activeMenu === 'settings' && <Setting />}
                 </div>

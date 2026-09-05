@@ -38,11 +38,15 @@
 
 .CardContainer {
     margin-top: 30px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+
 }
 
 .card {
     position : relative ; 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.22);
     width: 280px;
     height: 150px;
     border-radius: 10px;
@@ -50,10 +54,11 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: rgb(201, 242, 201);
+    background: linear-gradient(to right , rgb(138, 189, 138), rgb(166, 218, 166), rgb(185, 230, 185));
     font-weight : 500;
     cursor: pointer;
     overflow : hidden ;
+    transition: all 0.7s ease;
 }
 
 .card::before {
@@ -78,4 +83,57 @@
 .cardFooter {
     display: flex;
     justify-content: space-between;
+}
+
+.SelectedCardContainer {
+    margin-top: 30px;
+}
+
+.selectedCard {
+    color : white ;
+    background : rgb(84, 173, 84);
+
+}
+
+.SelectedCardContainer h3 {
+    font-size: 24px;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.SelectedCardContainer > p {
+    color: var(--smallpara-color);
+    margin-bottom: 20px;
+}
+
+
+.SelectedCardDetails > p {
+    margin-bottom : 15px ;   
+    color: var(--smallpara-color);
+}
+
+.SelectedCardDetails > p span {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.FreezeCardBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: var(--primary-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white !important;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.FreezeCardBtn:hover {
+    background-color: var(--primary-hover-color);
+    letter-spacing: 2px;
 }

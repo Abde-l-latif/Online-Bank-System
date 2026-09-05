@@ -1,27 +1,16 @@
-CREATE TABLE Cards
-(
-    CardID INT IDENTITY(1,1) PRIMARY KEY,
+select * from Cards
 
-    AccountID INT NOT NULL,
+select * from Accounts
 
-    CardNumber VARCHAR(16) NOT NULL,
+select * from Customers
 
-    CardHolderName VARCHAR(100) NOT NULL,
+ALTER TABLE Cards 
+ADD UpdatedAt VARCHAR(50) NOT NULL;
 
-    ExpirationDate DATETIME2 NOT NULL,
+insert into Cards (AccountID, CardNumber, CardHolderName, ExpirationDate, CardType, CardBrand, Status, CreatedAt, UpdatedAt) 
+values (4, '3521532641458415', 'koko', DATEADD(year, 10, GETDATE()), 1, 1, 0, GETDATE(), GETDATE()) ;
 
-    CardType TINYINT NOT NULL, -- 0 = Debit, 1 = Credit
 
-    CardBrand TINYINT NOT NULL, -- 0 = Visa, 1 = Mastercard
-
-    Status TINYINT NOT NULL, -- 0 = Active, 1 = Frozen, 2 = Blocked, 3 = Expired
-
-    CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
-
-    CONSTRAINT FK_Cards_Accounts
-        FOREIGN KEY (AccountID)
-        REFERENCES Accounts(AccountID),
-
-    CONSTRAINT UQ_Cards_CardNumber
-        UNIQUE (CardNumber)
-);
+SELECT *
+    FROM Cards
+WHERE AccountID in (select AccountID from Accounts where CustomerID = 1011);

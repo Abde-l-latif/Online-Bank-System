@@ -143,7 +143,7 @@ const Account = ({ UserInfo }) => {
         return (
             <div className={ account.accountType === 'Savings' ? Style.AccountCardSaving : Style.AccountCard} key={account.accountID}>
                 <h4>{account.accountType} account</h4>
-                <p>{account.accountNumber}</p>
+                <p>{account.accountNumber.match(/.{1,4}/g)?.join(" ")}</p>
                 <div className={Style.AccountInfo}>
                     <div style={ {display: 'flex', flexDirection: 'column', gap: '5px'} }>
                         <p>Balance:</p>
