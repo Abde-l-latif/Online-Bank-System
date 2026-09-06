@@ -10,6 +10,7 @@ const MyCard = ({customerId}) => {
 
     const [cards, setCards] = useState(null);
     const token = localStorage.getItem('token');
+    const [accounts, setAccounts] = useState(null);
     const [selectedCard, setSelectedCard] = useState(null);
     const [addCardStatus, setAddCardStatus] = useState(false);
 
@@ -43,6 +44,52 @@ const MyCard = ({customerId}) => {
 
     }, []);
 
+    useEffect(() => {
+
+        async function GetAccounts() {
+
+            let isMounted = true;
+
+            try {
+                const response = await fetch(`https://localhost:7194/api/Accounts/${customerId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+    
+                
+                if(response.ok)
+                {
+                    const data = await response.json();
+    
+                    if (isMounted) {
+                        setAccounts(data);
+                        console.log(data);
+                    }
+                }
+
+            } catch (error) {
+                console.error('Error fetching accounts:', error);
+            }
+        
+            return () => {
+                isMounted = false;
+            };
+        }
+
+        GetAccounts();
+
+    }, []);
+
+    const accountsWithoutCards = accounts?.filter(
+        account => !cards?.some(
+            card => card.accountID === account.accountID
+        )
+    );
+
+
     const DisplayCards = cards?.map((card) => {
 
         const formatted = new Date(card?.expirationDate).toLocaleDateString("en-US", {
@@ -59,7 +106,7 @@ const MyCard = ({customerId}) => {
                 <p>{card.cardHolderName}</p>
                 <div className={Style.cardFooter}>
                     <p>{formatted}</p>
-                    <img src={card?.cardBrand === 'Visa' ? visa : masterCard} alt="CardType" />
+                    <img src={card?.cardBrand == 'Visa'  ? visa : masterCard} alt="CardType" />
                 </div>
             </div>
         </div>
@@ -79,7 +126,7 @@ const MyCard = ({customerId}) => {
                         <p>Back to Cards</p>
                     </div>
                 </div>
-                <AddCard cards={cards} />
+                <AddCard accounts={accountsWithoutCards}/>
             </section>
         ) : (
             <section className={Style.myCard}>

@@ -38,6 +38,13 @@
     object-fit: contain;
 }
 
+.CardType {
+    display: flex;
+    gap: 20px;
+    color: gray;
+    font-weight: 500;
+}
+
 .BtnContainer {
     display: flex;
     justify-content: end;
@@ -60,4 +67,8 @@
 .CardBtn:hover {
     background-color: var(--primary-hover-color);
     letter-spacing: 2px;
+}
+
+.selected {
+    border: 2px solid var(--secondary-color);
 }

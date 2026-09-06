@@ -6,40 +6,99 @@ import { useState } from 'react';
 import { CreditCard } from 'lucide-react';
 
 
-const AddCard = ({ cards }) => {
+const AddCard = ({ accounts }) => {
 
-    const [AccountNumber, setAccountNumber] = useState({"Account Number" : null});
+    const [myAccountId, setMyAccountId] = useState({"Account Number" : null});
+    const [CardType, setCardType] = useState(null);
+    const [selectedBrand, setSelectedBrand] = useState(null);
+    const [error, setError] = useState({status : false, msg : ""});
+    const [Response, setResponse] = useState({status : false, msg : ""});
+    
+    const AccountOptions = accounts?.reduce((acc, account) => {
 
-    const AccountOptions = cards?.reduce((acc, card) => {
-        const key = card.account.accountID;
-        if (key) acc[key] = card.account.accountNumber.match(/.{1,4}/g)?.join(" ");
+        const key = account.accountID;
+        if (key) acc[key] = account.accountNumber.match(/.{1,4}/g)?.join(" ");
         return acc;
+
     }, {});
+
+    const AddCard = async () => {
+        const token = localStorage.getItem('token');
+
+        if(myAccountId["Account Number"] == null || CardType == null || selectedBrand == null )
+        {
+            setError({status : true , msg : "Lack of data!"})
+        }
+
+        try {
+            const response = await fetch(`https://localhost:7194/api/Cards/Add`,
+                {      
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(
+                        {
+                            accountID: myAccountId["Account Number"],
+                            cardType: CardType == "Debit" ? 0 : CardType == "Credit" ? 1 : null,
+                            cardBrand: selectedBrand == "Visa" ? 0 : selectedBrand == "Mastercard" ? 1 : null
+                        }
+                    )
+                }
+            );
+
+            const data = await response.text() ; 
+
+            if(response.ok) 
+            {
+                setResponse({status : true, msg : data});
+                setError({status : false , msg : ""})
+            }
+
+        } catch(err) {
+            console.log(err.message);
+        }
+    }
 
 
     
-
     return (
         <section className={Style.addCardContainer}>
             <h3>Choose a Card Brand</h3>
             <div className={Style.CardBrand}>
-                <div className={Style.CardBrandBox}>
+                <div className={`${Style.CardBrandBox} ${selectedBrand === "Visa" ? Style.selected : ""}`} onClick={() => setSelectedBrand("Visa")}>
                     <img src={visa} alt="Visa" />
                     <h3>Visa</h3>
                 </div>
-                <div className={Style.CardBrandBox}>
+                <div className={`${Style.CardBrandBox} ${selectedBrand === "Mastercard" ? Style.selected : ""}`} onClick={() => setSelectedBrand("Mastercard")}>
                     <img src={mastercard} alt="Mastercard" />
                     <h3>Mastercard</h3>
                 </div>
             </div>
             <h3>Linked Account</h3>
-            <MyCustomSelect label={"Account Number"} options={AccountOptions} setData={setAccountNumber} mode={"single"} />
+            <MyCustomSelect label={"Account Number"} options={AccountOptions} setData={setMyAccountId} mode={"single"} />
+
+            <h3>Card Type</h3>
+            <div className={Style.CardType}>
+                <input type="radio" name="cardType" value="Debit" onChange={() => setCardType("Debit")} />
+                <label htmlFor="debit">Debit</label>
+            </div>
+
+            <div className={Style.CardType}>
+                <input type="radio" name="cardType" value="Credit" onChange={() => setCardType("Credit")} />
+                <label htmlFor="credit">Credit</label>
+            </div>
+
             <div className={Style.BtnContainer}>
-                <div className={Style.CardBtn}>
+                <div className={Style.CardBtn} onClick={AddCard}>
                     <CreditCard size={20} color="white" />
                     <p>Order Card </p>
                 </div>
             </div>
+
+            {Response.status && <p style={{color : "green"}}>{Response.msg}</p> }
+            {error.status && <p style={{color : "red"}}>{error.msg}</p> }
             
         </section>
     )
