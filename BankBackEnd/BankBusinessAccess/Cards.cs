@@ -35,6 +35,18 @@ namespace BankBusinessAccess
             return CardsData.GetAllCardsByCustomerID(customerID);
 
         }
+        
+        static public Cards getCardByID(int id)
+        {
+            CardsDTO card = CardsData.GetCardsByCardID(id);
+
+            if (card != null)
+            {
+                return new Cards(card);
+            }
+            else
+                return null;
+        }
 
         private string _GenerateCardNumber()
         {
@@ -79,6 +91,29 @@ namespace BankBusinessAccess
             return Card.CardID != -1 ;
 
         }
+
+
+        public void Freeze()
+        {
+            this.Card.Status = cardStatus.Frozen;
+        }
+
+        private bool _UpdateCard()
+        {
+            return (CardsData.UpdateCard(this.Card) > 0);
+        }
+
+
+        public bool Save()
+        {
+            if(Mode == enMode.UpdateMode)
+            {
+                return _UpdateCard();
+            }
+
+            return false; 
+        }
+        
 
     }
 }

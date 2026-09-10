@@ -117,6 +117,54 @@ namespace BankDataAccess
             return Cards;
         }
 
+        static public CardsDTO GetCardsByCardID(int id)
+        {
+            string query = @"SELECT *
+                                FROM Cards
+                            WHERE CardID = @ID;";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@ID", id);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if(reader.Read())
+                            {
+                                return new CardsDTO(
+                                     (int)reader["CardID"],
+                                     (int)reader["AccountID"],
+                                     (cardType)reader["CardType"],
+                                     (string)reader["CardNumber"],
+                                     (string)reader["CardHolderName"],
+                                     (cardStatus)reader["Status"],
+                                     (DateTime)reader["ExpirationDate"],
+                                     (cardBrand)reader["CardBrand"]
+                                )
+                                {
+                                    CreatedAt = (DateTime)reader["CreatedAt"]
+                                };
+                            }
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return null;
+
+        }
+
         static public bool isCardExistsByCardNumber(string cardNumber)
         {
             string query = @"select 1 from Cards where CardNumber = @CardNumber;";
@@ -187,6 +235,50 @@ namespace BankDataAccess
 
             return -1;
 
+        }
+
+        static public int UpdateCard(CardsDTO Card)
+        {
+            string query = @"UPDATE Cards SET AccountID = @AccountID,
+                CardNumber = @CardNumber,
+                CardHolderName = @CardHolderName,
+                ExpirationDate = @ExpirationDate,
+                CardType = @CardType,
+                CardBrand = @CardBrand,
+                Status = @Status,
+                UpdatedAt = GETDATE()  WHERE CardID = @CardID;";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@CardID", Card.CardID);
+                        command.Parameters.AddWithValue("@AccountID", Card.AccountID);
+                        command.Parameters.AddWithValue("@CardNumber", Card.CardNumber);
+                        command.Parameters.AddWithValue("@CardHolderName", Card.CardHolderName);
+                        command.Parameters.AddWithValue("@CardType", (byte)Card.CardType);
+                        command.Parameters.AddWithValue("@CardBrand", (byte)Card.CardBrand);
+                        command.Parameters.AddWithValue("@Status", (byte)Card.Status);
+                        command.Parameters.AddWithValue("@ExpirationDate", Card.ExpirationDate);
+
+                        int res = command.ExecuteNonQuery();
+
+                        return res;
+
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return -1;
         }
     }
 }

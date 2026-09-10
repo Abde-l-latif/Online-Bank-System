@@ -56,5 +56,31 @@ namespace BankWebApi.Controllers
             else
                 return Ok("This Card Type Already exist");
         }
+
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpPut("Freeze/{id}")]
+        public IActionResult FreezeCard(int id)
+        {
+            Cards Card =  Cards.getCardByID(id);
+
+            if(Card == null)
+            {
+                return BadRequest();
+            }
+
+            Card.Freeze();
+
+            if (Card.Save())
+            {
+                return NoContent();
+            }
+            else
+                return StatusCode(500);
+
+        
+        }
     }
 }

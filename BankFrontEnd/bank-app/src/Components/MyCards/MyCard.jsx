@@ -112,6 +112,27 @@ const MyCard = ({customerId}) => {
         </div>
     )});
 
+    const FreezeCard = async () => {
+
+        try {
+            const response = await fetch(`https://localhost:7194/api/Cards/Freeze/${selectedCard?.cardID}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if(response.ok)
+                setSelectedCard(null);a
+    
+
+        } catch (error) {
+            console.error('Error fetching accounts:', error);
+        }
+
+    }
+
 
     return (
         addCardStatus ? (
@@ -149,16 +170,16 @@ const MyCard = ({customerId}) => {
                     <div>
                         {selectedCard && (
                             <div className={Style.SelectedCardDetails}>
-                                <p> <span>Card Number:</span> {selectedCard.cardNumber.match(/.{1,4}/g)?.join(" ")}</p>
-                                <p> <span>Card Holder:</span> {selectedCard.cardHolderName}</p>
-                                <p> <span>Expiration Date:</span> {new Date(selectedCard.expirationDate).toLocaleDateString("en-US", {
+                                <p> <span>Card Number:</span> {selectedCard?.cardNumber?.match(/.{1,4}/g)?.join(" ")}</p>
+                                <p> <span>Card Holder:</span> {selectedCard?.cardHolderName}</p>
+                                <p> <span>Expiration Date:</span> {new Date(selectedCard?.expirationDate).toLocaleDateString("en-US", {
                                         dateStyle: 'short',
                                 })}</p>
-                                <p> <span>Card Brand:</span> {selectedCard.cardBrand}</p>
-                                <p> <span>Card Status:</span> {selectedCard.status}</p>
-                                <p> <span>Card Type:</span> {selectedCard.cardType}</p>
-                                <p> <span>Account Type:</span> {selectedCard.account.accountType}</p>
-                                <div className={Style.FreezeCardBtn}>
+                                <p> <span>Card Brand:</span> {selectedCard?.cardBrand}</p>
+                                <p> <span>Card Status:</span> {selectedCard?.status}</p>
+                                <p> <span>Card Type:</span> {selectedCard?.cardType}</p>
+                                <p> <span>Account Type:</span> {selectedCard?.account?.accountType}</p>
+                                <div className={Style.FreezeCardBtn} onClick={FreezeCard}>
                                     <CreditCard size={20} color="white" />
                                     <p>Freeze Card </p>
                                 </div>
