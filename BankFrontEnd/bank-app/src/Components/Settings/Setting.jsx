@@ -1,10 +1,22 @@
 import Style from "./Setting.module.css";
 import { Cog, PenLine, UserRound, Mail , PhoneCall , LockKeyhole, KeyRound, LogOut } from 'lucide-react';
 import Money from "../../Assets/money-100.png";
-
+import { useState } from "react";
+import EditProfile from "../EditProfile/EditProfile";
+import EditPassword from "../EditPassword/EditPassword";
 
 const Setting = () => {
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const [isPasswordOpen, setIsPasswordOpen] = useState(false);
+    const [profile, setProfile] = useState({
+        firstName: "Abdo",
+        lastName: "Inouvs",
+        email: "Abdo@gmail.com",
+        phone: "+212 6 61 52 34 55"
+    });
+
     return (
+        <>
         <section className={Style.Setting}>
             <div className={Style.Head}>
                 <div className={Style.SettingIcon}>
@@ -27,10 +39,10 @@ const Setting = () => {
                             <p> Your personnel information and contact details. </p>
                         </div>
                     </div>
-                    <div className={Style.ProfileBTN}>
+                    <button className={Style.ProfileBTN} type="button" onClick={() => setIsProfileOpen(true)}>
                         <PenLine />
                         <p>Edit Profile</p>
-                    </div>
+                    </button>
                 </div>
 
                 <div className={Style.ProfileInfo}>
@@ -39,7 +51,7 @@ const Setting = () => {
                             <img src={Money} alt="UserAvatar" />
                         </div>
                         <div className={Style.ProfileHeaderInfo}>
-                            <h3>Abdo Inouvs</h3>
+                            <h3>{profile.firstName} {profile.lastName}</h3>
                             <p>Customer</p>
                         </div>
                     </div>
@@ -49,7 +61,7 @@ const Setting = () => {
                                 <UserRound size={20} />
                                 <p>First name</p>
                             </div>
-                            <p>Abdo</p>
+                            <p>{profile.firstName}</p>
                         </div>
 
                         <div className={Style.ProfileTable}>
@@ -57,7 +69,7 @@ const Setting = () => {
                                 <UserRound size={20} />
                                 <p>Last name</p>
                             </div>
-                            <p>Inouvs</p>
+                            <p>{profile.lastName}</p>
                         </div>
 
                         <div className={Style.ProfileTable}>
@@ -65,7 +77,7 @@ const Setting = () => {
                                 <Mail size={20} />
                                 <p>Email</p>
                             </div>
-                            <p>Abdo@gmail.com</p>
+                            <p>{profile.email}</p>
                         </div>
 
                         <div className={Style.ProfileTable}>
@@ -73,7 +85,7 @@ const Setting = () => {
                                 <PhoneCall size={20} />
                                 <p>Phone number</p>
                             </div>
-                            <p>+212 6 61 52 34 55</p>
+                            <p>{profile.phone}</p>
                         </div>
 
                     </div>
@@ -102,10 +114,10 @@ const Setting = () => {
                             <p> Change your password regularly to keep your account safe </p>
                         </div>
                     </div>
-                    <div className={Style.PasswordBTN}>
+                    <button className={Style.PasswordBTN} type="button" onClick={() => setIsPasswordOpen(true)}>
                         <KeyRound />
                         <p>Change password</p>
-                    </div>
+                    </button>
                 </div>
 
             </div>
@@ -129,6 +141,16 @@ const Setting = () => {
             </div>
            
         </section>
+        {isProfileOpen && (
+            <EditProfile
+                profile={profile}
+                onClose={() => setIsProfileOpen(false)}
+            />
+        )}
+        {isPasswordOpen && (
+            <EditPassword onClose={() => setIsPasswordOpen(false)} />
+        )}
+        </>
     )
 }
 
