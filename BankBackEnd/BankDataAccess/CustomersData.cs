@@ -141,7 +141,7 @@ namespace BankDataAccess
             return null;
         }
 
-        static public int UpdateCustomer(CustomersDTO customer)
+        static public int UpdateCustomer(CustomersDTO customer, SqlConnection connection, SqlTransaction? transaction = null)
         {
             string Query = @"UPDATE Customers SET FirstName = @FirstName,
                  LastName = @LastName,
@@ -151,11 +151,10 @@ namespace BankDataAccess
                  NationalID = @NationalID,
                  UpdatedAt = getdate() WHERE CustomerID = @CustomerID";
 
-            using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+            try
             {
-                connection.Open();
 
-                using (SqlCommand command = new SqlCommand(Query, connection))
+                using (SqlCommand command = new SqlCommand(Query, connection, transaction))
                 {
                     command.Parameters.AddWithValue("@CustomerID", customer.CustomerId);
                     command.Parameters.AddWithValue("@FirstName", customer.FirstName);
@@ -165,16 +164,25 @@ namespace BankDataAccess
                     command.Parameters.AddWithValue("@PhoneNumber", customer.PhoneNumber);
                     command.Parameters.AddWithValue("@NationalID", customer.NationalID);
 
-                    try
-                    {
-                        return command.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Error updating customer: {ex.Message}");
-                        return -1;
-                    }
+
+                    return command.ExecuteNonQuery();
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating customer: {ex.Message}");
+                return -1;
+            } 
+            
+        }
+
+        static public int UpdateCustomer(CustomersDTO customer)
+        {
+            using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+            {
+                connection.Open();
+
+                return UpdateCustomer(customer, connection, null);
             }
         }
     }

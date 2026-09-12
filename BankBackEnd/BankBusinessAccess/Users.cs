@@ -16,63 +16,48 @@ namespace BankBusinessAccess
 
         public UserDTO userDTO { get; set; }
         public userResponseDTO userResponseDTO { get; set; }
-
-
-        private readonly IPasswordService _passwordService;
-
-
-        public Users(UserDTO userDTO)
+        
+        public Users(UserDTO U)
         {
-            this.userDTO = userDTO;
+            this.userDTO = U;
+            this.userResponseDTO = new userResponseDTO(U);
             mode = enMode.UpdateMode;
-        }
-
-        public Users(userResponseDTO userResponseDTO)
-        {
-            this.userResponseDTO = userResponseDTO;
-            mode = enMode.UpdateMode;
-        }
-
-        public Users(IPasswordService passwordService)
-        {
-            _passwordService = passwordService;
         }
 
         public Users() { }
-
-
 
 
         Validations Validations = new Validations();
 
         private bool _AddUser()
         {
-            if (string.IsNullOrWhiteSpace(userDTO.EmailAddress) || string.IsNullOrWhiteSpace(userDTO.HashPassword))
-            {
-                throw new CustomExceptions.ValidationException("EmailAddress , HashPassword","Email or Password is empty.");
-            }
+            //if (string.IsNullOrWhiteSpace(userDTO.EmailAddress) || string.IsNullOrWhiteSpace(userDTO.HashPassword))
+            //{
+            //    throw new CustomExceptions.ValidationException("EmailAddress , HashPassword", "Email or Password is empty.");
+            //}
 
-            userDTO.HashPassword = _passwordService.HashPassword(userDTO.HashPassword);
+            //userDTO.HashPassword = _passwordService.HashPassword(userDTO.HashPassword);
 
-            if (!Validations.ValidateEmail(userDTO.EmailAddress))
-            {
-                throw new CustomExceptions.ValidationException("EmailAddress", "Invalid email format.");
-            } 
-            else if (!Validations.ValidatePassword(userDTO.HashPassword))
-            {
-                throw new CustomExceptions.ValidationException("HashPassword", "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.");
-            }
+            //if (!Validations.ValidateEmail(userDTO.EmailAddress))
+            //{
+            //    throw new CustomExceptions.ValidationException("EmailAddress", "Invalid email format.");
+            //}
+            //else if (!Validations.ValidatePassword(userDTO.HashPassword))
+            //{
+            //    throw new CustomExceptions.ValidationException("HashPassword", "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.");
+            //}
 
-            if(UsersData.IsEmailExists(userDTO.EmailAddress))
-            {
-                throw new CustomExceptions.ValidationException("EmailAddress", "Email already exists.");
-            }
+            //if (UsersData.IsEmailExists(userDTO.EmailAddress))
+            //{
+            //    throw new CustomExceptions.ValidationException("EmailAddress", "Email already exists.");
+            //}
 
-            userDTO.LastLogin = DateTime.MinValue;
+            //userDTO.LastLogin = DateTime.MinValue;
 
-            userDTO.UserID = UsersData.InsertUser(userDTO);
+            //userDTO.UserID = UsersData.InsertUser(userDTO);
 
-            return userDTO.UserID > 0;
+            //return userDTO.UserID > 0;
+            return false;
         }
 
         private bool _UpdateUser()
@@ -83,9 +68,10 @@ namespace BankBusinessAccess
         static public Users? Find(int id)
         {
             UserDTO? userDTO = UsersData.GetUserById(id);
+
             if (userDTO != null)
             {
-                return new Users(new userResponseDTO(userDTO));
+                return new Users(userDTO);
             }
             else
             {

@@ -182,7 +182,7 @@ const Dashboard = () => {
                     {activeMenu === 'accounts' && <Account UserInfo={user} />}
                     {activeMenu === 'cards' && <MyCard customerId={user?.customerID} />}
                     {activeMenu === 'transactions' && <Transaction/>}
-                    {activeMenu === 'settings' && <Setting />}
+                    {activeMenu === 'settings' && <Setting UserInfo={user}/>}
                 </div>
 
                 <div>

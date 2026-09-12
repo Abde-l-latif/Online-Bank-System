@@ -57,8 +57,6 @@ namespace BankBusinessAccess
 
         private bool _UpdateCustomer()
         {
-            Validate();
-
             return CustomersData.UpdateCustomer(customersDTO) > 0;
         }
         public bool Save()

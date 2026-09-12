@@ -15,6 +15,7 @@ namespace BankBusinessAccess
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<IPasswordHasher<Users>, PasswordHasher<Users>>();
             services.AddScoped<Authentication>();
+            services.AddScoped<UserService>();
 
             return services;
         }

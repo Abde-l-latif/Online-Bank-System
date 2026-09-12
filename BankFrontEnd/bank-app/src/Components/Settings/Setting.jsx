@@ -5,15 +5,10 @@ import { useState } from "react";
 import EditProfile from "../EditProfile/EditProfile";
 import EditPassword from "../EditPassword/EditPassword";
 
-const Setting = () => {
+const Setting = ({UserInfo}) => {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [isPasswordOpen, setIsPasswordOpen] = useState(false);
-    const [profile, setProfile] = useState({
-        firstName: "Abdo",
-        lastName: "Inouvs",
-        email: "Abdo@gmail.com",
-        phone: "+212 6 61 52 34 55"
-    });
+ 
 
     return (
         <>
@@ -51,8 +46,8 @@ const Setting = () => {
                             <img src={Money} alt="UserAvatar" />
                         </div>
                         <div className={Style.ProfileHeaderInfo}>
-                            <h3>{profile.firstName} {profile.lastName}</h3>
-                            <p>Customer</p>
+                            <h3>{UserInfo?.customer?.firstName} {UserInfo?.customer?.lastName}</h3>
+                            <p>{UserInfo?.role?.roleName}</p>
                         </div>
                     </div>
                     <div className={Style.ProfileFooter}>
@@ -61,7 +56,7 @@ const Setting = () => {
                                 <UserRound size={20} />
                                 <p>First name</p>
                             </div>
-                            <p>{profile.firstName}</p>
+                            <p>{UserInfo?.customer?.firstName}</p>
                         </div>
 
                         <div className={Style.ProfileTable}>
@@ -69,7 +64,7 @@ const Setting = () => {
                                 <UserRound size={20} />
                                 <p>Last name</p>
                             </div>
-                            <p>{profile.lastName}</p>
+                            <p>{UserInfo?.customer?.lastName}</p>
                         </div>
 
                         <div className={Style.ProfileTable}>
@@ -77,7 +72,7 @@ const Setting = () => {
                                 <Mail size={20} />
                                 <p>Email</p>
                             </div>
-                            <p>{profile.email}</p>
+                            <p>{UserInfo?.emailAddress}</p>
                         </div>
 
                         <div className={Style.ProfileTable}>
@@ -85,7 +80,7 @@ const Setting = () => {
                                 <PhoneCall size={20} />
                                 <p>Phone number</p>
                             </div>
-                            <p>{profile.phone}</p>
+                            <p>{UserInfo?.customer?.phoneNumber}</p>
                         </div>
 
                     </div>

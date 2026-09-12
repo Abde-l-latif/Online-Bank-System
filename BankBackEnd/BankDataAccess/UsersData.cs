@@ -203,47 +203,65 @@ namespace BankDataAccess
             return null;
         }
 
-        static public int UpdateUser(UserDTO userDTO)
+        static public int UpdateUser(UserDTO userDTO, SqlConnection connection, SqlTransaction? transaction = null)
         {
-            string query = "UPDATE Users SET EmailAddress = @EmailAddress, HashPassword = @HashPassword, IsActive = @IsActive, LastLogin = @LastLogin, CustomerID = @CustomerID, RoleID = @RoleID, ImagePath = @ImagePath, UpdatedAt = GETDATE() WHERE UserID = @UserID";
-            using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+            string query = @"UPDATE Users SET EmailAddress = @EmailAddress, HashPassword = @HashPassword, IsActive = @IsActive, LastLogin = @LastLogin,
+            CustomerID = @CustomerID, RoleID = @RoleID, ImagePath = @ImagePath, UpdatedAt = GETDATE()
+            WHERE UserID = @UserID";
+
+        
+            try
             {
-                try
+                using (SqlCommand command = new SqlCommand(query, connection, transaction))
                 {
-                    connection.Open();
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    command.Parameters.AddWithValue("@UserID", userDTO.UserID);
+                    command.Parameters.AddWithValue("@EmailAddress", userDTO.EmailAddress);
+                    command.Parameters.AddWithValue("@HashPassword", userDTO.HashPassword);
+                    command.Parameters.AddWithValue("@IsActive", userDTO.IsActive);
+                    if (userDTO.LastLogin == DateTime.MinValue)
                     {
-                        command.Parameters.AddWithValue("@UserID", userDTO.UserID);
-                        command.Parameters.AddWithValue("@EmailAddress", userDTO.EmailAddress);
-                        command.Parameters.AddWithValue("@HashPassword", userDTO.HashPassword);
-                        command.Parameters.AddWithValue("@IsActive", userDTO.IsActive);
-                        if (userDTO.LastLogin == DateTime.MinValue)
-                        {
-                            command.Parameters.AddWithValue("@LastLogin", DBNull.Value);
-                        }
-                        else
-                        {
-                            command.Parameters.AddWithValue("@LastLogin", userDTO.LastLogin);
-                        }
-                        command.Parameters.AddWithValue("@CustomerID", userDTO.CustomerID);
-                        command.Parameters.AddWithValue("@RoleID", userDTO.RoleID);
-                        if (string.IsNullOrEmpty(userDTO.ImagePath))
-                        {
-                            command.Parameters.AddWithValue("@ImagePath", DBNull.Value);
-                        }
-                        else
-                        {
-                            command.Parameters.AddWithValue("@ImagePath", userDTO.ImagePath);
-                        }
-                        return command.ExecuteNonQuery();
+                        command.Parameters.AddWithValue("@LastLogin", DBNull.Value);
                     }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error updating user: {ex.Message}");
-                    return -1;
+                    else
+                    {
+                        command.Parameters.AddWithValue("@LastLogin", userDTO.LastLogin);
+                    }
+                    command.Parameters.AddWithValue("@CustomerID", userDTO.CustomerID);
+                    command.Parameters.AddWithValue("@RoleID", userDTO.RoleID);
+                    if (string.IsNullOrEmpty(userDTO.ImagePath))
+                    {
+                        command.Parameters.AddWithValue("@ImagePath", DBNull.Value);
+                    }
+                    else
+                    {
+                        command.Parameters.AddWithValue("@ImagePath", userDTO.ImagePath);
+                    }
+                    return command.ExecuteNonQuery();
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating user: {ex.Message}");
+                return -1;
+            }
+        }
+
+
+        
+
+        static public int UpdateUser(UserDTO userDTO)
+        {
+         
+            using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+            {
+                
+                connection.Open();
+
+                return UpdateUser(userDTO, connection, null);
+                 
+            }
+
+
         }
 
     }
