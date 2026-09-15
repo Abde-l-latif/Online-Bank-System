@@ -22,6 +22,10 @@ namespace BankDataAccess
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
         public string ImagePath { get; set; }
+        public string? RefreshTokenHash { get; set; } = null;
+        public DateTime? RefreshTokenExpiresAt { get; set; } = null;
+        public DateTime? RefreshTokenRevokedAt { get; set; } = null;
+
         public UserDTO(string EmailAddress, string hashPassword, bool isActive, DateTime lastLogin, int customerId, int roleId, string imagePath)
         {
             this.EmailAddress = EmailAddress;
@@ -149,6 +153,11 @@ namespace BankDataAccess
                                 )
                                 {
                                     UserID = Convert.ToInt32(reader["UserID"]),
+                                    RefreshTokenHash = reader["RefreshTokenHash"] == DBNull.Value ? null : Convert.ToString(reader["RefreshTokenHash"]),
+                                    RefreshTokenExpiresAt = reader["RefreshTokenExpiresAt"] == DBNull.Value ? null : Convert.ToDateTime(reader["RefreshTokenExpiresAt"]),
+                                    RefreshTokenRevokedAt = reader["RefreshTokenRevokedAt"] == DBNull.Value ? null : Convert.ToDateTime(reader["RefreshTokenRevokedAt"]),
+                                    Role = RolesData.GetRoleById(Convert.ToInt32(reader["RoleID"])) ?? new RoleDTO(),
+                                    Customer = CustomersData.GetCustomerById(Convert.ToInt32(reader["CustomerID"])) ?? new CustomersDTO()
                                 };
                             }
                         }
@@ -189,6 +198,11 @@ namespace BankDataAccess
                                 )
                                 {
                                     UserID = Convert.ToInt32(reader["UserID"]),
+                                    RefreshTokenHash = reader["RefreshTokenHash"] == DBNull.Value ? null : Convert.ToString(reader["RefreshTokenHash"]),
+                                    RefreshTokenExpiresAt = reader["RefreshTokenExpiresAt"] == DBNull.Value ? null : Convert.ToDateTime(reader["RefreshTokenExpiresAt"]),
+                                    RefreshTokenRevokedAt = reader["RefreshTokenRevokedAt"] == DBNull.Value ? null : Convert.ToDateTime(reader["RefreshTokenRevokedAt"]),
+                                    Role = RolesData.GetRoleById(Convert.ToInt32(reader["RoleID"])) ?? new RoleDTO(),
+                                    Customer = CustomersData.GetCustomerById(Convert.ToInt32(reader["CustomerID"])) ?? new CustomersDTO()
                                 };
                             }
                         }
@@ -206,7 +220,8 @@ namespace BankDataAccess
         static public int UpdateUser(UserDTO userDTO, SqlConnection connection, SqlTransaction? transaction = null)
         {
             string query = @"UPDATE Users SET EmailAddress = @EmailAddress, HashPassword = @HashPassword, IsActive = @IsActive, LastLogin = @LastLogin,
-            CustomerID = @CustomerID, RoleID = @RoleID, ImagePath = @ImagePath, UpdatedAt = GETDATE()
+            CustomerID = @CustomerID, RoleID = @RoleID, ImagePath = @ImagePath, UpdatedAt = GETDATE(), RefreshTokenHash = @RefreshTokenHash, RefreshTokenExpiresAt = @RefreshTokenExpiresAt,
+            RefreshTokenRevokedAt = @RefreshTokenRevokedAt
             WHERE UserID = @UserID";
 
         
@@ -226,6 +241,22 @@ namespace BankDataAccess
                     {
                         command.Parameters.AddWithValue("@LastLogin", userDTO.LastLogin);
                     }
+
+                    if(userDTO.RefreshTokenHash == null)
+                        command.Parameters.AddWithValue("@RefreshTokenHash", DBNull.Value);
+                    else
+                        command.Parameters.AddWithValue("@RefreshTokenHash", userDTO.RefreshTokenHash);
+
+                    if (userDTO.RefreshTokenExpiresAt == null)
+                        command.Parameters.AddWithValue("@RefreshTokenExpiresAt", DBNull.Value);
+                    else
+                        command.Parameters.AddWithValue("@RefreshTokenExpiresAt", userDTO.RefreshTokenExpiresAt);
+
+                    if (userDTO.RefreshTokenRevokedAt == null)
+                        command.Parameters.AddWithValue("@RefreshTokenRevokedAt", DBNull.Value);
+                    else
+                        command.Parameters.AddWithValue("@RefreshTokenRevokedAt", userDTO.RefreshTokenRevokedAt);
+
                     command.Parameters.AddWithValue("@CustomerID", userDTO.CustomerID);
                     command.Parameters.AddWithValue("@RoleID", userDTO.RoleID);
                     if (string.IsNullOrEmpty(userDTO.ImagePath))

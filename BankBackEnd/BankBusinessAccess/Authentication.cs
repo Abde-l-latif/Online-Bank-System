@@ -41,6 +41,10 @@ namespace BankBusinessAccess
         public int RoleID { get; set; }
         public RoleDTO Role { get; set; }
         public string ImagePath { get; set; }
+        public string? RefreshTokenHash { get; set; }
+        public DateTime? RefreshTokenExpiresAt { get; set; }
+        public DateTime? RefreshTokenRevokedAt { get; set; }
+
         public userResponseDTO(UserDTO user)
         {
             UserID = user.UserID;
@@ -52,6 +56,9 @@ namespace BankBusinessAccess
             RoleID = user.RoleID;
             Role = RolesData.GetRoleById(RoleID) ?? new RoleDTO();
             ImagePath = user.ImagePath;
+            RefreshTokenHash = user.RefreshTokenHash;
+            RefreshTokenExpiresAt = user.RefreshTokenExpiresAt;
+            RefreshTokenRevokedAt = user.RefreshTokenRevokedAt;
         }
     }
 
@@ -139,7 +146,7 @@ namespace BankBusinessAccess
             
         }
 
-        public userResponseDTO Login(string emailAddress, string password)
+        public Users Login(string emailAddress, string password)
         {
             if (string.IsNullOrWhiteSpace(emailAddress))
             {
@@ -178,7 +185,7 @@ namespace BankBusinessAccess
                 throw new CustomExceptions.DataAccessException("Failed to update last login.", ex);
             }
 
-            return new userResponseDTO(user);
+            return U;
         }
     }
 }

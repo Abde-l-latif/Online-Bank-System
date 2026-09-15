@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 
+
 export default function Authentication()
 {
     const { t, i18n } = useTranslation();
@@ -42,7 +43,9 @@ export default function Authentication()
 
              if (postData.ok) {
                 const dataResponse = await postData.json();
-                localStorage.setItem("token", dataResponse.token);
+        
+                localStorage.setItem("AccessToken", dataResponse.accessToken);
+                localStorage.setItem("RefreshToken", dataResponse.refreshToken);
                 nav("/dashboard");
             } 
             else if (!postData.ok) {

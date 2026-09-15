@@ -1,10 +1,27 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import Style from "./EditProfile.module.css";
+import { useForm } from "react-hook-form";
+import flag from "../../assets/morocco2.svg";
+import { apiFetch } from "../../utils/functions/ApiFunction";
 
 const EditProfile = ({ profile, onClose }) => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        defaultValues: {
+            firstName: profile?.customer?.firstName ?? "",
+            lastName: profile?.customer?.lastName ?? "",
+            email: profile?.emailAddress ?? "",
+            phone: profile?.customer?.phoneNumber?.slice(4) ?? "",
+        },
+    });
 
-    const [formData, setFormData] = useState(profile);
+    const [CustomError, setCustomError] = useState({status :false, msg : ""});
+    const [success , setSuccess] = useState({status :false, msg : ""});
+
 
     useEffect(() => {
         const handleEscape = (event) => {
@@ -15,13 +32,38 @@ const EditProfile = ({ profile, onClose }) => {
         return () => document.removeEventListener("keydown", handleEscape);
     }, [onClose]);
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormData((currentData) => ({ ...currentData, [name]: value }));
-    };
+    const onSubmit = async (data) => {
 
-    const handleSubmit = (event) => {
+        const profileData = {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            phoneNumber: "+212" + data.phone,
+        };
 
+        setSuccess({status : false, msg : ""})
+        setCustomError({status : false, msg : ""})
+
+        try {
+
+            const Data = await apiFetch("https://localhost:7194/api/User/updateProfile", {
+                    method : "post",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body : JSON.stringify(profileData)
+                }, profile?.emailAddress)
+
+            if(Data.ok)
+            {
+                const dataResponse = await Data.text();
+                setSuccess({status : true, msg : dataResponse})
+            }
+
+        }
+        catch(ex) {
+            console.log("Error message : " + ex);
+        }
     };
 
     return (
@@ -37,23 +79,36 @@ const EditProfile = ({ profile, onClose }) => {
                     </button>
                 </header>
 
-                <form className={Style.form} onSubmit={handleSubmit}>
+                <form className={Style.form} onSubmit={handleSubmit(onSubmit)}>
                     <label>
                         First name
-                        <input name="firstName" value={formData.firstName} onChange={handleChange} required />
+                        <input {...register("firstName", { required: "this field required", minLength: { value: 2, message: "min length is 2" } })}
+                        defaultValue={profile?.customer?.firstName} />
                     </label>
+                    {errors?.firstName?.message && <p className={Style.error}>{errors.firstName.message}</p>}
                     <label>
                         Last name
-                        <input name="lastName" value={formData.lastName} onChange={handleChange} required />
+                        <input {...register("lastName", { required: "this field required", minLength: { value: 2, message: "min length is 2" } })}
+                        defaultValue={profile?.customer?.lastName} />
                     </label>
+                    {errors?.lastName?.message && <p className={Style.error}>{errors.lastName.message}</p>}
                     <label>
                         Email
-                        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+                        <input type="email" {...register("email", { required: "this field required", pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "enter a valid email" } })}
+                        defaultValue={profile?.emailAddress} />
                     </label>
+                    {errors?.email?.message && <p className={Style.error}>{errors.email.message}</p>}
                     <label>
                         Phone number
-                        <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
+                        <div style={{display : "flex", alignItems: "center", gap : "10px"}}>
+                            <img src={flag} alt="moroccan flag" /><span>+212</span>
+                            <input type="tel" {...register("phone", { required: "this field required", pattern: { value: /[\d]{9}$/, message: "enter a valid phone number" },
+                                 maxLength : { value: 9, message: "max length is 9" } })}
+                                 defaultValue={profile?.customer?.phoneNumber?.slice(4)} />
+                        </div>
                     </label>
+                    {errors?.phone?.message && <p className={Style.error}>{errors.phone.message}</p>}
+                    {success && <p style={{ color : "green"}}>{success.msg}</p>}
                     <footer className={Style.footer}>
                         <button className={Style.cancelButton} type="button" onClick={onClose}>Cancel</button>
                         <button className={Style.saveButton} type="submit">Save changes</button>

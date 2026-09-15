@@ -1,8 +1,9 @@
 import Style from "./Transaction.module.css";
 import { useState, useEffect } from "react";
 import MyCustomSelect from "../CustomSelect/MyCustomSelect.jsx";
+import { apiFetch } from "../../utils/functions/ApiFunction";
 
-const Transaction = () => {
+const Transaction = ({ email }) => {
 
     const [transactions , setTtransaction ] = useState(null);
     const [pagesNumber , setPagesNumber] = useState(0);
@@ -26,8 +27,6 @@ const Transaction = () => {
     const last30Days = new Date(TodayDate);
     last30Days.setDate(TodayDate.getDate() - 30);
     
-    const token = localStorage.getItem('token');
-
     console.log(filterData);
     
 
@@ -35,7 +34,7 @@ const Transaction = () => {
 
         async function getTransaction() {
             try {
-                const response = await fetch(
+                const response = await apiFetch(
                     isFiltered
                         ? `https://localhost:7194/api/Transfers/Customer/filtred`
                         : `https://localhost:7194/api/Transfers/Customer/${selectedPage}`,
@@ -43,8 +42,7 @@ const Transaction = () => {
                         ? {
                             method: 'POST',
                             headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${token}`
+                                'Content-Type': 'application/json'
                             },
                             body: JSON.stringify({
                                 transType: filterData["Transaction Type"],
@@ -57,11 +55,10 @@ const Transaction = () => {
                         : {
                             method: 'GET',
                             headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${token}`
+                                'Content-Type': 'application/json'
                             }
                         }
-                );
+                , email);
 
                 const data = await response.json() ; 
 

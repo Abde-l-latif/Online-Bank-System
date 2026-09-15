@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { X, EyeClosed, Eye } from "lucide-react";
 import Style from "./EditPassword.module.css";
 import { useForm } from "react-hook-form"
+import { apiFetch } from "../../utils/functions/ApiFunction";
 
-const EditPassword = ({ onClose }) => {
+const EditPassword = ({ onClose, email }) => {
      const {
     register,
     handleSubmit,
@@ -17,8 +18,6 @@ const EditPassword = ({ onClose }) => {
 
     const onSubmit = async (data) => 
     {
-        const token = localStorage.getItem('token');
-
         setSuccess({status : false, msg : ""})
         setCustomError({status : false, msg : ""})
 
@@ -30,18 +29,16 @@ const EditPassword = ({ onClose }) => {
   
         try {
 
-            const Data = await fetch("https://localhost:7194/api/User/changePassword", {
+            const Data = await apiFetch("https://localhost:7194/api/User/changePassword", {
                     method : "post",
                     headers: {
                         "Content-Type": "application/json",
-                        'Authorization': `Bearer ${token}`
                     },
                     body : JSON.stringify({
                         currPassword: data.OldPasswordRequired,
                         newPassword: data.NewPasswordRequired
                     })
-                }
-            )
+                }, email)
 
             if(Data.ok)
             {

@@ -100,3 +100,7 @@
 	border: 1px solid var(--primary-color);
 }
 
+.error {
+	color: red;
+}
+

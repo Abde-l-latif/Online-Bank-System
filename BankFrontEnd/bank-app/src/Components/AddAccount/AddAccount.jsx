@@ -1,14 +1,13 @@
 import { HandCoins, BanknoteArrowDown, Circle, CircleCheck, Plus } from 'lucide-react';
 import Style from "./AddAccount.module.css";
 import { useState } from 'react';
+import { apiFetch } from '../../utils/functions/ApiFunction';
 
 
-const AddAccount = () => {
+const AddAccount = ({Email}) => {
     const [AccountType, setAccountType] = useState(null);
     const [customError, setcustomError] = useState({status : false, msg: ""});
     const [response, setResponse] = useState({status : false, msg: ""});
-
-    const token = localStorage.getItem("token");
 
     const submitAddAccount = async () => {
 
@@ -20,15 +19,15 @@ const AddAccount = () => {
             setcustomError({status : false, msg : ""});
 
          try {
-            const response = await fetch(`https://localhost:7194/api/Accounts/Add`,
+            const response = await apiFetch(`https://localhost:7194/api/Accounts/Add`,
                 {      
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
                     },
                     body: AccountType == "Checking" ? 0 : 1
-                }
+                },
+                Email 
             );
 
             const data = await response.text() ; 

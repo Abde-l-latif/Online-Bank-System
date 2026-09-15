@@ -6,6 +6,7 @@ import EditProfile from "../EditProfile/EditProfile";
 import EditPassword from "../EditPassword/EditPassword";
 
 const Setting = ({UserInfo}) => {
+
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [isPasswordOpen, setIsPasswordOpen] = useState(false);
  
@@ -138,12 +139,12 @@ const Setting = ({UserInfo}) => {
         </section>
         {isProfileOpen && (
             <EditProfile
-                profile={profile}
+                profile={UserInfo}
                 onClose={() => setIsProfileOpen(false)}
             />
         )}
         {isPasswordOpen && (
-            <EditPassword onClose={() => setIsPasswordOpen(false)} />
+                    <EditPassword onClose={() => setIsPasswordOpen(false)} email={UserInfo?.emailAddress} />
         )}
         </>
     )

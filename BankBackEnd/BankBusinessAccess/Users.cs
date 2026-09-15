@@ -26,7 +26,6 @@ namespace BankBusinessAccess
 
         public Users() { }
 
-
         Validations Validations = new Validations();
 
         private bool _AddUser()
@@ -68,6 +67,20 @@ namespace BankBusinessAccess
         static public Users? Find(int id)
         {
             UserDTO? userDTO = UsersData.GetUserById(id);
+
+            if (userDTO != null)
+            {
+                return new Users(userDTO);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        static public Users? Find(string email)
+        {
+            UserDTO? userDTO = UsersData.GetUserByEmail(email);
 
             if (userDTO != null)
             {

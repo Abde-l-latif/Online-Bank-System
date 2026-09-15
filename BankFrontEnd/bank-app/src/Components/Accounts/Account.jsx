@@ -2,7 +2,7 @@ import Style from "./Account.module.css";
 import { Plus , Undo2  } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import AddAccount from "../AddAccount/AddAccount";
-
+import {apiFetch} from "../../utils/functions/ApiFunction";
 
 
 const Account = ({ UserInfo }) => {
@@ -17,18 +17,16 @@ const Account = ({ UserInfo }) => {
 
          let isMounted = true;
 
-        const token = localStorage.getItem('token');
 
         async function GetAccounts() {
 
             try {
-                const response = await fetch(`https://localhost:7194/api/Accounts/${UserInfo?.customerID}`, {
+                const response = await apiFetch(`https://localhost:7194/api/Accounts/${UserInfo?.customerID}`, {
                     method: 'GET',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Content-Type': 'application/json'
                     }
-                });
+                }, UserInfo?.emailAddress);
     
                 
                 if(response.ok)
@@ -57,18 +55,15 @@ const Account = ({ UserInfo }) => {
 
          let isMounted = true;
 
-        const token = localStorage.getItem('token');
-
         async function GetAccountsTransaction() {
 
             try {
-                const response = await fetch(`https://localhost:7194/api/Transfers/All`, {
+                const response = await apiFetch(`https://localhost:7194/api/Transfers/All`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
                     }
-                });
+                }, UserInfo?.emailAddress);
     
                 
                 if(response.ok)
@@ -171,7 +166,7 @@ const Account = ({ UserInfo }) => {
                     </div>
 
                     <div className={Style.AccountList}>
-                        <AddAccount/>
+                        <AddAccount Email={UserInfo?.emailAddress}/>
                     </div>
                 </section>
             ) : (

@@ -67,7 +67,7 @@ namespace BankWebApi.Controllers
             }
 
             if (_userService.UpdateProfile(result, data))
-                return Ok();
+                return Ok("your profile has been changed changed successfully");
             else
                 return BadRequest();
         }

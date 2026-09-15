@@ -10,6 +10,7 @@ import Setting from '../../Components/Settings/Setting';
 import Top from '../../Components/Top/Top';
 import Money from "../../Assets/money-100.png";
 import Robot from "../../Assets/greenRobotCom.png";
+import {apiFetch} from "../../utils/functions/ApiFunction";
 
 const Dashboard = () => {
 
@@ -25,7 +26,8 @@ const Dashboard = () => {
         { name: 'transactions', icon: ArrowLeftRight, label: 'Transactions' },
         { name: 'settings', icon: Cog, label: 'Settings' },
     ];
-    const token = localStorage.getItem('token');
+
+    const token = localStorage.getItem('AccessToken');
 
     useEffect(() => {
         async function GetUser() {
@@ -57,17 +59,16 @@ const Dashboard = () => {
 
         async function getTransaction() {
             try {
-                const response = await fetch(`https://localhost:7194/api/Transfers/Customer/filtred`,
+                const response = await apiFetch(`https://localhost:7194/api/Transfers/Customer/filtred`,
                     {      
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
+                            'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
                             pageSize: 3
                         })
-                    }
+                    }, user?.emailAddress 
                 );
 
                 const data = await response.json() ; 
@@ -106,18 +107,17 @@ const Dashboard = () => {
         }
   
         try {
-            const response = await fetch(`https://localhost:7194/api/Transfers/Customer/filtred`,
+            const response = await apiFetch(`https://localhost:7194/api/Transfers/Customer/filtred`,
                 {      
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         transType : GettransactionType,
                         pageSize: 3
                     })
-                }
+                }, user?.emailAddress
             );
 
             const data = await response.json() ; 
@@ -126,7 +126,8 @@ const Dashboard = () => {
             {
                 console.log(data);
                 setRecentTrans(data);
-            }
+            } 
+
 
         } catch(err) {
             console.log(err.message);
@@ -180,8 +181,8 @@ const Dashboard = () => {
                 <div className={Style.Content}>
                     {activeMenu === 'overview' && <Overview />}
                     {activeMenu === 'accounts' && <Account UserInfo={user} />}
-                    {activeMenu === 'cards' && <MyCard customerId={user?.customerID} />}
-                    {activeMenu === 'transactions' && <Transaction/>}
+                    {activeMenu === 'cards' && <MyCard customerId={user?.customerID} email={user?.emailAddress} />}
+                    {activeMenu === 'transactions' && <Transaction email={user?.emailAddress}/>}
                     {activeMenu === 'settings' && <Setting UserInfo={user}/>}
                 </div>
 

@@ -5,11 +5,11 @@ import visa from "../../assets/visa.png";
 import masterCard from "../../assets/mastercard.png"
 import { useState, useEffect } from 'react';
 import AddCard from '../AddCards/AddCard';
+import { apiFetch } from '../../utils/functions/ApiFunction';
 
-const MyCard = ({customerId}) => {
+const MyCard = ({customerId, email}) => {
 
     const [cards, setCards] = useState(null);
-    const token = localStorage.getItem('token');
     const [accounts, setAccounts] = useState(null);
     const [selectedCard, setSelectedCard] = useState(null);
     const [addCardStatus, setAddCardStatus] = useState(false);
@@ -18,11 +18,10 @@ const MyCard = ({customerId}) => {
        
         const fetchCards = async () => {
             try {
-                const response = await fetch(`https://localhost:7194/api/Cards/${customerId}`, {
+                const response = await apiFetch(`https://localhost:7194/api/Cards/${customerId}`, {
                  method: 'GET',
                 headers: { 
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` } });
+                    'Content-Type': 'application/json' } }, email);
 
                 if(response.ok) 
                 {
@@ -51,13 +50,12 @@ const MyCard = ({customerId}) => {
             let isMounted = true;
 
             try {
-                const response = await fetch(`https://localhost:7194/api/Accounts/${customerId}`, {
+                const response = await apiFetch(`https://localhost:7194/api/Accounts/${customerId}`, {
                     method: 'GET',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Content-Type': 'application/json'
                     }
-                });
+                }, email);
     
                 
                 if(response.ok)
@@ -115,16 +113,15 @@ const MyCard = ({customerId}) => {
     const FreezeCard = async () => {
 
         try {
-            const response = await fetch(`https://localhost:7194/api/Cards/Freeze/${selectedCard?.cardID}`, {
+            const response = await apiFetch(`https://localhost:7194/api/Cards/Freeze/${selectedCard?.cardID}`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Content-Type': 'application/json'
                 }
-            });
+            }, email);
 
             if(response.ok)
-                setSelectedCard(null);a
+                setSelectedCard(null);
     
 
         } catch (error) {
@@ -147,7 +144,7 @@ const MyCard = ({customerId}) => {
                         <p>Back to Cards</p>
                     </div>
                 </div>
-                <AddCard accounts={accountsWithoutCards}/>
+                <AddCard accounts={accountsWithoutCards} email={email}/>
             </section>
         ) : (
             <section className={Style.myCard}>

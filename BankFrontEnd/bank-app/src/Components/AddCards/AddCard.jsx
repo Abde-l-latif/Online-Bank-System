@@ -4,9 +4,10 @@ import visa from "../../Assets/visaPNG.png";
 import MyCustomSelect from "../CustomSelect/MyCustomSelect.jsx";
 import { useState } from 'react';
 import { CreditCard } from 'lucide-react';
+import { apiFetch } from '../../utils/functions/ApiFunction';
 
 
-const AddCard = ({ accounts }) => {
+const AddCard = ({ accounts, email }) => {
 
     const [myAccountId, setMyAccountId] = useState({"Account Number" : null});
     const [CardType, setCardType] = useState(null);
@@ -23,20 +24,17 @@ const AddCard = ({ accounts }) => {
     }, {});
 
     const AddCard = async () => {
-        const token = localStorage.getItem('token');
-
         if(myAccountId["Account Number"] == null || CardType == null || selectedBrand == null )
         {
             setError({status : true , msg : "Lack of data!"})
         }
 
         try {
-            const response = await fetch(`https://localhost:7194/api/Cards/Add`,
+            const response = await apiFetch(`https://localhost:7194/api/Cards/Add`,
                 {      
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify(
                         {
@@ -45,7 +43,7 @@ const AddCard = ({ accounts }) => {
                             cardBrand: selectedBrand == "Visa" ? 0 : selectedBrand == "Mastercard" ? 1 : null
                         }
                     )
-                }
+                }, email
             );
 
             const data = await response.text() ; 
