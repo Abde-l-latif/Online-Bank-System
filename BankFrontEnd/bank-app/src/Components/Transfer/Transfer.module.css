@@ -1,0 +1,212 @@
+.ActionBodyHeader
+{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ActionBodyHeaderInfo h3
+{
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.ActionBodyHeaderInfo p
+{
+    color: var(--smallpara-color);
+    font-size: 14px;
+}
+
+.ActionBodyHeaderBtn 
+{
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.ActionBodyHeaderBtn button {
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer; 
+}
+
+.ActionBodyHeaderBtn button.ActionBtn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.ActionBodyHeaderBtn button:hover {
+    background-color: rgba(84, 110, 84, 0.401);
+    color: black;
+}
+
+.ActionBodyMyAcc 
+{
+    display: grid;
+    grid-template-columns: auto 50px auto;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.TransferBTN {
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    gap: 10px;
+    justify-self: end;
+    background-color: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    transition: .4s ease;
+}
+
+.TransferBTN:hover {
+    background-color: var(--primary-hover-color);
+}
+
+.AccountBox {
+    margin-top: 10px;
+}
+
+.AccountBoxContent {
+    border: 1px solid rgba(128, 128, 128, 0.467);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.AccountBoxIcon {
+    color: green;
+    background-color: rgba(29, 138, 29, 0.183);
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.AccountBoxInfo h4 {
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.AccountBoxInfo p {
+    color: gray;
+    font-size: 14px;
+}
+
+.AccountRotates {
+    border: 1px solid rgba(165, 165, 165, 0.572);
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    border-radius: 100%;
+    color: green;
+    cursor: pointer;
+    transition: .7s ease;
+}
+
+.AccountRotates:hover {
+    background-color: rgba(3, 124, 3, 0.465);
+}
+
+.AccountBoxAmount {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.AccountBoxAmount input {
+    padding: 10px;
+    outline: none;
+    border: 1px solid rgba(128, 128, 128, 0.539);
+    border-radius: 5px;
+}
+
+.ActionToOtherAccount1 {
+    margin-top: 10px;
+}
+
+.ActionToOtherAccount1 h4 {
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.ActionToOtherAccount1 p {
+    color: gray;
+    font-size: 14px;
+}
+
+.SelectAccountsContainer {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 20px;
+}
+
+.SelectAccountsContainer .AccountBoxContent {
+    cursor: pointer;
+    transition: .7s ease;
+}
+
+.SelectAccountsContainer .AccountBoxContent:hover {
+    background-color: rgb(171, 198, 171);
+} 
+
+.ActionToOtherAccount2 {
+    margin-top: 10px;
+}
+
+.ActionToOtherAccount2 h4 {
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.ActionToOtherAccount2 p {
+    color: gray;
+    font-size: 14px;
+}
+
+.AccountNumberField {
+    border: 1px solid rgba(128, 128, 128, 0.467);
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    color: var(--primary-color);
+    gap: 10px;
+    margin-top: 10px;
+    width: fit-content;
+}
+
+.AccountNumberField input {
+    width: 320px;
+    font-size: 15px;
+    outline: none;
+    border: none;
+}
+
+.sectionTwo .AccountBoxAmount{
+    margin-top: 10px;
+    color: var(--primary-color);
+}
+
+.selected {
+    border: 1px solid green;
+    background-color: rgba(91, 215, 91, 0.328);
+    
+}

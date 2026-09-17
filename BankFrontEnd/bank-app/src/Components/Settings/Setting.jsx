@@ -4,12 +4,14 @@ import Money from "../../Assets/money-100.png";
 import { useState } from "react";
 import EditProfile from "../EditProfile/EditProfile";
 import EditPassword from "../EditPassword/EditPassword";
+import { useNavigate } from "react-router";
 
 const Setting = ({UserInfo}) => {
 
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [isPasswordOpen, setIsPasswordOpen] = useState(false);
  
+    const nav = useNavigate();
 
     return (
         <>
@@ -129,7 +131,28 @@ const Setting = ({UserInfo}) => {
                             <p> You will be logged out from your account. </p>
                         </div>
                     </div>
-                    <div className={Style.SignoutBTN}>
+                    <div className={Style.SignoutBTN} onClick={async () => {
+                        try {
+
+                            const response = await fetch('https://localhost:7194/api/Auth/logout', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body : JSON.stringify({
+                                            email : UserInfo?.emailAddress,
+                                            refreshToken : localStorage.getItem("RefreshToken")
+                                        })
+                            });
+
+                            if(response.ok)
+                                nav("/login")
+                        }
+                        catch(e)
+                        {
+                            console.log("error : " + e);         
+                        }
+                    }}>
                         <LogOut />
                         <p>Sign out</p>
                     </div>

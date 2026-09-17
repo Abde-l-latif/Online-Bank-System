@@ -27,18 +27,16 @@ const Dashboard = () => {
         { name: 'settings', icon: Cog, label: 'Settings' },
     ];
 
-    const token = localStorage.getItem('AccessToken');
 
     useEffect(() => {
         async function GetUser() {
 
-            const response = await fetch('https://localhost:7194/api/user/me', {
+            const response = await apiFetch('https://localhost:7194/api/user/me', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
                 }
-            });
+            }, localStorage.getItem("Email"));
 
             const userData = await response.json();
 
@@ -75,7 +73,6 @@ const Dashboard = () => {
 
                 if(response.ok) 
                 {
-                    console.log(data);
                     setRecentTrans(data);
                 }
 
@@ -173,9 +170,11 @@ const Dashboard = () => {
                             </div>
                         ))}
                     </ul>
-                    <div className={Style.SideMenuButtomItem}>  
+                    <div className={Style.bottom}>
+                        <div className={Style.SideMenuButtomItem}>  
+                        </div>
+                        <img src={Robot} alt="RobotImage" />
                     </div>
-                    <img src={Robot} alt="RobotImage" />
                 </div>
 
                 <div className={Style.Content}>

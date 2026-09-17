@@ -112,7 +112,8 @@ namespace BankWebApi.Controllers
                     return Ok(new TokenResponse
                     {
                         AccessToken = accessToken,
-                        RefreshToken = refreshToken
+                        RefreshToken = refreshToken,
+                        Email = User.userDTO.EmailAddress
                     });
 
                 }

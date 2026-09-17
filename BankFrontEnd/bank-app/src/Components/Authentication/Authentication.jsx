@@ -46,6 +46,7 @@ export default function Authentication()
         
                 localStorage.setItem("AccessToken", dataResponse.accessToken);
                 localStorage.setItem("RefreshToken", dataResponse.refreshToken);
+                localStorage.setItem("Email", dataResponse.email);
                 nav("/dashboard");
             } 
             else if (!postData.ok) {

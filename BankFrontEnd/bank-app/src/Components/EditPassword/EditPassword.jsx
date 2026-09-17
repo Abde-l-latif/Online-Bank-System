@@ -3,6 +3,7 @@ import { X, EyeClosed, Eye } from "lucide-react";
 import Style from "./EditPassword.module.css";
 import { useForm } from "react-hook-form"
 import { apiFetch } from "../../utils/functions/ApiFunction";
+import { useTranslation } from 'react-i18next';
 
 const EditPassword = ({ onClose, email }) => {
      const {
@@ -11,6 +12,7 @@ const EditPassword = ({ onClose, email }) => {
     watch,
     formState: { errors },
     } = useForm()
+    const { t, i18n } = useTranslation();
 
     const [ShowPassword, SetShowPassword] = useState({curr : false, new : false, confirm : false}) ;
     const [CustomError, setCustomError] = useState({status :false, msg : ""});
@@ -96,14 +98,19 @@ const EditPassword = ({ onClose, email }) => {
                         New password
                         <div className={Style.Raw}>
                             <input type={ShowPassword.new ? "text" : "password"} name="newPassword"
-                            {...register("NewPasswordRequired", { required: true , minLength: {value: 8, message: "min length is 8"}})} />
+                            {...register("NewPasswordRequired", { required: true , minLength: {value: 8, message: "min length is 8"}
+                            , pattern: {
+                                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_\-+=[\]{};:'",.<>/\\|~`])[A-Za-z\d@$!%*?&#^()_\-+=[\]{};:'",.<>/\\|~`]{8,}$/,
+                                    message: t("AuthErrorPasswordFormat")
+                                } })} />
                             <span onClick={() => SetShowPassword((current) => ({ ...current, new: !current.new })) }>
                                 {!ShowPassword.new ? <EyeClosed color="rgb(14, 51, 38)"/> : <Eye color="rgb(14, 51, 38)"/> }
                             </span>
                         </div>
                     </label>
                     { errors?.NewPasswordRequired?.type == "required" && <p style={{ color : "red"}}>this field required</p>}
-                    { errors?.NewPasswordRequired?.type == "minLength" && <p style={{ color : "red"}}>{errors?.OldPasswordRequired.message}</p>}
+                    { errors?.NewPasswordRequired?.type == "minLength" && <p style={{ color : "red"}}>{errors?.NewPasswordRequired?.message}</p>}
+                    { errors?.NewPasswordRequired?.type == "pattern" && <p style={{ color : "red"}}>{errors?.NewPasswordRequired?.message}</p>}
 
 
                     <label>
@@ -117,7 +124,7 @@ const EditPassword = ({ onClose, email }) => {
                         </div>
                     </label>
                     { errors?.ConfirmingPasswordRequired?.type == "required" && <p style={{ color : "red"}}>this field required</p>}
-                    { errors?.ConfirmingPasswordRequired?.type == "minLength" && <p style={{ color : "red"}}>{errors?.OldPasswordRequired.message}</p>}
+                    { errors?.ConfirmingPasswordRequired?.type == "minLength" && <p style={{ color : "red"}}>{errors?.ConfirmingPasswordRequired.message}</p>}
                     
                 
                     {CustomError && <p style={{ color : "red"}}>{CustomError.msg}</p>}

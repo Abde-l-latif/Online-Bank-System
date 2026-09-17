@@ -1,8 +1,11 @@
 import Style from "./Account.module.css";
-import { Plus , Undo2  } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Plus , Undo2 , HandCoins , CreditCard , CloudSync , BanknoteArrowUp , BanknoteArrowDown } from 'lucide-react';
+import { useState, useEffect} from 'react';
 import AddAccount from "../AddAccount/AddAccount";
 import {apiFetch} from "../../utils/functions/ApiFunction";
+import Transfer from "../Transfer/Transfer";
+import Deposit from "../Deposit/Deposit";
+import Withdraw from "../Withdraw/Withdraw";
 
 
 const Account = ({ UserInfo }) => {
@@ -13,10 +16,11 @@ const Account = ({ UserInfo }) => {
 
     const [addStatus, setAddStatus] = useState(false);
 
+    const [ActionBtn, setActionBtn] = useState("Transfer");
+
     useEffect(() =>{
 
-         let isMounted = true;
-
+        let isMounted = true;
 
         async function GetAccounts() {
 
@@ -112,17 +116,17 @@ const Account = ({ UserInfo }) => {
                     <div className={Style.AccountAction}>
                         <div className={Style.Column}>
                             <p>Total Balance</p>
-                            <p className={Style.Balance}>{trans?.balance} MAD</p>
+                            <p className={Style.Balance}>{trans?.balance.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD</p>
                         </div>
                         <div className={Style.line}></div>
                         <div className={Style.Column}>
                             <p>Total Income</p>
-                            <p className={Style.Income}>{income} MAD</p>
+                            <p className={Style.Income}>{income.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD</p>
                         </div>
                         <div className={Style.line}></div>
                         <div className={Style.Column}>
                             <p>Total Outcome</p>
-                            <p className={Style.Outcome}>{outcome} MAD</p>
+                            <p className={Style.Outcome}>{outcome.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD</p>
                         </div>
                         <div className={Style.line}></div>
                         <div className={Style.Column}>
@@ -137,14 +141,19 @@ const Account = ({ UserInfo }) => {
     let accountList = accounts.map((account) => {
         return (
             <div className={ account.accountType === 'Savings' ? Style.AccountCardSaving : Style.AccountCard} key={account.accountID}>
-                <h4>{account.accountType} account</h4>
-                <p>{account.accountNumber.match(/.{1,4}/g)?.join(" ")}</p>
-                <div className={Style.AccountInfo}>
-                    <div style={ {display: 'flex', flexDirection: 'column', gap: '5px'} }>
-                        <p>Balance:</p>
-                        <p>{account.accountBalance?.toFixed(2)} MAD</p>
+                <div className={Style.iconCard}>
+                    {account.accountType === 'Savings' ? <HandCoins /> : <CreditCard />}
+                </div>
+                <div>
+                    <h4>{account.accountType} account</h4>
+                    <p>{account.accountNumber.match(/.{1,4}/g)?.join(" ")}</p>
+                    <div className={Style.AccountInfo}>
+                        <div style={ {display: 'flex', flexDirection: 'column', gap: '5px'} }>
+                            <p>Balance:</p>
+                            <p>{account.accountBalance?.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD</p>
+                        </div>
+                        <p style={ {fontWeight: 'bold', alignSelf: 'flex-end'} }>{account.accountStatus}</p>
                     </div>
-                    <p style={ {fontWeight: 'bold', alignSelf: 'flex-end'} }>{account.accountStatus}</p>
                 </div>
             </div>
         )
@@ -184,6 +193,33 @@ const Account = ({ UserInfo }) => {
                     
                     <div className={Style.AccountList}>
                         {accountList}
+                    </div>
+
+                    <div className={Style.ActionContainer}>
+                        <div className={Style.ActionHeader}>
+                            <div className={`${Style.colHeader} ${ActionBtn == "Transfer" ? Style.Active : ""}`}
+                             onClick={() => setActionBtn("Transfer")}>
+                                <CloudSync />
+                                <p>Transfer</p>
+                            </div>
+
+                            <div className={`${Style.colHeader} ${ActionBtn == "Deposit" ? Style.Active : ""}`}
+                             onClick={() => setActionBtn("Deposit")}> 
+                                <BanknoteArrowUp />
+                                <p>Deposit</p>
+                            </div>
+
+                            <div className={`${Style.colHeader} ${ActionBtn == "Withdraw" ? Style.Active : ""}`}
+                             onClick={() => setActionBtn("Withdraw")}>
+                                <BanknoteArrowDown />
+                                <p>Withdraw</p>
+                            </div>
+                        </div>
+
+                        <div className={Style.ActionBody}>
+                            {ActionBtn == "Transfer" ? <Transfer accounts={accounts} setAccounts={setAccounts}/> : 
+                            ActionBtn == "Deposit" ? <Deposit/> : <Withdraw/>}
+                        </div>
                     </div>
 
                     <div className={Style.AccountSummary}>
