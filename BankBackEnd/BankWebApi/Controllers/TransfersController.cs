@@ -18,6 +18,12 @@ namespace BankWebApi.Controllers
             public decimal Amount { get; set; }
         }
 
+        public class DepositAndWithdrawRequest
+        {
+            public string AccountNumber { get; set; }
+            public decimal Amount { get; set; }
+        }
+
         public class TransferFiltredRequest
         {
             public List<byte> TransType { get; set; } = new List<byte>();
@@ -68,6 +74,55 @@ namespace BankWebApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [HttpPost("Deposit")]
+        public IActionResult Deposit([FromBody] DepositAndWithdrawRequest request)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdInt))
+            {
+                return Unauthorized("User ID is missing or invalid.");
+            }
+
+            if (Transactions.Deposit(userIdInt, request.AccountNumber, request.Amount))
+            {
+                return Ok("Deposit has been done successfully.");
+            }
+
+            return BadRequest("Deposit failed.");
+
+        }
+
+
+    
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [HttpPost("Withdraw")]
+        public IActionResult Withdraw([FromBody] DepositAndWithdrawRequest request)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdInt))
+            {
+                return Unauthorized("User ID is missing or invalid.");
+            }
+
+            if (Transactions.Withdraw(userIdInt, request.AccountNumber, request.Amount))
+            {
+                return Ok("Withdraw has been done successfully.");
+            }
+
+            return BadRequest("Withdraw failed.");
+
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpGet("All")]
         public IActionResult GetTransfers()
         {
@@ -82,7 +137,6 @@ namespace BankWebApi.Controllers
             return Ok(Transactions.GetAllTransactionByUser(userIdInt));
 
         }
-
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

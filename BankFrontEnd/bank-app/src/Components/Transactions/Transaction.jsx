@@ -94,7 +94,7 @@ const Transaction = ({ email }) => {
                 <td>{shortDate}</td>
                 <td>{trans?.transactionType}</td>
                 <td>{trans?.account?.accountType} Account</td>
-                <td className={trans?.transactionType == "transferTo" ? Style.Outcome : Style.Income}>{trans?.transactionType == "transferTo" ? "-" + trans?.amount : "+" + trans?.amount} MAD</td>
+                <td className={trans?.transactionType == "transferTo" || trans?.transactionType == "withdraw"  ? Style.Outcome : Style.Income}>{trans?.transactionType == "transferTo" || trans?.transactionType == "withdraw" ? "-" + trans?.amount : "+" + trans?.amount} MAD</td>
                 <td className={trans?.status == "completed" ? Style.Income : Style.Transaction}>{trans?.status}</td>
             </tr>
         )

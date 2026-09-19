@@ -141,11 +141,11 @@ const Dashboard = () => {
                 <div style={{display : 'flex', gap : "10px", alignItems : "center"}}>
                     <img src={Money} alt="UserAvatar" />
                     <div className={Style.TransactionInfo}>
-                        <p>{x?.relatedAccount?.customer?.firstName + " " + x?.relatedAccount?.customer?.lastName}</p>
+                        <p>{x?.relatedAccount != null ? x?.relatedAccount?.customer?.firstName + " " + x?.relatedAccount?.customer?.lastName : "AbdoBank"}</p>
                         <p>{shortDate}</p>
                     </div>
                 </div>
-                <p className={x?.transactionType == "transferTo" ? Style.Outcome : Style.Income}>{x?.transactionType == "transferTo" ? "-" + x?.amount : "+" + x?.amount} MAD</p>
+                <p className={x?.transactionType == "transferTo" || x?.transactionType == "withdraw" ? Style.Outcome : Style.Income}>{x?.transactionType == "transferTo"  || x?.transactionType == "withdraw" ? "-" + x?.amount : "+" + x?.amount} MAD</p>
             </div>
         )
     })

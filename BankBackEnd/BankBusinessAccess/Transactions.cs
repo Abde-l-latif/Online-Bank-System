@@ -3,8 +3,10 @@ using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace BankBusinessAccess
 {
@@ -55,7 +57,7 @@ namespace BankBusinessAccess
 
         }
 
-        static private bool _VerifyAccountOwnership(int userId, string fromAccountNumber, string toAccountNumber)
+        static private bool _VerifyAccountOwnership(int userId, string fromAccountNumber)
         {
             Users? user = Users.Find(userId);
 
@@ -115,7 +117,7 @@ namespace BankBusinessAccess
                 throw new ArgumentException("Transfer amount must be greater than zero.");
             }
 
-            if(!_VerifyAccountOwnership(userId , fromAccountNumber, toAccountNumber))
+            if(!_VerifyAccountOwnership(userId , fromAccountNumber))
             {
                 throw new UnauthorizedAccessException("User is not authorized to perform this transfer.");
             }
@@ -192,12 +194,123 @@ namespace BankBusinessAccess
 
                     return true;
                 }
-                catch (Exception ex)
+                catch
                 {
                     transaction.Rollback();
                     throw;
                 }
             }
         }
+
+        static public bool Deposit(int userId, string accountNumber, decimal amount)
+        {
+            if (amount <= 0)
+            {
+                throw new ArgumentException("Deposit amount must be greater than zero.");
+            }
+
+            if (!_VerifyAccountOwnership(userId, accountNumber))
+            {
+                throw new UnauthorizedAccessException("User is not authorized to perform this transfer.");
+            }
+
+            using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+            {
+                connection.Open();
+
+                SqlTransaction transaction = connection.BeginTransaction();
+
+                try
+                {
+
+                    Accounts account = Accounts.FindByAccountNumber(accountNumber, connection, transaction);
+
+                    account._AccountsDTO.AccountBalance += amount;
+
+                    AccountsData.UpdateAccount(account._AccountsDTO, connection, transaction);
+
+                    TransactionsDTO trans = new TransactionsDTO()
+                    {
+                        TransactionType = TransactionsDTO.transType.deposit,
+                        Amount = amount,
+                        BalanceAfter = account._AccountsDTO.AccountBalance,
+                        Status = TransactionsDTO.transStatus.completed,
+                        Reference = Guid.NewGuid().ToString(),
+                        AccountID = account._AccountsDTO.AccountID,
+                    };
+
+                    trans.TransactionID = TransactionsData.AddTransaction(trans, connection, transaction);
+
+                    transaction.Commit();
+
+                    return true;
+
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            } 
+        }
+
+        static public bool Withdraw(int userId, string accountNumber, decimal amount)
+        {
+            if (amount <= 0)
+            {
+                throw new ArgumentException("withdraw amount must be greater than zero.");
+            }
+
+            if (!_VerifyAccountOwnership(userId, accountNumber))
+            {
+                throw new UnauthorizedAccessException("User is not authorized to perform this transfer.");
+            }
+
+            using (SqlConnection connection = new SqlConnection(SettingsData.ConnectionString))
+            {
+                connection.Open();
+
+                SqlTransaction transaction = connection.BeginTransaction();
+
+                try
+                {
+
+                    Accounts account = Accounts.FindByAccountNumber(accountNumber, connection, transaction);
+
+                    if (account._AccountsDTO.AccountBalance < amount)
+                    {
+                        transaction.Rollback();
+                        throw new ArgumentException("withdraw amount is greater than account balance.");
+                    }
+
+                    account._AccountsDTO.AccountBalance -= amount;
+
+                    AccountsData.UpdateAccount(account._AccountsDTO, connection, transaction);
+
+                    TransactionsDTO trans = new TransactionsDTO()
+                    {
+                        TransactionType = TransactionsDTO.transType.withdraw,
+                        Amount = amount,
+                        BalanceAfter = account._AccountsDTO.AccountBalance,
+                        Status = TransactionsDTO.transStatus.completed,
+                        Reference = Guid.NewGuid().ToString(),
+                        AccountID = account._AccountsDTO.AccountID,
+                    };
+
+                    trans.TransactionID = TransactionsData.AddTransaction(trans, connection, transaction);
+
+                    transaction.Commit();
+
+                    return true;
+
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+        }
+
     }
 }

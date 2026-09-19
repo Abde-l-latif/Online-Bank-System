@@ -4,6 +4,7 @@ import {useState} from "react";
 import {  CreditCard, CalendarFold, User, BanknoteArrowUp } from 'lucide-react';
 import visa from '../../assets/visa.png';
 import mastercard from '../../assets/mastercard.png';
+import { apiFetch } from "../../utils/functions/ApiFunction";
 
 const Deposit = ({accounts}) => 
 {
@@ -11,6 +12,41 @@ const Deposit = ({accounts}) =>
     const [amount, setAmount] = useState("")
     const [cardInfo, setCardInfo] = useState({cardNum : "", Expiration : "", cvc : "", name : ""})
 
+
+    const handelAction = async () => {
+
+        if(selectAccountNumber != "" && amount != "" && cardInfo.Expiration != "" &&
+            cardInfo.cardNum != "" && cardInfo.cvc != "" && cardInfo.name != ""
+        )
+        {
+            try
+                {
+                    const response = await apiFetch(`https://localhost:7194/api/Transfers/Deposit`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body : JSON.stringify({
+                            accountNumber: selectAccountNumber,
+                            amount: amount
+                        })
+                    }, localStorage.getItem("Email"));
+
+                    if(response.ok)
+                    {
+                        const msg = await response.text();
+                        console.log(msg); 
+                    }   
+                }
+                catch(e)
+                {
+                    console.log(e)
+                }
+        }
+        else
+           console.log("error fields empty");
+    }
+    
     
     return (
         <div className={Style.DepositContainer}>
@@ -92,7 +128,7 @@ const Deposit = ({accounts}) =>
                     </div>
                 </div>
 
-                <button className={Style.BTNDeposit}>
+                <button className={Style.BTNDeposit} onClick={handelAction}>
                     <BanknoteArrowUp />
                     <p>Deposit</p>
                 </button>

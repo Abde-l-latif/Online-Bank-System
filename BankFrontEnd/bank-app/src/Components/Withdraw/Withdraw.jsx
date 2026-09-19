@@ -4,12 +4,43 @@ import {useState} from "react";
 import { CreditCard, CalendarFold, User, BanknoteArrowDown } from "lucide-react";
 import visa from '../../assets/visa.png';
 import mastercard from '../../assets/mastercard.png';
+import { apiFetch } from "../../utils/functions/ApiFunction";
 
 const Withdraw = ({accounts}) => 
 {
     const [selectAccountNumber, setSelectAccountNumber] = useState("");
     const [amount, setAmount] = useState("");
     const [cardInfo, setCardInfo] = useState({cardNum: "", Expiration: "", cvc: "", name: ""});
+
+    const handelAction = async () => {
+        if (selectAccountNumber !== "" && amount !== "" && cardInfo.Expiration !== "" &&
+            cardInfo.cardNum !== "" && cardInfo.cvc !== "" && cardInfo.name !== "")
+        {
+            try {
+                const response = await apiFetch(`https://localhost:7194/api/Transfers/Withdraw`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        accountNumber: selectAccountNumber,
+                        amount: amount
+                    })
+                }, localStorage.getItem("Email"));
+
+                if (response.ok) {
+                    const msg = await response.text();
+                    console.log(msg);
+                }
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        else {
+            console.log("error fields empty");
+        }
+    };
 
     return (
         <div className={Style.WithdrawContainer}>
@@ -104,7 +135,7 @@ const Withdraw = ({accounts}) =>
                     </div>
                 </div>
 
-                <button className={Style.BTNWithdraw}>
+                <button className={Style.BTNWithdraw} onClick={handelAction}>
                     <BanknoteArrowDown />
                     <p>Withdraw</p>
                 </button>

@@ -36,7 +36,7 @@ namespace BankDataAccess
 
         public AccountsDTO Account { get; set; }
 
-        public int? RelatedAccountID { get; set; }
+        public int? RelatedAccountID { get; set; } = null;
 
         public AccountsDTO RelatedAccount { get; set; }
 
@@ -126,8 +126,9 @@ namespace BankDataAccess
 
             using var reader = await command.ExecuteReaderAsync();
 
-            while (await reader.ReadAsync())
+            if (await reader.ReadAsync())
             {
+
                 result.TotalCount = reader.GetInt32(
                     reader.GetOrdinal("TotalCount"));
                 result.TotalIncome = reader.GetDecimal(
@@ -135,44 +136,51 @@ namespace BankDataAccess
                 result.TotalExpense = reader.GetDecimal(
                     reader.GetOrdinal("TotalExpense"));
 
-                result.Transactions.Add(new TransactionsDTO
+                do
                 {
-                    TransactionID = reader.GetInt32(
-                        reader.GetOrdinal("TransactionID")),
 
-                    TransactionType = (TransactionsDTO.transType)reader.GetByte(
-                        reader.GetOrdinal("TransactionType")),
+                    result.Transactions.Add(new TransactionsDTO
+                    {
+                        TransactionID = reader.GetInt32(
+                            reader.GetOrdinal("TransactionID")),
 
-                    Amount = reader.GetDecimal(
-                        reader.GetOrdinal("Amount")),
+                        TransactionType = (TransactionsDTO.transType)reader.GetByte(
+                            reader.GetOrdinal("TransactionType")),
 
-                    BalanceAfter = reader.GetDecimal(
-                        reader.GetOrdinal("BalanceAfter")),
+                        Amount = reader.GetDecimal(
+                            reader.GetOrdinal("Amount")),
 
-                    Status = (TransactionsDTO.transStatus)reader.GetByte(
-                        reader.GetOrdinal("Status")),
+                        BalanceAfter = reader.GetDecimal(
+                            reader.GetOrdinal("BalanceAfter")),
 
-                    Reference = reader.GetString(
-                        reader.GetOrdinal("Reference")),
+                        Status = (TransactionsDTO.transStatus)reader.GetByte(
+                            reader.GetOrdinal("Status")),
 
-                    AccountID = reader.GetInt32(
-                        reader.GetOrdinal("AccountID")),
+                        Reference = reader.GetString(
+                            reader.GetOrdinal("Reference")),
 
-                    RelatedAccountID = reader.IsDBNull(
-                        reader.GetOrdinal("RelatedAccountID"))
-                        ? null
-                        : reader.GetInt32(
-                            reader.GetOrdinal("RelatedAccountID")),
+                        AccountID = reader.GetInt32(
+                            reader.GetOrdinal("AccountID")),
 
-                    CreatedAt = reader.GetDateTime(
-                        reader.GetOrdinal("CreatedAt")),
+                        RelatedAccountID = reader.IsDBNull(
+                            reader.GetOrdinal("RelatedAccountID"))
+                            ? null
+                            : reader.GetInt32(
+                                reader.GetOrdinal("RelatedAccountID")),
 
-                    Account = AccountsData.GetAllAccountByAccountID(reader.GetInt32(
-                        reader.GetOrdinal("AccountID"))),
+                        CreatedAt = reader.GetDateTime(
+                            reader.GetOrdinal("CreatedAt")),
 
-                    RelatedAccount = AccountsData.GetAllAccountByAccountID(reader.GetInt32(
-                        reader.GetOrdinal("RelatedAccountID")))
-                });
+                        Account = AccountsData.GetAllAccountByAccountID(reader.GetInt32(
+                            reader.GetOrdinal("AccountID"))),
+
+                        RelatedAccount = reader.IsDBNull(
+                            reader.GetOrdinal("RelatedAccountID"))
+                            ? null : AccountsData.GetAllAccountByAccountID(reader.GetInt32(
+                            reader.GetOrdinal("RelatedAccountID")))
+                    });
+                }
+                while (await reader.ReadAsync());
             }
 
             return result;
@@ -263,7 +271,9 @@ namespace BankDataAccess
                     Account = AccountsData.GetAllAccountByAccountID(reader.GetInt32(
                         reader.GetOrdinal("AccountID"))),
 
-                    RelatedAccount = AccountsData.GetAllAccountByAccountID(reader.GetInt32(
+                    RelatedAccount = reader.IsDBNull(
+                        reader.GetOrdinal("RelatedAccountID"))
+                        ? null : AccountsData.GetAllAccountByAccountID(reader.GetInt32(
                         reader.GetOrdinal("RelatedAccountID")))
                 });
             }

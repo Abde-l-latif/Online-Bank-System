@@ -39,6 +39,16 @@ namespace BankBusinessAccess
                 return null;
         }
 
+        static public Accounts FindByAccountNumber(string AccountNumber)
+        {
+            AccountsDTO account = AccountsData.GetAccountByAccountNumber(AccountNumber);
+
+            if (account != null)
+                return new Accounts(account);
+            else
+                return null;
+        }
+
         static public List<Accounts> FindByAccountNumberWithLock(string fromAccountNum, string toAccountNum, SqlConnection connection, SqlTransaction transaction)
         {
             List<AccountsDTO> accounts = AccountsData.GetAccountsByAccountNumberUpdate(fromAccountNum, toAccountNum, connection, transaction);
