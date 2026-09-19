@@ -218,7 +218,7 @@ const Account = ({ UserInfo }) => {
 
                         <div className={Style.ActionBody}>
                             {ActionBtn == "Transfer" ? <Transfer accounts={accounts} setAccounts={setAccounts}/> : 
-                            ActionBtn == "Deposit" ? <Deposit/> : <Withdraw/>}
+                            ActionBtn == "Deposit" ? <Deposit accounts={accounts}/> : <Withdraw accounts={accounts}/>} 
                         </div>
                     </div>
 

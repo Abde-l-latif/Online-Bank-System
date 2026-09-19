@@ -1,0 +1,53 @@
+.SelectAccountsContainer {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 20px;
+}
+
+.SelectAccountsContainer .AccountBoxContent {
+    cursor: pointer;
+    transition: .7s ease;
+}
+
+.SelectAccountsContainer .AccountBoxContent:hover {
+    background-color: rgb(171, 198, 171);
+} 
+
+
+.AccountBoxContent {
+    border: 1px solid rgba(128, 128, 128, 0.467);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.AccountBoxIcon {
+    color: green;
+    background-color: rgba(29, 138, 29, 0.183);
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.AccountBoxInfo h4 {
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.AccountBoxInfo p {
+    color: gray;
+    font-size: 14px;
+}
+
+.selected {
+    border: 1px solid green;
+    background-color: rgba(91, 215, 91, 0.328);
+    
+}
