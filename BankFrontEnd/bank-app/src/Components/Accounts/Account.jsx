@@ -76,7 +76,6 @@ const Account = ({ UserInfo }) => {
     
                     if (isMounted) {
                         setTransAccounts(data);
-                        console.log(data)
                     }
                 }
 

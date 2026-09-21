@@ -74,6 +74,7 @@ const Dashboard = () => {
                 if(response.ok) 
                 {
                     setRecentTrans(data);
+                    console.log(data);
                 }
 
             } catch(err) {

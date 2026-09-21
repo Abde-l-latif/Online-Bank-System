@@ -7,3 +7,137 @@
     margin-bottom: 10px;
     color: var(--primary-color)
 }
+
+.overview > p {
+    color: var(--smallpara-color);
+    font-size: 14px;
+    
+}
+
+.firstRow {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.chartCardsContainer {
+    width: fit-content;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: linear-gradient(
+    135deg,
+    #238a45 0%,
+    #2dc3a8 100%
+  );
+  color: white;
+}
+
+.chartCardsContainerTwo {
+    width: fit-content;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border: 1px solid rgb(127, 215, 223);
+    background-color: rgba(127, 215, 223, 0.245);
+    color: var(--primary-color);
+}
+
+.IconContainer {
+    background-color: rgb(103, 183, 103);
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.IconContainerTwo {
+    background-color: #99d4c8;
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.Cardinfo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+}
+
+.Cardinfo h5 {
+    font-size: 16px;
+}
+
+.secondRow {
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.171);
+    border-radius: 10px;
+}
+
+.secondRowHeaderInfo {
+    display: flex;
+    gap: 10px;
+    color: var(--primary-color);
+    align-items: center;
+}
+
+.secondRowIcon {
+    background-color: #57a270;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.secondRowHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.secondRowHeaderFilter {
+    display: flex;
+    gap: 10px;
+    background-color: rgba(183, 221, 183, 0.804);
+    border-radius: 20px;
+    padding: 5px;
+}
+
+.secondRowHeaderFilterItem {
+    width: 50px;
+    padding: 5px;
+    border-radius: 15px;
+    text-align: center;
+    color: green;
+    background-color: rgb(216, 251, 216);
+    cursor: pointer;
+    transition: .7s ease;
+}
+
+.secondRowHeaderFilterItem:hover {
+
+    color: white;
+    background-color: green;
+   
+}
+
+.active {
+    color: white;
+    background-color: green; 
+}
