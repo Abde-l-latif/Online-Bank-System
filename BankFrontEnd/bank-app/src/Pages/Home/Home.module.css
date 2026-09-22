@@ -125,3 +125,151 @@ section.Home
     margin: 10px 0;
 }
 
+/* ************* About ************* */
+
+section.About {
+    display: grid;
+    grid-template-columns: 50% auto;
+    gap: 20px;
+    width: 70%;
+    margin: 50px auto;
+    align-items: center;
+}
+
+section.About img {
+    width: 100%;
+}
+
+.AboutInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.AboutInfoHeader {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 20px ;
+    gap: 10px;
+    color: rgb(9, 104, 9);
+    font-weight: 600;
+    background-color: var(--secondary-color);
+}
+
+.AboutInfoHeader img {
+    width: 25px !important;
+    height: 25px;
+}
+
+.AboutInfo h2 {
+    color: var(--primary-color);
+    font-size: 30px;
+}
+
+.AboutInfo p {
+    color: var(--smallpara-color);
+    line-height: 28px;
+}
+
+.AboutCardContainer {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 10px;
+}
+
+.AboutCard {
+    color: rgb(9, 93, 9);
+    display: flex;
+    gap: 10px;
+    align-items : center;
+}
+.AboutCard > div:first-of-type {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--secondary-color);
+    padding: 5px;
+}
+
+.AboutCard div p {
+    font-size: 12px;
+}
+
+
+/* ************* Services ************* */
+
+section.Services {
+    width: 70%;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.Services h2 {
+    color: var(--primary-color);
+    font-size: 30px;
+}
+.Services p {
+    color: var(--smallpara-color);
+    line-height: 28px;
+}
+
+.ServiceCard {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 40px;
+}
+
+.ServiceCardContainer {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 300px;
+    border: 1px solid rgba(128, 128, 128, 0.364);
+    padding: 10px;
+    border-radius: 10px;
+    color: var(--primary-color);
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.17);
+}
+
+.ServiceCardIcon {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+}
+
+.ServiceInfo p{
+    margin-top: 10px;
+    line-height: normal;
+    font-size: 14px;
+}
+
+/* ************* Contact ************* */
+
+.Contact {
+    width: 70%;
+    margin: 50px auto;
+    display: grid;
+    grid-template-columns: 30% 1fr auto ;
+}
+
+.ContactInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.Contact img {
+    width: 300px;
+}
