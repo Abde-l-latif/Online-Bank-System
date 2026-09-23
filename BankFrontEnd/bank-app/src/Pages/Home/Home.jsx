@@ -1,5 +1,6 @@
 import Header from "../../Components/Header/Header"
 import Top from "../../Components/Top/Top"
+import Brand from "../../Components/Brand/Brand"
 import Style from "./Home.module.css"
 import { useEffect, useState} from "react"
 import DisplayCurr from "../../Components/DisplayCurr/DisplayCurr"
@@ -9,8 +10,12 @@ import morocco from "../../assets/morocco.svg"
 import { useTranslation } from 'react-i18next';
 import AboutImg from "../../assets/AboutImgOne.png";
 import bankLogo from "../../assets/bankLogo.svg";
-import { LaptopMinimal, Users  , ShieldCheck, CreditCard, Smartphone , CloudSync, IdCard, ChartNoAxesCombined } from 'lucide-react';
+import { LaptopMinimal, Users, ShieldCheck, CreditCard, Smartphone , CloudSync, IdCard,
+     ChartNoAxesCombined, Send, User, Mail, Inbox , MailPlus, Phone , MapPlus, ChevronRight
+    ,Headset , Zap  } from 'lucide-react';
 import ContactImage from "../../assets/ContactImage.png";
+import { useForm } from "react-hook-form"
+import footerImg from "../../assets/footerImg.png" 
 
 
 
@@ -22,6 +27,42 @@ export default function Home()
     const [loading, setLoading] = useState(true);
     const [usaNum, setUsaNum] = useState(1);
     const [euroNum, setEuroNum] = useState(1);
+    const [EmailData, setEmailData] = useState(null)
+    const {
+            register,
+            handleSubmit,
+            watch,
+            getValues,
+            formState: { errors },
+        } = useForm();
+    const [email, setEmail] = useState(null);
+
+
+    const [selectedSection, setSelectedSection] = useState("home");
+
+useEffect(() => {
+    const sections = document.querySelectorAll("section[id]");
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    setSelectedSection(entry.target.id);
+                }
+            });
+        },
+        {
+            threshold: 0.5
+        }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => {
+        sections.forEach((section) => observer.unobserve(section));
+    };
+}, []);
+        
 
     useEffect(() =>
     {
@@ -62,17 +103,32 @@ export default function Home()
     , []
     )
 
+     const onSubmit = (data) => {
+        try {
+            setEmailData({name : data.name, email : data.EmailRequired, subject: data.sujet, msg : data.message});
+            
+
+        } 
+        catch(ex)
+        {
+            console.log("Error message : " + ex);
+        }
+    }
+
+    
+
     return (
         <>
             <Top/>
 
-            <Header/>
+            <Header selectedSection={selectedSection}
+                setSelectedSection={setSelectedSection}/>
 
-            <section className={Style.Home}>
+            <section id="home" className={Style.Home}>
                 <aside> 
                     <h1>{t("HomeTitle")}</h1>
                     <p>{t("HomePara")}</p>
-                    <button> {t("HomeButton")} </button>
+                    <a href="#about"><button> {t("HomeButton")} </button></a>
                 </aside>
                 <div className={Style.Currency}>
                     <h2>{t("HomeConvertTitle")}</h2>
@@ -86,7 +142,7 @@ export default function Home()
                 </div>
             </section>
 
-            <section className={Style.About}>
+            <section id="about" className={Style.About}>
 
                 <div className={Style.AboutInfo}>
                     <div className={Style.AboutInfoHeader}>
@@ -144,7 +200,7 @@ export default function Home()
             
             </section>
 
-            <section className={Style.Services}>
+            <section id="services" className={Style.Services}>
 
                 <div className={Style.AboutInfoHeader}>
                     <img src={bankLogo} alt="Logo" />
@@ -219,7 +275,7 @@ export default function Home()
 
             </section>
 
-            <section className={Style.Contact}>
+            <section id="contact" className={Style.Contact}>
 
                 <div className={Style.ContactInfo}>
                      <div className={Style.AboutInfoHeader}>
@@ -228,15 +284,198 @@ export default function Home()
                     </div>
                     <h2>Nous sommes là pour vous aider</h2>
                     <p>Une question, un besoin d'assistance ou simplement envie d'en savoir plus ?<br/> Notre équipe est à votre écoute.</p>
+                    <div className={Style.contactCardContainer}>
+                        <div className={Style.contactCard}>
+                            <div className={Style.contactCardIcon}>
+                                <Phone />
+                            </div>
+                            <div className={Style.contactCardInfo}>
+                                <a href="tel:+212664231544"><h4>+212 6 64 23 15 44</h4></a>
+                                <p>Du lundi au vendredi <br/> 8h00 - 18h00</p>
+                            </div>
+                        </div>
+                        <div className={Style.contactCard}>
+                            <div className={Style.contactCardIcon}>
+                                <MapPlus />
+                            </div>
+                            <div className={Style.contactCardInfo}>
+                                <h4>Casablanca, Maroc</h4>
+                                <p>Arrahma avenue je ne sais pas...</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div>
+                <div className={Style.ContactForm}>
                     <h3>Envoyez-nous un message</h3>
+                    <form action="" onSubmit={handleSubmit(onSubmit)}>
+                        <div className={Style.FormFirstRaw}>
+                            <div>
+                                <div className={Style.InputField}>
+                                    <User />
+                                    <input type="text" placeholder={t("RegNamePlaceholder")} {...register("name", { required:  t("AuthErrorRequired")})} />
+                                </div>
+                                <p className={Style.Error}>{errors.name && errors.name.message}</p>
+                            </div>
+                            <div>
+                                <div className={Style.InputField}>
+                                    <Mail />
+                                    <input type="text" placeholder={t("AuthEmailPlaceholder")}  {...register("EmailRequired", { required: true, pattern: {
+                                                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                                                    message: t("AuthErrorEmailFormat")
+                                    } })}/>
+                                </div>
+                                {errors.EmailRequired?.type === "required" && <p className={Style.Error}>{t("AuthErrorRequired")}</p>}
+                                {errors.EmailRequired?.type === "pattern" && <p className={Style.Error}>{errors.EmailRequired.message}</p>}         
+                            </div>
+                        </div>
+
+                        <div className={Style.InputField}>
+                            <Inbox />
+                            <input type="text" placeholder="Sujet" {...register("sujet", { required:  t("AuthErrorRequired")})}  />
+                        </div>
+                        {errors.sujet?.type === "required" && <p className={Style.Error}>{t("AuthErrorRequired")}</p>}
+                        <div className={Style.InputField}>
+                            <MailPlus />
+                            <textarea type="text" placeholder="Votre message..." {...register("message", { required:  t("AuthErrorRequired")})} />
+                        </div>
+                        {errors.message?.type === "required" && <p className={Style.Error}>{t("AuthErrorRequired")}</p>}
+
+                        <button type="submit">
+                            <Send />
+                            <p>Envoyer le message</p>
+                        </button>
+                    </form>
+                    {EmailData != null ? <p style={{color: "#156a1b", padding : "10px", textAlign : "center"}}>Votre message a été envoyer</p> : "" }
                 </div>
 
                 <img src={ContactImage} alt="ContactImage" />
 
             </section>
+                                    
+            <section className={Style.Footer}>
+                <div>
+                    <Brand/>
+                    <p>Une banque en ligne moderne, simple et sècurisée, pensée pour vous accompagnerau quotidien.</p>
+                    <div className={Style.FooterRowOne}>
+                        <div className={Style.FooterIconRowOne}>
+                            <div>
+                               <ShieldCheck/>             
+                            </div>
+                            <p>Sécurisé</p>
+                        </div>
+
+                        <div className={Style.FooterIconRowOne}>
+                            <div>
+                               <Zap/>             
+                            </div>
+                            <p>Rapide</p>
+                        </div> 
+
+                        <div className={Style.FooterIconRowOne}>
+                            <div>
+                               <Smartphone/>             
+                            </div>
+                            <p>100% en ligne</p>
+                        </div> 
+
+                        <div className={Style.FooterIconRowOne}>
+                            <div>
+                               <Headset/>             
+                            </div>
+                            <p>Support 24/7</p>
+                        </div>     
+                        
+                    </div>
+                </div>
+
+                <div className={Style.FooterNav}>
+                    <h4>Liens rapides </h4>   
+                    <ul>
+                        <a href="#home"><li>
+                            <ChevronRight/>
+                            <p>Accueil</p>
+                        </li></a>
+                        <a href="#about"><li>
+                            <ChevronRight/>
+                            <p>À propos</p>
+                        </li></a>
+                        <a href="#services"><li>
+                            <ChevronRight/>
+                            <p>Services</p>
+                        </li></a>
+                        <a href="#contact"><li>
+                            <ChevronRight/>
+                            <p>Contactez-nous</p>
+                        </li></a>
+                    </ul>                
+
+                </div>
+
+                <div>
+                    <h4>Nos services </h4>
+                    <ul>
+                        <li>
+                            <ChevronRight/>
+                            <p>Comptes bancaires</p>
+                        </li>
+                        <li>
+                            <ChevronRight/>
+                            <p>transfers</p>
+                        </li>
+                        <li>
+                            <ChevronRight/>
+                            <p>Cartes bancaires</p>
+                        </li>
+                        <li>
+                            <ChevronRight/>
+                            <p>Paiements</p>
+                        </li>
+                        <li>
+                            <ChevronRight/>
+                            <p>épargne & Investissement</p>
+                        </li>
+                        <li>
+                            <ChevronRight/>
+                            <p>Sécurité</p>
+                        </li>
+                    </ul> 
+                </div>
+
+                <div className={Style.footerSignup}>
+                    <div className={Style.footerIcon}>
+                        <Mail />             
+                    </div>
+
+                    <h3>Restez informé</h3>
+
+                    <p>Recevez nos dernières actualités, offres et conseils directement dans votre boîte mail.</p>
+
+                    <form action="" className={Style.footerInput} onSubmit={(e) => {
+                        e.preventDefault();
+                        setEmail(e.target.email.value);
+
+                    }}> 
+                        <Mail />
+                        <input type="email" placeholder="Enter your email address" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                        onInvalid={(e) =>
+                            e.target.setCustomValidity("Please enter a valid email address.")
+                        }
+                        onInput={(e) =>
+                            e.target.setCustomValidity("")
+                        }
+                        name="email"/>
+                        <button>
+                            <p>S'inscrire</p>
+                        </button>
+                    </form>
+
+                    {email != null ? <p style={{color: "#07910d"}}> Vous êtes maintenant inscrit. </p> : ""}
+ 
+                </div>                        
+            </section>
+            <img className={Style.footerImage} src={footerImg} alt="footerImage" />
+
         </>
     )
 }

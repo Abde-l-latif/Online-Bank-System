@@ -3,7 +3,7 @@ section.Home
     display: grid;
     grid-template-columns: 60% auto;
     width: 70%;
-    margin: 40px auto;
+    margin: 70px auto;
     gap: 20px;
 }
 
@@ -132,7 +132,7 @@ section.About {
     grid-template-columns: 50% auto;
     gap: 20px;
     width: 70%;
-    margin: 50px auto;
+    margin: 70px auto;
     align-items: center;
 }
 
@@ -205,7 +205,7 @@ section.About img {
 
 section.Services {
     width: 70%;
-    margin: 50px auto;
+    margin: 70px auto;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -259,9 +259,9 @@ section.Services {
 
 .Contact {
     width: 70%;
-    margin: 50px auto;
+    margin:70px auto;
     display: grid;
-    grid-template-columns: 30% 1fr auto ;
+    grid-template-columns: auto 40% auto ;
 }
 
 .ContactInfo {
@@ -270,6 +270,245 @@ section.Services {
     gap: 20px;
 }
 
+.ContactInfo h2 {
+    color: var(--primary-color);
+}
+
+.ContactInfo p {
+    color: var(--smallpara-color);
+    line-height: 25px;
+}
+
+.contactCardContainer {
+    display: grid;
+    gap: 20px;
+}
+
+.contactCard {
+    display: flex;
+    align-items: center;
+    color: var(--primary-color);
+    gap: 20px;
+}
+
+.contactCardIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--secondary-color);
+}
+
+
 .Contact img {
     width: 300px;
+    align-self: center;
+}
+
+
+.ContactForm {
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.129);
+}
+
+.ContactForm h3 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.FormFirstRaw {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: auto auto;
+}
+
+.InputField {
+    border: 1px solid rgba(128, 128, 128, 0.637);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: var(--primary-color);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.InputField input {
+    padding: 5px;
+    width: 100%;
+    border: none;
+    outline: none;
+}
+
+.InputField textarea {
+    padding: 5px;
+    width: 100%;
+    min-width: 90%;
+    min-height: 100px;
+    max-height: 250px !important;
+    border: none;
+    outline: none;
+}
+
+button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    background-color: var(--primary-color);
+    transition: .7s ease;
+}
+
+button:hover {
+    background-color: var(--primary-hover-color);
+}
+
+.Error {
+    color: red;
+    padding: 5px 10px;
+}
+
+/* **************** FOOTER **************** */
+
+.footerImage {
+    width: 100%;
+    object-fit: cover;
+    height: 200px;
+}
+
+.Footer {
+    margin: 70px auto 0px auto;
+    width: 70%;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    gap: 20px;
+}
+
+.Footer > div:first-of-type {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.Footer > div:first-of-type p{
+    color: var(--smallpara-color);
+    line-height: 30px;
+    font-size: 14px;
+}
+
+.FooterRowOne {
+    display: flex;
+    gap: 40px;
+}
+
+.FooterIconRowOne {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+}
+
+.FooterIconRowOne div {
+    width: 50px;
+    height: 50px;
+    background-color: #d9f1cb;
+    color: green;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.FooterIconRowOne p {
+    font-size: 14px;
+    color: var(--smallpara-color);
+}
+
+.FooterNav a:hover li {
+    color: green;
+}
+
+.Footer h4 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+.Footer ul {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: var(--smallpara-color);
+}
+
+.Footer ul li {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-size: 14px;
+    transition: .4s ease;
+}
+
+.footerSignup {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.footerSignup h3 {
+    color: rgb(8, 110, 8);
+}
+
+.footerSignup > p:first-of-type {
+    color: var(--smallpara-color);
+    line-height: 25px;
+    font-size: 14px;
+}
+
+.footerIcon {
+    width: 40px ;
+    height: 40px;
+    border-radius: 100%;
+    background-color: rgba(205, 250, 205, 0.849);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+form.footerInput {
+    border: 1px solid rgba(82, 81, 81, 0.482);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px;
+    border-radius: 50px;
+    gap: 10px;
+    color: var(--primary-color);
+
+}
+
+.footerInput input {
+    outline: none;
+    border: none;
+    max-width: 100%;
+    flex: 1;
+}
+
+.footerInput button {
+    border-radius: 30px;
+    padding: 10px 20px;
 }
