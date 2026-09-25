@@ -147,16 +147,12 @@ useEffect(() => {
                 <div className={Style.AboutInfo}>
                     <div className={Style.AboutInfoHeader}>
                         <img src={bankLogo} alt="Logo" />
-                        <p>À propos de nous</p>
+                        <p>{t("About.sectionName")}</p>
                     </div>
 
-                    <h2>Votre partenaire de confiance pour un avenir financier meilleur</h2>
+                    <h2>{t("About.sectionTitle")}</h2>
 
-                    <p>AbdoBank est une banque en ligne moderne conçue pour simplifier la gestion de votre argent au quotidien.
-                        Notre objectif est de proposer des services bancaires simples, accessibles et sécurisés, 
-                        tout en offrant une expérience entièrement digitale et facile à utiliser. 
-                        Que vous souhaitiez gérer vos comptes, effectuer des transferts, suivre vos transactions ou utiliser vos
-                        cartes bancaires, AbdoBank vous accompagne avec des solutions adaptées à vos besoins. </p>
+                    <p>{t("About.sectionPara")}</p>
 
                     <div className={Style.AboutCardContainer}>
                         <div className={Style.AboutCard}>
@@ -166,7 +162,7 @@ useEffect(() => {
                             
                             <div>
                                 <h3>100%</h3>
-                                <p>En ligne</p>
+                                <p>{t("About.infoOne")}</p>
                             </div>
                         </div> 
 
@@ -177,7 +173,7 @@ useEffect(() => {
                             
                             <div>
                                 <h3>+10K</h3>
-                                <p>Clients satisfaits</p>
+                                <p>{t("About.infoTwo")}</p>
                             </div>
                         </div> 
 
@@ -187,8 +183,8 @@ useEffect(() => {
                             </div>   
                             
                             <div>
-                                <h3>Sécurisé</h3>
-                                <p>Vos données protégées</p>
+                                <h3>{t("About.infoThreeTitle")}</h3>
+                                <p>{t("About.infoThree")}</p>
                             </div>
                         </div> 
 
@@ -204,10 +200,10 @@ useEffect(() => {
 
                 <div className={Style.AboutInfoHeader}>
                     <img src={bankLogo} alt="Logo" />
-                    <p>Nos services</p>
+                    <p>{t("Services.sectionName")}</p>
                 </div>
-                <h2>Des services bancaires complets pour tous vos besoins</h2>
-                <p>Que vous soyez un particulier ou une entreprise, AbdoBank vous accompagne avec des solutions simple, rapide et sécurisées.</p>
+                <h2>{t("Services.sectionTitle")}</h2>
+                <p>{t("Services.sectionPara")}</p>
 
                 <div className={Style.ServiceCard}>
                     <div className={Style.ServiceCardContainer}>
@@ -215,8 +211,8 @@ useEffect(() => {
                             <IdCard />
                         </div>
                         <div className={Style.ServiceInfo}>
-                            <h4>Comptes bancaires</h4>
-                            <p>Comptes courants et d'épargne adaptés à votre profil</p>
+                            <h4>{t("Services.services.0.title")}</h4>
+                            <p>{t("Services.services.0.description")}</p>
                         </div>              
                     </div>
 
@@ -225,8 +221,8 @@ useEffect(() => {
                             <CloudSync/>
                         </div>
                         <div className={Style.ServiceInfo}>
-                            <h4>transfers</h4>
-                            <p>Envoyez et recevez de l'argent en toute simplicité </p>
+                            <h4>{t("Services.services.1.title")}</h4>
+                            <p>{t("Services.services.1.description")}</p>
                         </div>              
                     </div>
 
@@ -235,8 +231,8 @@ useEffect(() => {
                             <CreditCard />
                         </div>
                         <div className={Style.ServiceInfo}>
-                            <h4>Cartes bancaires</h4>
-                            <p>Des cartes sûres pour toutes vos transactions</p>
+                            <h4>{t("Services.services.2.title")}</h4>
+                            <p>{t("Services.services.2.description")}</p>
                         </div>              
                     </div>
 
@@ -245,8 +241,8 @@ useEffect(() => {
                             <Smartphone/>
                         </div>
                         <div className={Style.ServiceInfo}>
-                            <h4>Paiements</h4>
-                            <p>Payez vos factures et vos achats en ligne ou en magasin</p>
+                            <h4>{t("Services.services.3.title")}</h4>
+                            <p>{t("Services.services.3.description")}</p>
                         </div>              
                     </div>
 
@@ -255,8 +251,8 @@ useEffect(() => {
                             <ChartNoAxesCombined/>
                         </div>
                         <div className={Style.ServiceInfo}>
-                            <h4>épargne & Investissement</h4>
-                            <p>Faites fructifier votre argent en toute sérénité</p>
+                            <h4>{t("Services.services.4.title")}</h4>
+                            <p>{t("Services.services.4.description")}</p>
                         </div>              
                     </div>
 
@@ -265,8 +261,8 @@ useEffect(() => {
                             <ShieldCheck/>
                         </div>
                         <div className={Style.ServiceInfo}>
-                            <h4>Sécurité</h4>
-                            <p>Une technologie de pointe pour protéger vos données</p>
+                            <h4>{t("Services.services.5.title")}</h4>
+                            <p>{t("Services.services.5.description")}</p>
                         </div>              
                     </div>
 
@@ -280,10 +276,10 @@ useEffect(() => {
                 <div className={Style.ContactInfo}>
                      <div className={Style.AboutInfoHeader}>
                         <img src={bankLogo} alt="Logo" />
-                        <p>Nous contacter</p>
+                        <p>{t("Contact.sectionName")}</p>
                     </div>
-                    <h2>Nous sommes là pour vous aider</h2>
-                    <p>Une question, un besoin d'assistance ou simplement envie d'en savoir plus ?<br/> Notre équipe est à votre écoute.</p>
+                    <h2>{t("Contact.sectionTitle")}</h2>
+                    <p>{t("Contact.sectionPara")}</p>
                     <div className={Style.contactCardContainer}>
                         <div className={Style.contactCard}>
                             <div className={Style.contactCardIcon}>
@@ -291,7 +287,7 @@ useEffect(() => {
                             </div>
                             <div className={Style.contactCardInfo}>
                                 <a href="tel:+212664231544"><h4>+212 6 64 23 15 44</h4></a>
-                                <p>Du lundi au vendredi <br/> 8h00 - 18h00</p>
+                                <p>{t("Contact.schedule")} <br/> 8h00 - 18h00</p>
                             </div>
                         </div>
                         <div className={Style.contactCard}>
@@ -299,15 +295,15 @@ useEffect(() => {
                                 <MapPlus />
                             </div>
                             <div className={Style.contactCardInfo}>
-                                <h4>Casablanca, Maroc</h4>
-                                <p>Arrahma avenue je ne sais pas...</p>
+                                <h4>{t("Contact.location")}</h4>
+                                <p>{t("Contact.address")}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div className={Style.ContactForm}>
-                    <h3>Envoyez-nous un message</h3>
+                    <h3>{t("Contact.formTitle")}</h3>
                     <form action="" onSubmit={handleSubmit(onSubmit)}>
                         <div className={Style.FormFirstRaw}>
                             <div>
@@ -332,149 +328,151 @@ useEffect(() => {
 
                         <div className={Style.InputField}>
                             <Inbox />
-                            <input type="text" placeholder="Sujet" {...register("sujet", { required:  t("AuthErrorRequired")})}  />
+                            <input type="text" placeholder={t("Contact.subjectInput")} {...register("sujet", { required:  t("AuthErrorRequired")})}  />
                         </div>
                         {errors.sujet?.type === "required" && <p className={Style.Error}>{t("AuthErrorRequired")}</p>}
                         <div className={Style.InputField}>
                             <MailPlus />
-                            <textarea type="text" placeholder="Votre message..." {...register("message", { required:  t("AuthErrorRequired")})} />
+                            <textarea type="text" placeholder={t("Contact.yourMessage")} {...register("message", { required:  t("AuthErrorRequired")})} />
                         </div>
                         {errors.message?.type === "required" && <p className={Style.Error}>{t("AuthErrorRequired")}</p>}
 
-                        <button type="submit">
+                        <button className={Style.Btn} type="submit">
                             <Send />
-                            <p>Envoyer le message</p>
+                            <p>{t("Contact.formButton")}</p>
                         </button>
                     </form>
-                    {EmailData != null ? <p style={{color: "#156a1b", padding : "10px", textAlign : "center"}}>Votre message a été envoyer</p> : "" }
+                    {EmailData != null ? <p style={{color: "#156a1b", padding : "10px", textAlign : "center"}}>{t("successs.contactMsg")}</p> : "" }
                 </div>
 
                 <img src={ContactImage} alt="ContactImage" />
 
             </section>
-                                    
-            <section className={Style.Footer}>
-                <div>
-                    <Brand/>
-                    <p>Une banque en ligne moderne, simple et sècurisée, pensée pour vous accompagnerau quotidien.</p>
-                    <div className={Style.FooterRowOne}>
-                        <div className={Style.FooterIconRowOne}>
-                            <div>
-                               <ShieldCheck/>             
+
+            <div className={Style.Mask}>
+                <section className={Style.Footer}>
+                    <div>
+                        <Brand/>
+                        <p>{t("Footer.para")}</p>
+                        <div className={Style.FooterRowOne}>
+                            <div className={Style.FooterIconRowOne}>
+                                <div>
+                                <ShieldCheck/>             
+                                </div>
+                                <p>{t("Footer.firstIcon")}</p>
                             </div>
-                            <p>Sécurisé</p>
+
+                            <div className={Style.FooterIconRowOne}>
+                                <div>
+                                <Zap/>             
+                                </div>
+                                <p>{t("Footer.secondIcon")}</p>
+                            </div> 
+
+                            <div className={Style.FooterIconRowOne}>
+                                <div>
+                                <Smartphone/>             
+                                </div>
+                                <p>100% {t("About.infoOne")}</p>
+                            </div> 
+
+                            <div className={Style.FooterIconRowOne}>
+                                <div>
+                                <Headset/>             
+                                </div>
+                                <p>Support 24/7</p>
+                            </div>     
+                            
+                        </div>
+                    </div>
+
+                    <div className={Style.FooterNav}>
+                        <h4>{t("Footer.navTitle")}</h4>   
+                        <ul>
+                            <a href="#home"><li>
+                                <ChevronRight/>
+                                <p>{t("headerNavOne")}</p>
+                            </li></a>
+                            <a href="#about"><li>
+                                <ChevronRight/>
+                                <p>{t("headerNavTwo")}</p>
+                            </li></a>
+                            <a href="#services"><li>
+                                <ChevronRight/>
+                                <p>{t("headerNavThree")}</p>
+                            </li></a>
+                            <a href="#contact"><li>
+                                <ChevronRight/>
+                                <p>{t("headerNavFour")}</p>
+                            </li></a>
+                        </ul>                
+
+                    </div>
+
+                    <div className={Style.FooterServices}>
+                        <h4>{t("Services.sectionName")}</h4>
+                        <ul>
+                            <li>
+                                <ChevronRight/>
+                                <p>{t("Services.services.0.title")}</p>
+                            </li>
+                            <li>
+                                <ChevronRight/>
+                                <p>{t("Services.services.1.title")}</p>
+                            </li>
+                            <li>
+                                <ChevronRight/>
+                                <p>{t("Services.services.2.title")}</p>
+                            </li>
+                            <li>
+                                <ChevronRight/>
+                                <p>{t("Services.services.3.title")}</p>
+                            </li>
+                            <li>
+                                <ChevronRight/>
+                                <p>{t("Services.services.4.title")}</p>
+                            </li>
+                            <li>
+                                <ChevronRight/>
+                                <p>{t("Services.services.5.title")}</p>
+                            </li>
+                        </ul> 
+                    </div>
+
+                    <div className={Style.footerSignup}>
+                        <div className={Style.footerIcon}>
+                            <Mail />             
                         </div>
 
-                        <div className={Style.FooterIconRowOne}>
-                            <div>
-                               <Zap/>             
-                            </div>
-                            <p>Rapide</p>
-                        </div> 
+                        <h3>{t("Footer.secondTitle")}</h3>
 
-                        <div className={Style.FooterIconRowOne}>
-                            <div>
-                               <Smartphone/>             
-                            </div>
-                            <p>100% en ligne</p>
-                        </div> 
+                        <p>{t("Footer.paraTwo")}</p>
 
-                        <div className={Style.FooterIconRowOne}>
-                            <div>
-                               <Headset/>             
-                            </div>
-                            <p>Support 24/7</p>
-                        </div>     
-                        
-                    </div>
-                </div>
+                        <form action="" className={Style.footerInput} onSubmit={(e) => {
+                            e.preventDefault();
+                            setEmail(e.target.email.value);
 
-                <div className={Style.FooterNav}>
-                    <h4>Liens rapides </h4>   
-                    <ul>
-                        <a href="#home"><li>
-                            <ChevronRight/>
-                            <p>Accueil</p>
-                        </li></a>
-                        <a href="#about"><li>
-                            <ChevronRight/>
-                            <p>À propos</p>
-                        </li></a>
-                        <a href="#services"><li>
-                            <ChevronRight/>
-                            <p>Services</p>
-                        </li></a>
-                        <a href="#contact"><li>
-                            <ChevronRight/>
-                            <p>Contactez-nous</p>
-                        </li></a>
-                    </ul>                
+                        }}> 
+                            <Mail />
+                            <input type="email" placeholder={t("AuthEmailPlaceholder")} required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                            onInvalid={(e) =>
+                                e.target.setCustomValidity(t("AuthErrorEmailFormat"))
+                            }
+                            onInput={(e) =>
+                                e.target.setCustomValidity("")
+                            }
+                            name="email"/>
+                            <button className={Style.Btn}>
+                                <p>{t("Footer.button")}</p>
+                            </button>
+                        </form>
 
-                </div>
-
-                <div>
-                    <h4>Nos services </h4>
-                    <ul>
-                        <li>
-                            <ChevronRight/>
-                            <p>Comptes bancaires</p>
-                        </li>
-                        <li>
-                            <ChevronRight/>
-                            <p>transfers</p>
-                        </li>
-                        <li>
-                            <ChevronRight/>
-                            <p>Cartes bancaires</p>
-                        </li>
-                        <li>
-                            <ChevronRight/>
-                            <p>Paiements</p>
-                        </li>
-                        <li>
-                            <ChevronRight/>
-                            <p>épargne & Investissement</p>
-                        </li>
-                        <li>
-                            <ChevronRight/>
-                            <p>Sécurité</p>
-                        </li>
-                    </ul> 
-                </div>
-
-                <div className={Style.footerSignup}>
-                    <div className={Style.footerIcon}>
-                        <Mail />             
-                    </div>
-
-                    <h3>Restez informé</h3>
-
-                    <p>Recevez nos dernières actualités, offres et conseils directement dans votre boîte mail.</p>
-
-                    <form action="" className={Style.footerInput} onSubmit={(e) => {
-                        e.preventDefault();
-                        setEmail(e.target.email.value);
-
-                    }}> 
-                        <Mail />
-                        <input type="email" placeholder="Enter your email address" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-                        onInvalid={(e) =>
-                            e.target.setCustomValidity("Please enter a valid email address.")
-                        }
-                        onInput={(e) =>
-                            e.target.setCustomValidity("")
-                        }
-                        name="email"/>
-                        <button>
-                            <p>S'inscrire</p>
-                        </button>
-                    </form>
-
-                    {email != null ? <p style={{color: "#07910d"}}> Vous êtes maintenant inscrit. </p> : ""}
- 
-                </div>                        
-            </section>
-            <img className={Style.footerImage} src={footerImg} alt="footerImage" />
+                        {email != null ? <p style={{color: "#07910d"}}>{t("successs.footerMsg")} </p> : ""}
+    
+                    </div>                        
+                </section>
+                <img className={Style.footerImage} src={footerImg} alt="footerImage" />
+            </div>                       
 
         </>
     )

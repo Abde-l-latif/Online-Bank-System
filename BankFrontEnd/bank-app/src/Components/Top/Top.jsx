@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Style from "./Top.module.css"
 import { useTranslation } from 'react-i18next';
 
@@ -11,6 +12,10 @@ export default function Top()
     };
 
     const SavedLanguage = window.localStorage.getItem("Lang") || "fr";
+    
+    useEffect(() => {   
+        i18n.changeLanguage(window.localStorage.getItem("Lang"))
+    }, [])
 
     return (
         <>

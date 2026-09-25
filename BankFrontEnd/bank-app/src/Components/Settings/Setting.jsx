@@ -5,11 +5,13 @@ import { useState } from "react";
 import EditProfile from "../EditProfile/EditProfile";
 import EditPassword from "../EditPassword/EditPassword";
 import { useNavigate } from "react-router";
+import { useTranslation } from 'react-i18next';
 
 const Setting = ({UserInfo}) => {
 
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [isPasswordOpen, setIsPasswordOpen] = useState(false);
+    const { t } = useTranslation();
  
     const nav = useNavigate();
 
@@ -21,8 +23,8 @@ const Setting = ({UserInfo}) => {
                     <Cog className={Style.iconColor}  size={35}/>
                 </div>
                 <div>
-                    <h2> Setting </h2>
-                    <p> Manage your account settings. </p>
+                    <h2>{t('Settings.title')}</h2>
+                    <p>{t('Settings.description')}</p>
                 </div>
             </div>
 
@@ -33,13 +35,13 @@ const Setting = ({UserInfo}) => {
                             <UserRound  className={Style.iconColor}  size={25}/>
                         </div>
                         <div className={Style.SubHeadInfo}>
-                            <h3> Profile </h3>
-                            <p> Your personnel information and contact details. </p>
+                            <h3>{t('Settings.profile')}</h3>
+                            <p>{t('Settings.profileDescription')}</p>
                         </div>
                     </div>
                     <button className={Style.ProfileBTN} type="button" onClick={() => setIsProfileOpen(true)}>
                         <PenLine />
-                        <p>Edit Profile</p>
+                        <p>{t('Settings.editProfile')}</p>
                     </button>
                 </div>
 
@@ -57,7 +59,7 @@ const Setting = ({UserInfo}) => {
                         <div className={Style.ProfileTable}>
                             <div className={Style.profileRowHead}> 
                                 <UserRound size={20} />
-                                <p>First name</p>
+                                <p>{t('Settings.firstName')}</p>
                             </div>
                             <p>{UserInfo?.customer?.firstName}</p>
                         </div>
@@ -65,7 +67,7 @@ const Setting = ({UserInfo}) => {
                         <div className={Style.ProfileTable}>
                             <div className={Style.profileRowHead}> 
                                 <UserRound size={20} />
-                                <p>Last name</p>
+                                <p>{t('Settings.lastName')}</p>
                             </div>
                             <p>{UserInfo?.customer?.lastName}</p>
                         </div>
@@ -73,7 +75,7 @@ const Setting = ({UserInfo}) => {
                         <div className={Style.ProfileTable}>
                             <div className={Style.profileRowHead}> 
                                 <Mail size={20} />
-                                <p>Email</p>
+                                <p>{t('Settings.email')}</p>
                             </div>
                             <p>{UserInfo?.emailAddress}</p>
                         </div>
@@ -81,7 +83,7 @@ const Setting = ({UserInfo}) => {
                         <div className={Style.ProfileTable}>
                             <div className={Style.profileRowHead}> 
                                 <PhoneCall size={20} />
-                                <p>Phone number</p>
+                                <p>{t('Settings.phone')}</p>
                             </div>
                             <p>{UserInfo?.customer?.phoneNumber}</p>
                         </div>
@@ -97,8 +99,8 @@ const Setting = ({UserInfo}) => {
                             <LockKeyhole  className={Style.iconColor}  size={25}/>
                         </div>
                         <div className={Style.SubHeadInfo}>
-                            <h3> Security </h3>
-                            <p> Keep your account safe and secure. </p>
+                            <h3>{t('Settings.security')}</h3>
+                            <p>{t('Settings.securityDescription')}</p>
                         </div>
                     </div>
                 </div>
@@ -108,13 +110,13 @@ const Setting = ({UserInfo}) => {
                             <KeyRound  className={Style.iconColor}  size={20}/>
                         </div>
                         <div className={Style.passwordInfo}>
-                            <h3> Password </h3>
-                            <p> Change your password regularly to keep your account safe </p>
+                            <h3>{t('Settings.password')}</h3>
+                            <p>{t('Settings.passwordDescription')}</p>
                         </div>
                     </div>
                     <button className={Style.PasswordBTN} type="button" onClick={() => setIsPasswordOpen(true)}>
                         <KeyRound />
-                        <p>Change password</p>
+                        <p>{t('Settings.changePassword')}</p>
                     </button>
                 </div>
 
@@ -127,8 +129,8 @@ const Setting = ({UserInfo}) => {
                             <LogOut  color="red"  size={25}/>
                         </div>
                         <div className={Style.SignOutInfo}>
-                            <h3> Sign Out </h3>
-                            <p> You will be logged out from your account. </p>
+                            <h3>{t('Settings.signOut')}</h3>
+                            <p>{t('Settings.signOutDescription')}</p>
                         </div>
                     </div>
                     <div className={Style.SignoutBTN} onClick={async () => {
@@ -154,7 +156,7 @@ const Setting = ({UserInfo}) => {
                         }
                     }}>
                         <LogOut />
-                        <p>Sign out</p>
+                        <p>{t('Settings.signOutButton')}</p>
                     </div>
                 </div>
             </div>

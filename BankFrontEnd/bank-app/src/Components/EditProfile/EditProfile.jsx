@@ -4,6 +4,7 @@ import Style from "./EditProfile.module.css";
 import { useForm } from "react-hook-form";
 import flag from "../../assets/morocco2.svg";
 import { apiFetch } from "../../utils/functions/ApiFunction";
+import { useTranslation } from 'react-i18next';
 
 const EditProfile = ({ profile, onClose }) => {
     const {
@@ -21,6 +22,7 @@ const EditProfile = ({ profile, onClose }) => {
 
     const [CustomError, setCustomError] = useState({status :false, msg : ""});
     const [success , setSuccess] = useState({status :false, msg : ""});
+    const { t } = useTranslation();
 
 
     useEffect(() => {
@@ -71,8 +73,8 @@ const EditProfile = ({ profile, onClose }) => {
             <section className={Style.modal} role="dialog" aria-modal="true" aria-labelledby="edit-profile-title">
                 <header className={Style.header}>
                     <div>
-                        <h2 id="edit-profile-title">Edit Profile</h2>
-                        <p>Update your personal information.</p>
+                        <h2 id="edit-profile-title">{t('EditProfile.title')}</h2>
+                        <p>{t('EditProfile.description')}</p>
                     </div>
                     <button className={Style.closeButton} type="button" onClick={onClose} aria-label="Close edit profile">
                         <X size={22} />
@@ -81,25 +83,25 @@ const EditProfile = ({ profile, onClose }) => {
 
                 <form className={Style.form} onSubmit={handleSubmit(onSubmit)}>
                     <label>
-                        First name
+                        {t('Settings.firstName')}
                         <input {...register("firstName", { required: "this field required", minLength: { value: 2, message: "min length is 2" } })}
                         defaultValue={profile?.customer?.firstName} />
                     </label>
                     {errors?.firstName?.message && <p className={Style.error}>{errors.firstName.message}</p>}
                     <label>
-                        Last name
+                        {t('Settings.lastName')}
                         <input {...register("lastName", { required: "this field required", minLength: { value: 2, message: "min length is 2" } })}
                         defaultValue={profile?.customer?.lastName} />
                     </label>
                     {errors?.lastName?.message && <p className={Style.error}>{errors.lastName.message}</p>}
                     <label>
-                        Email
+                        {t('Settings.email')}
                         <input type="email" {...register("email", { required: "this field required", pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "enter a valid email" } })}
                         defaultValue={profile?.emailAddress} />
                     </label>
                     {errors?.email?.message && <p className={Style.error}>{errors.email.message}</p>}
                     <label>
-                        Phone number
+                        {t('Settings.phone')}
                         <div style={{display : "flex", alignItems: "center", gap : "10px"}}>
                             <img src={flag} alt="moroccan flag" /><span>+212</span>
                             <input type="tel" {...register("phone", { required: "this field required", pattern: { value: /[\d]{9}$/, message: "enter a valid phone number" },
@@ -110,8 +112,8 @@ const EditProfile = ({ profile, onClose }) => {
                     {errors?.phone?.message && <p className={Style.error}>{errors.phone.message}</p>}
                     {success && <p style={{ color : "green"}}>{success.msg}</p>}
                     <footer className={Style.footer}>
-                        <button className={Style.cancelButton} type="button" onClick={onClose}>Cancel</button>
-                        <button className={Style.saveButton} type="submit">Save changes</button>
+                        <button className={Style.cancelButton} type="button" onClick={onClose}>{t('EditProfile.cancel')}</button>
+                        <button className={Style.saveButton} type="submit">{t('EditProfile.save')}</button>
                     </footer>
                 </form>
             </section>

@@ -25,7 +25,7 @@ const EditPassword = ({ onClose, email }) => {
 
         if(data.ConfirmingPasswordRequired != data.NewPasswordRequired)
         {
-            setCustomError({status : true, msg : "your confirm password is wrong"})
+            setCustomError({status : true, msg : t('EditPassword.mismatch')})
             return;
         }
   
@@ -70,8 +70,8 @@ const EditPassword = ({ onClose, email }) => {
             <section className={Style.modal} role="dialog" aria-modal="true" aria-labelledby="edit-password-title">
                 <header className={Style.header}>
                     <div>
-                        <h2 id="edit-password-title">Change Password</h2>
-                        <p>Update your account password.</p>
+                        <h2 id="edit-password-title">{t('EditPassword.title')}</h2>
+                        <p>{t('EditPassword.description')}</p>
                     </div>
                     <button className={Style.closeButton} type="button" onClick={onClose} aria-label="Close change password">
                         <X size={22} />
@@ -81,7 +81,7 @@ const EditPassword = ({ onClose, email }) => {
                 <form className={Style.form} onSubmit={handleSubmit(onSubmit)}>
                     
                     <label>
-                        Current password
+                        {t('EditPassword.current')}
                         <div className={Style.Raw}>
                             <input type={ShowPassword.curr ? "text" : "password"} name="currentPassword"  
                             {...register("OldPasswordRequired", { required: true , minLength: {value: 8, message: "min length is 8"}})} />
@@ -95,7 +95,7 @@ const EditPassword = ({ onClose, email }) => {
 
 
                     <label>
-                        New password
+                        {t('EditPassword.new')}
                         <div className={Style.Raw}>
                             <input type={ShowPassword.new ? "text" : "password"} name="newPassword"
                             {...register("NewPasswordRequired", { required: true , minLength: {value: 8, message: "min length is 8"}
@@ -114,7 +114,7 @@ const EditPassword = ({ onClose, email }) => {
 
 
                     <label>
-                        Confirm new password
+                        {t('EditPassword.confirm')}
                         <div className={Style.Raw}>
                             <input type={ShowPassword.confirm ? "text" : "password"} name="confirmPassword"  
                             {...register("ConfirmingPasswordRequired", { required: true , minLength: {value: 8, message: "min length is 8"}})} />
@@ -131,8 +131,8 @@ const EditPassword = ({ onClose, email }) => {
                     {success && <p style={{ color : "green"}}>{success.msg}</p>}
 
                     <footer className={Style.footer}>
-                        <button className={Style.cancelButton} type="button" onClick={onClose}>Cancel</button>
-                        <button className={Style.saveButton} type="submit">Change password</button>
+                        <button className={Style.cancelButton} type="button" onClick={onClose}>{t('EditPassword.cancel')}</button>
+                        <button className={Style.saveButton} type="submit">{t('EditPassword.save')}</button>
                     </footer>
                 </form>
             </section>

@@ -1,6 +1,6 @@
-
-
-
+.parent {
+    padding: 10px;
+}
 
 .header {
     display: flex;
@@ -79,3 +79,11 @@
     background-color: var(--primary-hover-color);
     letter-spacing: 1.5px;
 }
+
+@media (max-width: 455px) {
+    .header {
+        flex-direction: column;
+    }
+}
+
+

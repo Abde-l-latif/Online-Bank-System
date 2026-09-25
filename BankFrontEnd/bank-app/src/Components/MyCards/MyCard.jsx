@@ -6,6 +6,7 @@ import masterCard from "../../assets/mastercard.png"
 import { useState, useEffect } from 'react';
 import AddCard from '../AddCards/AddCard';
 import { apiFetch } from '../../utils/functions/ApiFunction';
+import { useTranslation } from 'react-i18next';
 
 const MyCard = ({customerId, email}) => {
 
@@ -13,6 +14,7 @@ const MyCard = ({customerId, email}) => {
     const [accounts, setAccounts] = useState(null);
     const [selectedCard, setSelectedCard] = useState(null);
     const [addCardStatus, setAddCardStatus] = useState(false);
+    const { t } = useTranslation();
 
     useEffect(() => {
        
@@ -136,12 +138,12 @@ const MyCard = ({customerId, email}) => {
             <section className={Style.myCard}>
                 <div className={Style.myCardsHeader}>
                     <div>
-                        <h2>Add new Card</h2>
-                        <p> This is the card creation area. </p>
+                        <h2>{t('Cards.addTitle')}</h2>
+                        <p>{t('Cards.addDescription')}</p>
                     </div>
                     <div className={Style.AddBtn} onClick={() => setAddCardStatus(!addCardStatus)}>
                         <Undo2 size={20} color="white" />
-                        <p>Back to Cards</p>
+                        <p>{t('Cards.back')}</p>
                     </div>
                 </div>
                 <AddCard accounts={accountsWithoutCards} email={email}/>
@@ -150,35 +152,35 @@ const MyCard = ({customerId, email}) => {
             <section className={Style.myCard}>
                 <div className={Style.myCardsHeader}>
                     <div>
-                        <h2>My Cards</h2>
-                        <p> Add or Manage your cards </p>
+                        <h2>{t('Cards.title')}</h2>
+                        <p>{t('Cards.description')}</p>
                     </div>
                     <div className={Style.AddBtn} onClick={() => setAddCardStatus(!addCardStatus)}>
                         <Plus size={20} color="white" />
-                        <p>Order New Card</p>
+                        <p>{t('Cards.order')}</p>
                     </div>
                 </div>
                 <div className={Style.CardContainer}>
                     {DisplayCards}
                 </div>
                 <div className={Style.SelectedCardContainer}>
-                    <h3>Selected Card</h3>
-                    <p>Selected Card Details :</p>
+                    <h3>{t('Cards.selected')}</h3>
+                    <p>{t('Cards.details')}</p>
                     <div>
                         {selectedCard && (
                             <div className={Style.SelectedCardDetails}>
-                                <p> <span>Card Number:</span> {selectedCard?.cardNumber?.match(/.{1,4}/g)?.join(" ")}</p>
-                                <p> <span>Card Holder:</span> {selectedCard?.cardHolderName}</p>
-                                <p> <span>Expiration Date:</span> {new Date(selectedCard?.expirationDate).toLocaleDateString("en-US", {
+                                    <p> <span>{t('Cards.number')}</span> {selectedCard?.cardNumber?.match(/.{1,4}/g)?.join(" ")}</p>
+                                    <p> <span>{t('Cards.holder')}</span> {selectedCard?.cardHolderName}</p>
+                                    <p> <span>{t('Cards.expiration')}</span> {new Date(selectedCard?.expirationDate).toLocaleDateString("en-US", {
                                         dateStyle: 'short',
                                 })}</p>
-                                <p> <span>Card Brand:</span> {selectedCard?.cardBrand}</p>
-                                <p> <span>Card Status:</span> {selectedCard?.status}</p>
-                                <p> <span>Card Type:</span> {selectedCard?.cardType}</p>
-                                <p> <span>Account Type:</span> {selectedCard?.account?.accountType}</p>
+                                    <p> <span>{t('Cards.brand')}</span> {selectedCard?.cardBrand}</p>
+                                    <p> <span>{t('Cards.status')}</span> {selectedCard?.status}</p>
+                                    <p> <span>{t('Cards.type')}</span> {selectedCard?.cardType}</p>
+                                    <p> <span>{t('Cards.accountType')}</span> {selectedCard?.account?.accountType}</p>
                                 <div className={Style.FreezeCardBtn} onClick={FreezeCard}>
                                     <CreditCard size={20} color="white" />
-                                    <p>Freeze Card </p>
+                                    <p>{t('Cards.freeze')}</p>
                                 </div>
                             </div>
                         )}

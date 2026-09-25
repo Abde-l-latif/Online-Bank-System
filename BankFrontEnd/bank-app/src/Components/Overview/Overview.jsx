@@ -3,12 +3,14 @@ import { FolderOpen, ChartNoAxesCombined, ArrowRightLeft   } from 'lucide-react'
 import { useEffect, useState } from 'react';
 import { apiFetch } from '../../utils/functions/ApiFunction';
 import { CartesianGrid, XAxis, YAxis, Tooltip, AreaChart, Area } from 'recharts';
+import { useTranslation } from 'react-i18next';
 
 
 const Overview = () => {
 
     const [transAccounts, setTransAccounts] = useState(null);
     const [selected, setSelected] = useState("7D");
+    const { t } = useTranslation();
 
     useEffect(() =>{
         let isMounted = true;
@@ -47,15 +49,27 @@ const Overview = () => {
     }, []);
 
     const now = new Date();
-    const sevenDaysAgo = new Date().setDate(now.getDate() - 6);
 
-    const thirteenDaysAgo = new Date().setDate(now.getDate() - 29);
+    const sevenDaysAgo = new Date(now)
+    sevenDaysAgo.setDate(now.getDate() - 6);
 
-    const nintyDaysAgo = new Date().setDate(now.getDate() - 89);
+    const thirtyDaysAgo = new Date(now);
+    thirtyDaysAgo.setDate(now.getDate() - 29);
 
-     const oneEightyDaysAgo = new Date().setDate(now.getDate() - 179);
+    const ninetyDaysAgo = new Date(now);
+    ninetyDaysAgo.setDate(now.getDate() - 89);
 
-    const ChartDataBalance = transAccounts?.[0]?.transactions?.map(transaction => ({
+    const oneEightyDaysAgo = new Date(now);
+    oneEightyDaysAgo.setDate(now.getDate() - 179);
+
+
+
+    const FilterAccount = transAccounts?.filter((A) => {
+        return A.accountType == "Checking";
+    })
+
+    
+    const ChartDataBalance = FilterAccount?.[0]?.transactions?.map(transaction => ({
         date: transaction?.createdAt,
         balance: transaction?.balanceAfter
     })) ?? [];
@@ -67,27 +81,28 @@ const Overview = () => {
 
     const ChartLastMonth = ChartDataBalance?.filter((x) => {
         const transactionDate = new Date(x.date);
-        return transactionDate >= thirteenDaysAgo && transactionDate <= now;
+        return transactionDate >= thirtyDaysAgo && transactionDate <= now;
     })
 
     const Chart3Months = ChartDataBalance?.filter((x) => {
         const transactionDate = new Date(x.date);
-        return transactionDate >= nintyDaysAgo && transactionDate <= now;
+        return transactionDate >= ninetyDaysAgo && transactionDate <= now;
     })
 
      const Chart6Months = ChartDataBalance?.filter((x) => {
         const transactionDate = new Date(x.date);
         return transactionDate >= oneEightyDaysAgo && transactionDate <= now;
     })
-
+    
     
 
-    const ChartDataTransactions = transAccounts?.[0]?.transactions
+    const ChartDataTransactions = FilterAccount?.[0]?.transactions
         .filter(transaction => {
             const date = new Date(transaction.createdAt);
 
             return date >= sevenDaysAgo && date <= now;
         })
+
         .reduce((result, transaction) => {
             const date = new Date(transaction.createdAt).toLocaleDateString();
 
@@ -107,6 +122,8 @@ const Overview = () => {
             return result;
     }, []);
 
+
+
     const transactionsNumber = ChartDataTransactions?.reduce((curr, trans) => {
         return curr += trans.transactions;
     }, 0);
@@ -116,8 +133,8 @@ const Overview = () => {
  
     return (
         <section className={Style.overview}>
-            <h2>Overview</h2>
-            <p>here's a quick look at your finances.</p>
+            <h2>{t('Overview.title')}</h2>
+            <p>{t('Overview.description')}</p>
             
             <div className={Style.firstRow}>
 
@@ -127,9 +144,9 @@ const Overview = () => {
                     </div>
 
                     <div className={Style.Cardinfo} >
-                        <p>Total balance</p>
-                        <h5>{transAccounts?.[0].balance.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD</h5>
-                        <p>Chart of last week</p>
+                        <p>{t('Overview.totalBalance')}</p>
+                        <h5>{FilterAccount?.[0].balance.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD</h5>
+                        <p>{t('Overview.lastWeekChart')}</p>
                     </div> 
 
                     <AreaChart
@@ -186,9 +203,9 @@ const Overview = () => {
                     </div>
 
                     <div className={Style.Cardinfo} >
-                        <p>Total Transactions</p>
+                        <p>{t('Overview.totalTransactions')}</p>
                         <h5>{transactionsNumber}</h5>
-                        <p>Chart of last week</p>
+                        <p>{t('Overview.lastWeekChart')}</p>
                     </div> 
 
                     <AreaChart
@@ -233,7 +250,7 @@ const Overview = () => {
                             dataKey="transactions"
                             name="transactions"
                             stroke="#ffffff"
-                            fill="#99d4c8"
+                            fill="#84e4d1"
                         />
                     </AreaChart>
                 
@@ -248,7 +265,7 @@ const Overview = () => {
                             <ChartNoAxesCombined/>
                         </div>
                         <div className={Style.secondRowInfo}>
-                            <h3>Balance Overview</h3>
+                            <h3>{t('Overview.balanceOverview')}</h3>
                         </div>
                     </div>
                     <div className={Style.secondRowHeaderFilter}>

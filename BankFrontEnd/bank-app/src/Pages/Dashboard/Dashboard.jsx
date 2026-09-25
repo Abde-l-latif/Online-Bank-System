@@ -11,6 +11,7 @@ import Top from '../../Components/Top/Top';
 import Money from "../../Assets/money-100.png";
 import Robot from "../../Assets/greenRobotCom.png";
 import {apiFetch} from "../../utils/functions/ApiFunction";
+import { useTranslation } from 'react-i18next';
 
 const Dashboard = () => {
 
@@ -18,13 +19,14 @@ const Dashboard = () => {
     const [user, setUser] = useState(null);
     const [activeIcon, setActiveIcon] = useState("All");
     const [recentTrans, setRecentTrans] = useState(null);
+    const { t } = useTranslation();
 
     const menuItems = [
-        { name: 'overview', icon: PanelsTopLeft, label: 'Overview' },
-        { name: 'accounts', icon: ContactRound, label: 'Accounts' },
-        { name: 'cards', icon: CreditCard, label: 'My cards' },
-        { name: 'transactions', icon: ArrowLeftRight, label: 'Transactions' },
-        { name: 'settings', icon: Cog, label: 'Settings' },
+        { name: 'overview', icon: PanelsTopLeft, label: t('Dashboard.overview') },
+        { name: 'accounts', icon: ContactRound, label: t('Dashboard.accounts') },
+        { name: 'cards', icon: CreditCard, label: t('Dashboard.cards') },
+        { name: 'transactions', icon: ArrowLeftRight, label: t('Dashboard.transactions') },
+        { name: 'settings', icon: Cog, label: t('Dashboard.settings') },
     ];
 
 
@@ -191,26 +193,26 @@ const Dashboard = () => {
                         <div className={Style.UserAvatar}>
                             <img src={Money} alt="UserAvatar" />
                         </div>
-                        <p>Welcome</p>
+                        <p>{t('Dashboard.welcome')}</p>
                         <p style={{ fontWeight: 'bold', color: 'black' }}>{user?.customer?.firstName} {user?.customer?.lastName}</p>
                         <div className={Style.sideBarFooter}>
                             <div className={Style.iconFilter}>
                                 <div className={`${Style.iconContainer} ${activeIcon == "Send" ? Style.iconActive : ""}`}>
                                     <ArrowBigUpDash className={Style.icon} onClick={() => { setActiveIcon("Send"); GetFiltredTransaction(transactionTypes["Transfer to"])}}/>
-                                    <p>Send</p>
+                                    <p>{t('Dashboard.send')}</p>
                                 </div>
                                 <div className={`${Style.iconContainer} ${activeIcon == "Recieve" ? Style.iconActive : ""}`}>
                                     <ArrowBigDownDash className={Style.icon} onClick={() => { setActiveIcon("Recieve"); GetFiltredTransaction(transactionTypes["Transfer from"])}}/>
-                                    <p>Recieve</p>
+                                    <p>{t('Dashboard.receive')}</p>
                                 </div>
                                 <div className={`${Style.iconContainer} ${activeIcon == "All" ? Style.iconActive : ""}`}>
                                     <ListSortAscending  className={Style.icon} onClick={() => { setActiveIcon("All") ; GetFiltredTransaction()}}/>
-                                    <p>All</p>
+                                    <p>{t('Dashboard.all')}</p>
                                 </div>
                             </div>
 
                             <div className={Style.displayTransactions}>
-                                <h3>Recent Activity</h3>     
+                                <h3>{t('Dashboard.recentActivity')}</h3>
                                 {displayRecentTransaction}
                             </div>
                         </div>

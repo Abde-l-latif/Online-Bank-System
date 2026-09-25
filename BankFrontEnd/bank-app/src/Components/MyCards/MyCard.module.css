@@ -1,5 +1,5 @@
 .myCard {
-    margin-top: 20px;
+    margin: 20px 0;
 }
 
 .myCardsHeader {
@@ -136,4 +136,25 @@
 .FreezeCardBtn:hover {
     background-color: var(--primary-hover-color);
     letter-spacing: 2px;
+}
+
+@media (max-width: 700px) {
+    .myCardsHeader {
+        align-items: flex-start;
+        gap: 15px;
+        flex-direction: column;
+    }
+
+    .CardContainer {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .card {
+        width: min(280px, 100%);
+    }
+
+    .SelectedCardDetails > p {
+        overflow-wrap: anywhere;
+    }
 }

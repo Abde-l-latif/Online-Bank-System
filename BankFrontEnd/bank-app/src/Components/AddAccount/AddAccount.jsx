@@ -2,18 +2,20 @@ import { HandCoins, BanknoteArrowDown, Circle, CircleCheck, Plus } from 'lucide-
 import Style from "./AddAccount.module.css";
 import { useState } from 'react';
 import { apiFetch } from '../../utils/functions/ApiFunction';
+import { useTranslation } from 'react-i18next';
 
 
 const AddAccount = ({Email}) => {
     const [AccountType, setAccountType] = useState(null);
     const [customError, setcustomError] = useState({status : false, msg: ""});
     const [response, setResponse] = useState({status : false, msg: ""});
+    const { t } = useTranslation();
 
     const submitAddAccount = async () => {
 
         if(AccountType == null)
         {
-            setcustomError({status : true, msg : "You didn't select any type"});
+            setcustomError({status : true, msg : t('Actions.selectAccountError')});
             return
         } else
             setcustomError({status : false, msg : ""});
@@ -49,28 +51,28 @@ const AddAccount = ({Email}) => {
                     <div className={`${Style.AccountBox} ${AccountType == "Checking" ? Style.border : ""}`} onClick={()=> setAccountType("Checking")}>
                         <div className={Style.AccountTitle}>
                             <BanknoteArrowDown size={40} />
-                            <p>Checking account</p>
+                            <p>{t('Actions.checking')}</p>
                         </div>
                         {AccountType == "Checking" ? <CircleCheck className={Style.CheckIcon}/> : <Circle className={Style.CheckIcon}/>} 
                     </div>
                     <div className={`${Style.AccountBox} ${AccountType == "Saving" ? Style.border : ""}`} onClick={()=> setAccountType("Saving")}>
                         <div className={Style.AccountTitle}>
                             <HandCoins size={40}  />
-                            <p>Saving account</p>
+                            <p>{t('Actions.saving')}</p>
                         </div>
                         {AccountType == "Saving" ? <CircleCheck className={Style.CheckIcon}/> : <Circle className={Style.CheckIcon}/>} 
                     </div>
                 </header>
 
                 <div className={Style.Information}>
-                    <h3>Initial Deposit</h3>
+                    <h3>{t('Actions.initialDeposit')}</h3>
                     <p>0.00 MAD</p>
-                    <p>You can fund your account later</p>
+                    <p>{t('Actions.fundLater')}</p>
                 </div>
 
                 <div className={Style.Footer} onClick={submitAddAccount}>
                     <Plus/>
-                    <p>Create Account</p>
+                    <p>{t('Actions.createAccount')}</p>
                 </div>
                 
                <p style={{marginTop: "10px", color: "red"}}>{customError.status == true ? customError.msg : "" }</p>

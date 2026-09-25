@@ -72,3 +72,14 @@
 .selected {
     border: 2px solid var(--secondary-color);
 }
+
+@media (max-width: 600px) {
+    .CardBrand {
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .CardBrandBox {
+        width: min(200px, calc(50% - 6px));
+    }
+}

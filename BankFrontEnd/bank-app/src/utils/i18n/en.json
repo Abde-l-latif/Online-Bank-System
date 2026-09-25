@@ -5,8 +5,11 @@
         "USER_NOT_FOUND": "User not found."
     },
     "successs": {
-        "REGISTER_SUCCESS": "Registration successful. You can now log in."
+        "REGISTER_SUCCESS": "Registration successful. You can now log in.",
+        "footerMsg" : "You are now registered.",
+        "contactMsg" : "Your message has been sent."
     },
+
     "HomeTitle" : "Simplify your life with a bank that's always by your side",
     "HomePara" : "Your banking services accessible in one click",
     "HomeButton" : "Learn more",
@@ -49,5 +52,224 @@
     "RegCityPlaceholder" : "City",
     "RegStreetPlaceholder" : "Street",
     "RegPostalCodePlaceholder" : "Postal code",
-    "RegCinFormat" : "Invalid CIN format (e.g., AB123456)"
+    "RegCinFormat" : "Invalid CIN format (e.g., AB123456)",
+    "Dashboard": {
+        "overview": "Overview",
+        "accounts": "Accounts",
+        "cards": "My cards",
+        "transactions": "Transactions",
+        "settings": "Settings",
+        "welcome": "Welcome",
+        "send": "Send",
+        "receive": "Receive",
+        "all": "All",
+        "recentActivity": "Recent Activity",
+        "account": "Account",
+        "checkingAccount": "Checking account",
+        "savingAccount": "Saving account"
+    },
+    "Overview": {
+        "title": "Overview",
+        "description": "Here's a quick look at your finances.",
+        "totalBalance": "Total balance",
+        "totalTransactions": "Total Transactions",
+        "lastWeekChart": "Chart of last week",
+        "balance": "Balance",
+        "balanceOverview": "Balance Overview",
+        "transactions": "Transactions"
+    },
+    "Accounts": {
+        "title": "My Accounts",
+        "description": "This is the accounts information page.",
+        "addTitle": "Add New Account",
+        "addDescription": "This is the account creation area.",
+        "back": "Back to accounts",
+        "add": "Add new account",
+        "summary": "Account Summary",
+        "totalBalance": "Total Balance",
+        "totalIncome": "Total Income",
+        "totalOutcome": "Total Outcome",
+        "totalTransactions": "Total Transactions",
+        "transfer": "Transfer",
+        "deposit": "Deposit",
+        "withdraw": "Withdraw"
+    },
+    "Cards": {
+        "title": "My Cards",
+        "description": "Add or Manage your cards",
+        "addTitle": "Add new Card",
+        "addDescription": "This is the card creation area.",
+        "back": "Back to Cards",
+        "order": "Order New Card",
+        "selected": "Selected Card",
+        "details": "Selected Card Details :",
+        "number": "Card Number:",
+        "holder": "Card Holder:",
+        "expiration": "Expiration Date:",
+        "brand": "Card Brand:",
+        "status": "Card Status:",
+        "type": "Card Type:",
+        "accountType": "Account Type:",
+        "freeze": "Freeze Card",
+        "chooseBrand": "Choose a Card Brand",
+        "linkedAccount": "Linked Account",
+        "cardType": "Card Type",
+        "debit": "Debit",
+        "credit": "Credit",
+        "orderCard": "Order Card"
+    },
+    "Transactions": {
+        "title": "Transaction",
+        "total": "Total Transactions",
+        "income": "Total Income",
+        "expense": "Total Expense",
+        "view": "View",
+        "date": "Date",
+        "type": "Transaction Type",
+        "accountType": "Account Type",
+        "amount": "Amount",
+        "status": "Status",
+        "previous": "Previous",
+        "next": "Next",
+        "accountFilter": "Account Type",
+        "transactionFilter": "Transaction Type",
+        "statusFilter": "Status",
+        "dateFilter": "Date"
+    },
+    "Settings": {
+        "title": "Setting",
+        "description": "Manage your account settings.",
+        "profile": "Profile",
+        "profileDescription": "Your personal information and contact details.",
+        "editProfile": "Edit Profile",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "email": "Email",
+        "phone": "Phone number",
+        "security": "Security",
+        "securityDescription": "Keep your account safe and secure.",
+        "password": "Password",
+        "passwordDescription": "Change your password regularly to keep your account safe",
+        "changePassword": "Change password",
+        "signOut": "Sign Out",
+        "signOutDescription": "You will be logged out from your account.",
+        "signOutButton": "Sign out"
+    },
+    "Actions": {
+        "transferMoney": "Transfer money",
+        "transferDescription": "Move money between your accounts or to another account",
+        "betweenAccounts": "Between my accounts",
+        "anotherAccount": "To another account",
+        "fromAccount": "From Account",
+        "toAccount": "To Account",
+        "selectAccount": "Select one of your accounts",
+        "receiverAccount": "Write down account number of the receiver",
+        "amount": "Amount (MAD)",
+        "enterAmount": "Enter amount",
+        "accountNumber": "Enter 16 digit account number",
+        "transfer": "Transfer",
+        "deposit": "Deposit",
+        "depositDescription": "Add money to your account",
+        "withdraw": "Withdraw",
+        "withdrawDescription": "Take money from your account",
+        "paymentMethod": "Payment method",
+        "cardPayment": "Credit/Debit card:",
+        "cardNumber": "Card number",
+        "accountNumberInput": "Enter account number",
+        "expiration": "Expiration Date",
+        "cardholder": "Cardholder name",
+        "initialDeposit": "Initial Deposit",
+        "fundLater": "You can fund your account later",
+        "createAccount": "Create Account",
+        "checking": "Checking account",
+        "saving": "Saving account",
+        "selectAccountError": "You didn't select any type",
+        "missingData": "Lack of data!"
+    },
+    "EditProfile": {
+        "title": "Edit Profile",
+        "description": "Update your personal information.",
+        "close": "Close edit profile",
+        "required": "This field is required",
+        "minLength": "Minimum length is 2",
+        "validEmail": "Enter a valid email",
+        "validPhone": "Enter a valid phone number",
+        "maxPhone": "Maximum length is 9",
+        "cancel": "Cancel",
+        "save": "Save changes"
+    },
+    "EditPassword": {
+        "title": "Change Password",
+        "description": "Update your account password.",
+        "close": "Close change password",
+        "current": "Current password",
+        "new": "New password",
+        "confirm": "Confirm new password",
+        "minLength": "Minimum length is 8",
+        "mismatch": "Your confirmation password is incorrect",
+        "cancel": "Cancel",
+        "save": "Change password"
+    },
+    "About" : {
+        "sectionName" : "About Us",
+        "sectionTitle" : "Your trusted partner for a better financial future",
+        "sectionPara" : "AbdoBank is a modern online bank designed to simplify the management of your money on a daily basis. Our goal is to offer simple, accessible, and secure banking services, while providing a fully digital and easy-to-use experience. Whether you want to manage your accounts, make transfers, track your transactions, or use your bank cards, AbdoBank supports you with solutions tailored to your needs.",
+        "infoOne" : "Online",
+        "infoTwo" : "Satisfied customers",
+        "infoThreeTitle" : "Secure",
+        "infoThree" : "Your data protected"
+    },
+    "Services": {
+        "sectionName": "Our Services",
+        "sectionTitle": "Complete banking services for all your needs",
+        "sectionPara": "Whether you are an individual or a business, AbdoBank supports you with simple, fast, and secure solutions.",
+        "services": [
+            {
+                "title": "Bank Accounts",
+                "description": "Checking and savings accounts tailored to your profile"
+            },
+            {
+                "title": "Transfers",
+                "description": "Send and receive money with ease"
+            },
+            {
+                "title": "Bank Cards",
+                "description": "Secure cards for all your transactions"
+            },
+            {
+                "title": "Payments",
+                "description": "Pay your bills and purchases online or in-store"
+            },
+            {
+                "title": "Savings & Investment",
+                "description": "Grow your money with peace of mind"
+            },
+            {
+                "title": "Security",
+                "description": "State-of-the-art technology to protect your data"
+            }
+        ]
+    },
+    "Contact": {
+        "sectionName": "Contact Us",
+        "sectionTitle": "We are here to help you",
+        "sectionPara": "A question, need for assistance, or simply want to learn more? Our team is listening.",
+        "schedule": "Monday to Friday",
+        "location": "Casablanca, Morocco",
+        "address": "Arrahma avenue, I don't know...",
+        "formTitle": "Send us a message",
+        "formButton": "Send message",
+        "subjectInput" : "Subject",
+        "yourMessage" : "Your Message"
+    },
+    "Footer" : {
+        "para" : "A modern, simple, and secure online bank, designed to support you in your daily life.",
+        "navTitle" : "Quick links",
+        "firstIcon" : "Secure",
+        "secondIcon" : "Fast",
+        "secondTitle" : "Stay informed",
+        "paraTwo" : "Receive our latest news, offers, and tips directly in your inbox.",
+        "button" : "Sign up"
+    }
+
 }

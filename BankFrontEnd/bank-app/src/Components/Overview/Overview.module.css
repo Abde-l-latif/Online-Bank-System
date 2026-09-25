@@ -17,6 +17,7 @@
 .firstRow {
     display: grid;
     grid-template-columns: auto auto;
+    gap: 10px;
 }
 
 .chartCardsContainer {
@@ -140,4 +141,31 @@
 .active {
     color: white;
     background-color: green; 
+}
+
+@media (max-width: 700px) {
+    .firstRow {
+        grid-template-columns: 1fr;
+    }
+
+    .chartCardsContainer,
+    .chartCardsContainerTwo {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .secondRowHeader {
+        align-items: flex-start;
+        gap: 12px;
+        flex-direction: column;
+    }
+
+    .secondRowHeaderFilter {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .secondRowHeaderFilterItem {
+        flex: 1;
+    }
 }

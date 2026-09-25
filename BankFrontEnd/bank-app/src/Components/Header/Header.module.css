@@ -85,3 +85,52 @@ section.header {
     width: 100%;
     color: var(--primary-color);
 }
+
+@media (max-width: 1300px) {
+    section.header {
+        width: min(90%, 900px);
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 996px) {
+    section.header {
+        width: 92%;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .header nav {
+        order: 3;
+        width: 100%;
+    }
+
+    .header nav ul {
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 520px) {
+    .header nav ul li {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .header .headerAuth {
+        gap: 10px;
+    }
+
+    .header .headerAuth p,
+    .header button {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 405px) {
+    section.header {
+        justify-content: center;
+    }
+}

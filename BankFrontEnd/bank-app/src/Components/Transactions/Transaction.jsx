@@ -2,6 +2,7 @@ import Style from "./Transaction.module.css";
 import { useState, useEffect } from "react";
 import MyCustomSelect from "../CustomSelect/MyCustomSelect.jsx";
 import { apiFetch } from "../../utils/functions/ApiFunction";
+import { useTranslation } from 'react-i18next';
 
 const Transaction = ({ email }) => {
 
@@ -16,6 +17,7 @@ const Transaction = ({ email }) => {
     });
     const [isFiltered, setIsFiltered] = useState(false);
     const [filterRequest, setFilterRequest] = useState(0);
+    const { t } = useTranslation();
 
     
 
@@ -148,23 +150,23 @@ const Transaction = ({ email }) => {
 
         <section className={Style.transaction}>
             <div>
-                <h2>Transaction</h2>
+                <h2>{t('Transactions.title')}</h2>
             </div>
 
             <div style={{marginTop : "10px"}}>
                 <div className={Style.transHeader}>
                     <div className={Style.Column}>
-                        <p>Total Transactions</p>
+                        <p>{t('Transactions.total')}</p>
                         <p className={Style.Transaction}>{transactions?.totalCount}</p>
                     </div>
                     <div className={Style.line}></div>
                     <div className={Style.Column}>
-                        <p>Total Income</p>
+                        <p>{t('Transactions.income')}</p>
                         <p className={Style.Income}>{transactions?.totalIncome} MAD</p>
                     </div>
                     <div className={Style.line}></div>
                     <div className={Style.Column}>
-                        <p>Total Expense</p>
+                        <p>{t('Transactions.expense')}</p>
                         <p className={Style.Outcome}>{transactions?.totalExpense} MAD</p>
                     </div>
                 </div>
@@ -178,7 +180,7 @@ const Transaction = ({ email }) => {
                     <MyCustomSelect label={"Status"} options={transactionStatus}  setData={setFilterData} mode={"single"}/>
                     <MyCustomSelect label={"Date"} options={transactionDate} setData={setFilterData} mode={"single"}/>
                 </div>
-                <button className={Style.filterBTN} onClick={getFiltredTransaction}>View</button>
+                <button className={Style.filterBTN} onClick={getFiltredTransaction}>{t('Transactions.view')}</button>
             </div>
 
 
@@ -186,11 +188,11 @@ const Transaction = ({ email }) => {
                 <table>
                     <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Transaction Type</th>
-                            <th>Account Type</th>
-                            <th>Amount</th>
-                            <th>Status</th>
+                            <th>{t('Transactions.date')}</th>
+                            <th>{t('Transactions.type')}</th>
+                            <th>{t('Transactions.accountType')}</th>
+                            <th>{t('Transactions.amount')}</th>
+                            <th>{t('Transactions.status')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -201,7 +203,7 @@ const Transaction = ({ email }) => {
 
             <div className={Style.TransFooter}>
 
-                <button disabled={selectedPage <= 1}  className={Style.BtnPre} onClick={PrevButton}>Previous</button>
+                <button disabled={selectedPage <= 1}  className={Style.BtnPre} onClick={PrevButton}>{t('Transactions.previous')}</button>
 
                 <div className={Style.PageNumbers}>
                     {Array.from({ length: pagesNumber }, (_, index) => (
@@ -211,7 +213,7 @@ const Transaction = ({ email }) => {
                     ))}
                 </div>
 
-                <button disabled={selectedPage >= pagesNumber} className={Style.BtnNext} onClick={NextButton}>Next</button>
+                <button disabled={selectedPage >= pagesNumber} className={Style.BtnNext} onClick={NextButton}>{t('Transactions.next')}</button>
 
             </div>
 

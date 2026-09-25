@@ -209,6 +209,7 @@ section.Services {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 .Services h2 {
@@ -221,21 +222,24 @@ section.Services {
 }
 
 .ServiceCard {
+    width: 100%;
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 40px;
+    flex-wrap: wrap;
+
 }
 
 .ServiceCardContainer {
     display: flex;
     align-items: center;
     gap: 15px;
-    width: 300px;
+    width: 100%;
     border: 1px solid rgba(128, 128, 128, 0.364);
     padding: 10px;
     border-radius: 10px;
     color: var(--primary-color);
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.17);
+    box-shadow: 0 8px 36px rgba(0, 0, 0, 0.17);
 }
 
 .ServiceCardIcon {
@@ -262,6 +266,7 @@ section.Services {
     margin:70px auto;
     display: grid;
     grid-template-columns: auto 40% auto ;
+    gap: 10px;
 }
 
 .ContactInfo {
@@ -277,6 +282,7 @@ section.Services {
 .ContactInfo p {
     color: var(--smallpara-color);
     line-height: 25px;
+    font-size: 14px;
 }
 
 .contactCardContainer {
@@ -359,7 +365,7 @@ form {
     outline: none;
 }
 
-button {
+.Btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -372,7 +378,7 @@ button {
     transition: .7s ease;
 }
 
-button:hover {
+.Btn:hover {
     background-color: var(--primary-hover-color);
 }
 
@@ -384,9 +390,12 @@ button:hover {
 /* **************** FOOTER **************** */
 
 .footerImage {
+    position: absolute;
     width: 100%;
     object-fit: cover;
     height: 200px;
+    z-index: -100;
+    bottom: 0px;
 }
 
 .Footer {
@@ -395,6 +404,7 @@ button:hover {
     display: grid;
     grid-template-columns: repeat(4, auto);
     gap: 20px;
+    padding-bottom: 70px;
 }
 
 .Footer > div:first-of-type {
@@ -479,6 +489,148 @@ button:hover {
     font-size: 14px;
 }
 
+@media (max-width: 1400px) {
+
+    .ServiceCard {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px; 
+    } 
+
+}
+
+@media (max-width: 1100px) {
+    section.Home,
+    section.About,
+    section.Services,
+    .Contact,
+    .Footer {
+        width: min(90%, 900px);
+    }
+
+
+    .ServiceCard {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .ServiceCardContainer {
+        width: auto;
+    }
+
+    .Contact {
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.8fr);
+    }
+
+    .Contact > img {
+        display: none;
+    }
+
+    .Footer {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+
+    section.Home,
+    section.About,
+    section.Services,
+    .Contact
+    {
+        width: min(92%, 560px);
+        margin-top: 40px;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    section.Home,
+    section.About,
+    .Contact {
+        grid-template-columns: 1fr;
+        
+    }
+    .Home aside {
+        margin: 30px 0 10px;
+        text-align: center;
+    }
+
+    .Home aside h1 {
+        font-size: clamp(30px, 8vw, 40px);
+    }
+
+    .Home .Currency {
+        height: auto;
+        min-height: 350px;
+    }
+
+    .Home .CurrencyData {
+        position: relative;
+        top: auto;
+        margin-top: 30px;
+        padding: 15px;
+    }
+
+    .AboutInfo {
+        gap: 20px;
+    }
+
+    .AboutCardContainer {
+        grid-template-columns: repeat(3, auto);
+    }
+
+    .contactCardContainer{
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .ContactForm {
+        order: 2;
+    }
+
+    .Footer {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
+
+    .FooterRowOne {
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+    .FooterNav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .FooterServices {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .footerSignup {
+        align-items: center;
+    }
+
+}
+
+@media (max-width: 460px) 
+{
+    .AboutCardContainer {
+        grid-template-columns: repeat(2, auto);
+    }
+    .ServiceCard {
+        grid-template-columns: repeat(1 , auto);
+    }
+    .contactCardContainer{
+        flex-direction: column;
+    }
+}
+
 .footerIcon {
     width: 40px ;
     height: 40px;
@@ -504,11 +656,31 @@ form.footerInput {
 .footerInput input {
     outline: none;
     border: none;
-    max-width: 100%;
+    width: 100%;
     flex: 1;
+    background-color: transparent;
 }
 
 .footerInput button {
     border-radius: 30px;
     padding: 10px 20px;
 }
+
+.Mask {
+    position: relative;
+    padding-top: 20px;
+    height: fit-content;
+}
+
+.Mask::after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(75, 172, 88, 0.118);
+    z-index: -1;
+}
+
+

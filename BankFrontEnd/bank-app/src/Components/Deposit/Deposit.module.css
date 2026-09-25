@@ -166,6 +166,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: .7s ease;
+    margin-top: 10px;
 }
 
 .BTNDeposit p {
@@ -174,4 +175,24 @@
 
 .BTNDeposit:hover {
     background-color: var(--primary-hover-color);
+}
+
+@media (max-width: 700px) {
+    .cardDetails {
+        width: 100%;
+    }
+
+    .RowOne {
+        align-items: flex-start;
+        gap: 10px;
+        flex-direction: column;
+    }
+
+    .RowOneInfo input {
+        width: 100%;
+    }
+
+    .RowTwo {
+        flex-direction: column;
+    }
 }

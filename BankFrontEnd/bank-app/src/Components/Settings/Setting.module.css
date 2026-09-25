@@ -233,3 +233,25 @@
     background-color: transparent;
     color: rgb(255, 24, 24);
 }
+
+@media (max-width: 700px) {
+    .SubHeader,
+    .SecurityContent,
+    .SignoutInfo {
+        align-items: flex-start;
+        gap: 15px;
+        flex-direction: column;
+    }
+
+    .ProfileFooter {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .ProfileBTN,
+    .PasswordBTN,
+    .SignoutBTN {
+        width: 100%;
+        justify-content: center;
+    }
+}

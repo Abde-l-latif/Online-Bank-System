@@ -51,3 +51,9 @@
     background-color: rgba(91, 215, 91, 0.328);
     
 }
+
+@media (max-width: 600px) {
+    .SelectAccountsContainer {
+        grid-template-columns: 1fr;
+    }
+}

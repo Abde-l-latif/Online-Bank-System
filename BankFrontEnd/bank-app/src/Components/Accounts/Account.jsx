@@ -6,6 +6,7 @@ import {apiFetch} from "../../utils/functions/ApiFunction";
 import Transfer from "../Transfer/Transfer";
 import Deposit from "../Deposit/Deposit";
 import Withdraw from "../Withdraw/Withdraw";
+import { useTranslation } from 'react-i18next';
 
 
 const Account = ({ UserInfo }) => {
@@ -17,6 +18,7 @@ const Account = ({ UserInfo }) => {
     const [addStatus, setAddStatus] = useState(false);
 
     const [ActionBtn, setActionBtn] = useState("Transfer");
+    const { t } = useTranslation();
 
     useEffect(() =>{
 
@@ -114,22 +116,22 @@ const Account = ({ UserInfo }) => {
                     <h4>{trans?.accountType} Accounts</h4>
                     <div className={Style.AccountAction}>
                         <div className={Style.Column}>
-                            <p>Total Balance</p>
+                            <p>{t('Accounts.totalBalance')}</p>
                             <p className={Style.Balance}>{trans?.balance.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD</p>
                         </div>
                         <div className={Style.line}></div>
                         <div className={Style.Column}>
-                            <p>Total Income</p>
+                            <p>{t('Accounts.totalIncome')}</p>
                             <p className={Style.Income}>{income.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD</p>
                         </div>
                         <div className={Style.line}></div>
                         <div className={Style.Column}>
-                            <p>Total Outcome</p>
+                            <p>{t('Accounts.totalOutcome')}</p>
                             <p className={Style.Outcome}>{outcome.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD</p>
                         </div>
                         <div className={Style.line}></div>
                         <div className={Style.Column}>
-                            <p>Total Transactions</p>
+                            <p>{t('Accounts.totalTransactions')}</p>
                             <p className={Style.Transaction}>{trans?.transactions?.length}</p>
                         </div>
                     </div>
@@ -164,12 +166,12 @@ const Account = ({ UserInfo }) => {
                 <section className={Style.Account}>
                     <div className={Style.AccountHeader}>
                         <div>
-                            <h2>Add New Account</h2>
-                            <p>This is the account creation area.</p>
+                            <h2>{t('Accounts.addTitle')}</h2>
+                            <p>{t('Accounts.addDescription')}</p>
                         </div>
                         <div className={Style.AddAccountBtn} onClick={() => setAddStatus(false)}>
                             <Undo2 size={20} color="white" />
-                            <p>Back to accounts</p>
+                            <p>{t('Accounts.back')}</p>
                         </div>
                     </div>
 
@@ -181,12 +183,12 @@ const Account = ({ UserInfo }) => {
                 <section className={Style.Account}>
                     <div className={Style.AccountHeader}>
                         <div>
-                            <h2>My Accounts</h2>
-                            <p>This is the accounts information page.</p>
+                            <h2>{t('Accounts.title')}</h2>
+                            <p>{t('Accounts.description')}</p>
                         </div>
                         <div className={Style.AddAccountBtn} onClick={() => setAddStatus(true)}>
                             <Plus size={20} color="white" />
-                            <p>Add new account</p>
+                            <p>{t('Accounts.add')}</p>
                         </div>
                     </div>
                     
@@ -199,19 +201,19 @@ const Account = ({ UserInfo }) => {
                             <div className={`${Style.colHeader} ${ActionBtn == "Transfer" ? Style.Active : ""}`}
                              onClick={() => setActionBtn("Transfer")}>
                                 <CloudSync />
-                                <p>Transfer</p>
+                                <p>{t('Accounts.transfer')}</p>
                             </div>
 
                             <div className={`${Style.colHeader} ${ActionBtn == "Deposit" ? Style.Active : ""}`}
                              onClick={() => setActionBtn("Deposit")}> 
                                 <BanknoteArrowUp />
-                                <p>Deposit</p>
+                                <p>{t('Accounts.deposit')}</p>
                             </div>
 
                             <div className={`${Style.colHeader} ${ActionBtn == "Withdraw" ? Style.Active : ""}`}
                              onClick={() => setActionBtn("Withdraw")}>
                                 <BanknoteArrowDown />
-                                <p>Withdraw</p>
+                                <p>{t('Accounts.withdraw')}</p>
                             </div>
                         </div>
 
@@ -222,7 +224,7 @@ const Account = ({ UserInfo }) => {
                     </div>
 
                     <div className={Style.AccountSummary}>
-                        <h3>Account Summary</h3>
+                        <h3>{t('Accounts.summary')}</h3>
                         {Transactions}
                     </div>
                 </section>

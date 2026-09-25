@@ -1,9 +1,7 @@
 import Style from "./Header.module.css"
-import bankLogo from "../../assets/bankLogo.svg"
 import { useTranslation } from 'react-i18next';
 import { Link } from "react-router";
 import Brand from "../Brand/Brand";
-import { useState } from "react";
 
 export default function Header({ selectedSection, setSelectedSection })
 {
@@ -29,6 +27,7 @@ export default function Header({ selectedSection, setSelectedSection })
                     </a>
                     <a href="#contact" onClick={() => handelNav("contact")}>
                         <li className={selectedSection == "contact" ? Style.active : ""}>{t("headerNavFour")}</li>
+                    
                     </a>
                 </ul>
             </nav>

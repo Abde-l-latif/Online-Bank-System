@@ -210,3 +210,37 @@
     background-color: rgba(91, 215, 91, 0.328);
     
 }
+
+@media (max-width: 800px) {
+    .ActionBodyHeader {
+        align-items: flex-start;
+        gap: 12px;
+        flex-direction: column;
+    }
+
+    .ActionBodyHeaderBtn {
+        padding: 0;
+        flex-wrap: wrap;
+    }
+
+    .ActionBodyMyAcc {
+        grid-template-columns: 1fr;
+    }
+
+    .AccountRotates {
+        justify-self: center;
+        transform: rotate(90deg);
+    }
+
+    .SelectAccountsContainer {
+        grid-template-columns: 1fr;
+    }
+
+    .AccountNumberField {
+        width: 100%;
+    }
+
+    .AccountNumberField input {
+        width: 100%;
+    }
+}

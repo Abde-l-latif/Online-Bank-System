@@ -81,3 +81,14 @@ section.Register button:disabled {
     border-radius: 5px;
     background-color: rgba(0, 128, 0, 0.1); 
 }
+
+@media (max-width: 700px) {
+    section.Register {
+        width: calc(100% - 24px);
+    }
+
+    section.Register .Row,
+    section.Register .Rowtwo {
+        grid-template-columns: 1fr;
+    }
+}

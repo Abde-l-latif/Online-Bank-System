@@ -177,4 +177,38 @@
     color: white;
 }
 
+@media (max-width: 800px) {
+    .AccountHeader {
+        align-items: flex-start;
+        gap: 15px;
+        flex-direction: column;
+    }
+
+    .AccountList {
+        grid-template-columns: 1fr;
+    }
+
+    .AccountAction {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .AccountAction .line {
+        display: none;
+    }
+
+    .ActionHeader {
+        grid-template-columns: 1fr;
+    }
+
+    .colHeader {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 400px) {
+    .AccountAction {
+        grid-template-columns: 1fr;
+    }
+}
+
 

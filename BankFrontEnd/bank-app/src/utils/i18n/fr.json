@@ -5,7 +5,9 @@
         "USER_NOT_FOUND": "Utilisateur introuvable."
     },
     "successs": {
-        "REGISTER_SUCCESS": "Inscription réussie. Vous pouvez maintenant vous connecter."
+        "REGISTER_SUCCESS": "Inscription réussie. Vous pouvez maintenant vous connecter.",
+        "footerMsg" : "Vous êtes maintenant inscrit.",
+        "contactMsg" : "Votre message a été envoyer."
     },
     "HomeTitle" : "Simplifiez votre vie avec une banque toujours à vos côté",
     "HomePara" : "Vos services bancaires accessibles en un seul clic",
@@ -49,6 +51,225 @@
     "RegCityPlaceholder" : "Ville",
     "RegStreetPlaceholder" : "Rue",
     "RegPostalCodePlaceholder" : "Code postal",
-    "RegCinFormat" : "Format CIN invalide (par exemple, AB123456)"
+    "RegCinFormat" : "Format CIN invalide (par exemple, AB123456)",
+
+    "Dashboard": {
+        "overview": "Vue d'ensemble",
+        "accounts": "Comptes",
+        "cards": "Mes cartes",
+        "transactions": "Transactions",
+        "settings": "Paramètres",
+        "welcome": "Bienvenue",
+        "send": "Envoyer",
+        "receive": "Recevoir",
+        "all": "Tous",
+        "recentActivity": "Activité récente",
+        "account": "Compte",
+        "checkingAccount": "Compte courant",
+        "savingAccount": "Compte épargne"
+    },
+    "Overview": {
+        "title": "Vue d'ensemble",
+        "description": "Voici un aperçu rapide de vos finances.",
+        "totalBalance": "Solde total",
+        "totalTransactions": "Total des transactions",
+        "lastWeekChart": "Graphique de la semaine dernière",
+        "balance": "Solde",
+        "balanceOverview": "Aperçu du solde",
+        "transactions": "Transactions"
+    },
+    "Accounts": {
+        "title": "Mes comptes",
+        "description": "Voici la page d'informations de vos comptes.",
+        "addTitle": "Ajouter un compte",
+        "addDescription": "Voici la section de création de compte.",
+        "back": "Retour aux comptes",
+        "add": "Ajouter un compte",
+        "summary": "Résumé du compte",
+        "totalBalance": "Solde total",
+        "totalIncome": "Revenus totaux",
+        "totalOutcome": "Dépenses totales",
+        "totalTransactions": "Total des transactions",
+        "transfer": "Virement",
+        "deposit": "Dépôt",
+        "withdraw": "Retrait"
+    },
+    "Cards": {
+        "title": "Mes cartes",
+        "description": "Ajoutez ou gérez vos cartes",
+        "addTitle": "Ajouter une carte",
+        "addDescription": "Voici la section de création de carte.",
+        "back": "Retour aux cartes",
+        "order": "Commander une carte",
+        "selected": "Carte sélectionnée",
+        "details": "Détails de la carte sélectionnée :",
+        "number": "Numéro de carte :",
+        "holder": "Titulaire :",
+        "expiration": "Date d'expiration :",
+        "brand": "Marque de carte :",
+        "status": "Statut de la carte :",
+        "type": "Type de carte :",
+        "accountType": "Type de compte :",
+        "freeze": "Bloquer la carte",
+        "chooseBrand": "Choisissez une marque de carte",
+        "linkedAccount": "Compte associé",
+        "cardType": "Type de carte",
+        "debit": "Débit",
+        "credit": "Crédit",
+        "orderCard": "Commander la carte"
+    },
+    "Transactions": {
+        "title": "Transaction",
+        "total": "Total des transactions",
+        "income": "Revenus totaux",
+        "expense": "Dépenses totales",
+        "view": "Afficher",
+        "date": "Date",
+        "type": "Type de transaction",
+        "accountType": "Type de compte",
+        "amount": "Montant",
+        "status": "Statut",
+        "previous": "Précédent",
+        "next": "Suivant",
+        "accountFilter": "Type de compte",
+        "transactionFilter": "Type de transaction",
+        "statusFilter": "Statut",
+        "dateFilter": "Date"
+    },
+    "Settings": {
+        "title": "Paramètres",
+        "description": "Gérez les paramètres de votre compte.",
+        "profile": "Profil",
+        "profileDescription": "Vos informations personnelles et coordonnées.",
+        "editProfile": "Modifier le profil",
+        "firstName": "Prénom",
+        "lastName": "Nom",
+        "email": "E-mail",
+        "phone": "Numéro de téléphone",
+        "security": "Sécurité",
+        "securityDescription": "Gardez votre compte sûr et sécurisé.",
+        "password": "Mot de passe",
+        "passwordDescription": "Changez régulièrement votre mot de passe pour protéger votre compte",
+        "changePassword": "Modifier le mot de passe",
+        "signOut": "Déconnexion",
+        "signOutDescription": "Vous serez déconnecté de votre compte.",
+        "signOutButton": "Se déconnecter"
+    },
+    "Actions": {
+        "transferMoney": "Transférer de l'argent",
+        "transferDescription": "Déplacez de l'argent entre vos comptes ou vers un autre compte",
+        "betweenAccounts": "Entre mes comptes",
+        "anotherAccount": "Vers un autre compte",
+        "fromAccount": "Compte source",
+        "toAccount": "Compte destinataire",
+        "selectAccount": "Sélectionnez l'un de vos comptes",
+        "receiverAccount": "Saisissez le numéro du compte destinataire",
+        "amount": "Montant (MAD)",
+        "enterAmount": "Saisissez le montant",
+        "accountNumber": "Saisissez le numéro de compte à 16 chiffres",
+        "transfer": "Transférer",
+        "deposit": "Déposer",
+        "depositDescription": "Ajoutez de l'argent à votre compte",
+        "withdraw": "Retirer",
+        "withdrawDescription": "Retirez de l'argent de votre compte",
+        "paymentMethod": "Mode de paiement",
+        "cardPayment": "Carte de crédit/débit :",
+        "cardNumber": "Numéro de carte",
+        "accountNumberInput": "Saisissez le numéro de compte",
+        "expiration": "Date d'expiration",
+        "cardholder": "Nom du titulaire",
+        "initialDeposit": "Dépôt initial",
+        "fundLater": "Vous pourrez approvisionner votre compte plus tard",
+        "createAccount": "Créer le compte",
+        "checking": "Compte courant",
+        "saving": "Compte épargne",
+        "selectAccountError": "Vous n'avez sélectionné aucun type",
+        "missingData": "Données manquantes !"
+    },
+    "EditProfile": {
+        "title": "Modifier le profil",
+        "description": "Mettez à jour vos informations personnelles.",
+        "close": "Fermer la modification du profil",
+        "required": "Ce champ est requis",
+        "minLength": "La longueur minimale est de 2 caractères",
+        "validEmail": "Saisissez un e-mail valide",
+        "validPhone": "Saisissez un numéro de téléphone valide",
+        "maxPhone": "La longueur maximale est de 9 chiffres",
+        "cancel": "Annuler",
+        "save": "Enregistrer les modifications"
+    },
+    "EditPassword": {
+        "title": "Modifier le mot de passe",
+        "description": "Mettez à jour le mot de passe de votre compte.",
+        "close": "Fermer la modification du mot de passe",
+        "current": "Mot de passe actuel",
+        "new": "Nouveau mot de passe",
+        "confirm": "Confirmer le nouveau mot de passe",
+        "minLength": "La longueur minimale est de 8 caractères",
+        "mismatch": "La confirmation du mot de passe est incorrecte",
+        "cancel": "Annuler",
+        "save": "Modifier le mot de passe"
+    },
+    "About" : {
+        "sectionName" : "À propos de nous",
+        "sectionTitle" : "Votre partenaire de confiance pour un avenir financier meilleur",
+        "sectionPara" : "AbdoBank est une banque en ligne moderne conçue pour simplifier la gestion de votre argent au quotidien. Notre objectif est de proposer des services bancaires simples, accessibles et sécurisés, tout en offrant une expérience entièrement digitale et facile à utiliser. Que vous souhaitiez gérer vos comptes, effectuer des transferts, suivre vos transactions ou utiliser vos cartes bancaires, AbdoBank vous accompagne avec des solutions adaptées à vos besoins.",
+        "infoOne" : "En ligne",
+        "infoTwo" : "Clients satisfaits",
+        "infoThreeTitle" : "Sécurisé",
+        "infoThree" : "Vos données protégées"
+    },
+    "Services": {
+        "sectionName": "Nos services",
+        "sectionTitle": "Des services bancaires complets pour tous vos besoins",
+        "sectionPara": "Que vous soyez un particulier ou une entreprise, AbdoBank vous accompagne avec des solutions simple, rapide et sécurisées.",
+        "services": [
+            {
+                "title": "Comptes bancaires",
+                "description": "Comptes courants et d'épargne adaptés à votre profil"
+            },
+            {
+                "title": "Transferts",
+                "description": "Envoyez et recevez de l'argent en toute simplicité"
+            },
+            {
+                "title": "Cartes bancaires",
+                "description": "Des cartes sûres pour toutes vos transactions"
+            },
+            {
+                "title": "Paiements",
+                "description": "Payez vos factures et vos achats en ligne ou en magasin"
+            },
+            {
+                "title": "Épargne & Investissement",
+                "description": "Faites fructifier votre argent en toute sérénité"
+            },
+            {
+                "title": "Sécurité",
+                "description": "Une technologie de pointe pour protéger vos données"
+            }
+        ]
+    },
+    "Contact": {
+        "sectionName": "Nous contacter",
+        "sectionTitle": "Nous sommes là pour vous aider",
+        "sectionPara": "Une question, un besoin d'assistance ou simplement envie d'en savoir plus ? Notre équipe est à votre écoute.",
+        "schedule": "Du lundi au vendredi",
+        "location": "Casablanca, Maroc",
+        "address": "Arrahma avenue je ne sais pas...",
+        "formTitle": "Envoyez-nous un message",
+        "formButton": "Envoyer le message",
+        "subjectInput" : "Sujet",
+        "yourMessage" : "Votre Message"
+    },
+    "Footer" : {
+        "para" : "Une banque en ligne moderne, simple et sècurisée, pensée pour vous accompagnerau quotidien.",
+        "navTitle" : "Liens rapide",
+        "firstIcon" : "Securisé",
+        "secondIcon" : "Rapide",
+        "secondTitle" : "Restez informé",
+        "paraTwo" : "Recevez nos dernières actualités, offres et conseils directement dans votre boîte mail.",
+        "button" : "S'inscrire"
+    }
 
 }

@@ -20,6 +20,7 @@ const Register = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [ShowPassword, SetShowPassword] = useState(false) ;
     const [showMsg, setShowMsg] = useState(null);
+     const [errorMsg, setErrorMsg] = useState(null);
 
     const nav = useNavigate();
 
@@ -58,9 +59,12 @@ const Register = () => {
                 }, 1000);
             }
 
+            const errorMessage = await regData.text();
+            throw new Error(errorMessage);
+
         } catch(ex)
         {
-            console.log("Error message : " + ex);
+            setErrorMsg(ex.message);
         }
         finally {
             setIsLoading(false);
@@ -245,6 +249,7 @@ const Register = () => {
 
             </form>
             {showMsg && <p className={Style.Success}>{showMsg}</p>}
+            {errorMsg && <p style={{color : "red", textAlign : "center"}}>{errorMsg}</p>}
         </section>
     )
 }

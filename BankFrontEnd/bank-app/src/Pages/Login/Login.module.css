@@ -8,3 +8,13 @@ section.Login {
 .Login .AuthContainer {
     width: 500px;
 }
+
+@media (max-width: 560px) {
+    section.Login {
+        width: calc(100% - 24px);
+    }
+
+    .Login .AuthContainer {
+        width: 100%;
+    }
+}
