@@ -40,14 +40,19 @@
     margin-top: 30px;
     display: flex;
     gap: 20px;
-    justify-content: center;
-
+    justify-content: flex-start;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 5px;
 }
 
 .card {
     position : relative ; 
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.22);
     width: 280px;
+    min-width: 280px;
+    flex: 0 0 280px;
     height: 150px;
     border-radius: 10px;
     padding: 10px;
@@ -57,7 +62,7 @@
     background: linear-gradient(to right , rgb(138, 189, 138), rgb(166, 218, 166), rgb(185, 230, 185));
     font-weight : 500;
     cursor: pointer;
-    overflow : hidden ;
+    overflow : hidden;
     transition: all 0.7s ease;
 }
 
@@ -138,6 +143,24 @@
     letter-spacing: 2px;
 }
 
+.LottieContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.LottieContainer p {
+    color: green;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.Lottie {
+    width: 400px;
+    height: 200px;
+}
+
 @media (max-width: 700px) {
     .myCardsHeader {
         align-items: flex-start;
@@ -147,7 +170,6 @@
 
     .CardContainer {
         justify-content: flex-start;
-        flex-wrap: wrap;
     }
 
     .card {
@@ -157,4 +179,12 @@
     .SelectedCardDetails > p {
         overflow-wrap: anywhere;
     }
+}
+
+@media (max-width: 400px)
+{
+    .Lottie {
+        width: 300px;
+        height: 150px;
+    }   
 }

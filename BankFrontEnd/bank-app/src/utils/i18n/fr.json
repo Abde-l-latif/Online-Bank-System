@@ -92,7 +92,8 @@
         "totalTransactions": "Total des transactions",
         "transfer": "Virement",
         "deposit": "Dépôt",
-        "withdraw": "Retrait"
+        "withdraw": "Retrait", 
+        "addAccount" : "Ajouter un compte"
     },
     "Cards": {
         "title": "Mes cartes",
@@ -116,7 +117,10 @@
         "cardType": "Type de carte",
         "debit": "Débit",
         "credit": "Crédit",
-        "orderCard": "Commander la carte"
+        "orderCard": "Commander la carte",
+        "selectCard" : "Sélectionner une carte",
+        "frozen" : "La carte a été bloquer avec succès.",
+        "addCard" : "Ajouter une carte"
     },
     "Transactions": {
         "title": "Transaction",
@@ -175,6 +179,7 @@
         "paymentMethod": "Mode de paiement",
         "cardPayment": "Carte de crédit/débit :",
         "cardNumber": "Numéro de carte",
+        "cardNumberPlaceholder": "Saisissez le numéro de carte",
         "accountNumberInput": "Saisissez le numéro de compte",
         "expiration": "Date d'expiration",
         "cardholder": "Nom du titulaire",

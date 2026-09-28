@@ -205,10 +205,29 @@
     }
 }
 
+
 @media (max-width: 400px) {
     .AccountAction {
         grid-template-columns: 1fr;
     }
+}
+
+.LottieContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.LottieContainer p {
+    color: green;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.Lottie {
+    width: 400px;
+    height: 200px;
 }
 
 

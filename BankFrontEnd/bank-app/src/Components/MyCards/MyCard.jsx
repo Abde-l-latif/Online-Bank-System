@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import AddCard from '../AddCards/AddCard';
 import { apiFetch } from '../../utils/functions/ApiFunction';
 import { useTranslation } from 'react-i18next';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 const MyCard = ({customerId, email}) => {
 
@@ -14,6 +15,7 @@ const MyCard = ({customerId, email}) => {
     const [accounts, setAccounts] = useState(null);
     const [selectedCard, setSelectedCard] = useState(null);
     const [addCardStatus, setAddCardStatus] = useState(false);
+    const [Msg , setMsg] = useState({type : null, msg : null});
     const { t } = useTranslation();
 
     useEffect(() => {
@@ -28,8 +30,7 @@ const MyCard = ({customerId, email}) => {
                 if(response.ok) 
                 {
                     const data = await response.json();
-                    setCards(data);
-                    console.log(data);
+                    setCards(data);    
                 }
 
             } catch (error) {
@@ -66,7 +67,6 @@ const MyCard = ({customerId, email}) => {
     
                     if (isMounted) {
                         setAccounts(data);
-                        console.log(data);
                     }
                 }
 
@@ -83,11 +83,11 @@ const MyCard = ({customerId, email}) => {
 
     }, []);
 
-    const accountsWithoutCards = accounts?.filter(
-        account => !cards?.some(
-            card => card.accountID === account.accountID
-        )
-    );
+    // const accountsWithoutCards = accounts?.filter(
+    //     account => !cards?.some(
+    //         card => card.accountID === account.accountID
+    //     )
+    // );
 
 
     const DisplayCards = cards?.map((card) => {
@@ -99,7 +99,7 @@ const MyCard = ({customerId, email}) => {
 
         return (   
         <div key={card.cardID} className={`${Style.card} ${selectedCard != null && selectedCard.cardID === card.cardID ? Style.selectedCard : ""}`}
-         onClick={() => setSelectedCard(card)}>
+         onClick={() => {setSelectedCard(card); setMsg({type : null, msg : null})}}>
             <Brand/>
             <p>{card.cardNumber.match(/.{1,4}/g)?.join(" ")}</p>
             <div>
@@ -123,8 +123,14 @@ const MyCard = ({customerId, email}) => {
             }, email);
 
             if(response.ok)
-                setSelectedCard(null);
-    
+            {
+                const frozenCard = { ...selectedCard, status: "Frozen" };
+                setSelectedCard(frozenCard);
+                setCards((currentCards) => currentCards?.map((card) =>
+                    card.cardID === frozenCard.cardID ? frozenCard : card
+                ));
+                setMsg({type : "success", msg : t("Cards.frozen")})
+            }
 
         } catch (error) {
             console.error('Error fetching accounts:', error);
@@ -146,7 +152,7 @@ const MyCard = ({customerId, email}) => {
                         <p>{t('Cards.back')}</p>
                     </div>
                 </div>
-                <AddCard accounts={accountsWithoutCards} email={email}/>
+                <AddCard accounts={accounts} email={email}/>
             </section>
         ) : (
             <section className={Style.myCard}>
@@ -161,13 +167,16 @@ const MyCard = ({customerId, email}) => {
                     </div>
                 </div>
                 <div className={Style.CardContainer}>
-                    {DisplayCards}
+                    {cards?.length >= 1 ?  DisplayCards : (<div className={Style.LottieContainer}>
+                            <DotLottieReact className={Style.Lottie} src="/Lotties/add.lottie" loop autoplay  /> 
+                            <p>{t("Cards.addCard")}</p>   
+                        </div>)}
                 </div>
                 <div className={Style.SelectedCardContainer}>
                     <h3>{t('Cards.selected')}</h3>
                     <p>{t('Cards.details')}</p>
                     <div>
-                        {selectedCard && (
+                        {selectedCard ? (
                             <div className={Style.SelectedCardDetails}>
                                     <p> <span>{t('Cards.number')}</span> {selectedCard?.cardNumber?.match(/.{1,4}/g)?.join(" ")}</p>
                                     <p> <span>{t('Cards.holder')}</span> {selectedCard?.cardHolderName}</p>
@@ -182,7 +191,20 @@ const MyCard = ({customerId, email}) => {
                                     <CreditCard size={20} color="white" />
                                     <p>{t('Cards.freeze')}</p>
                                 </div>
+                                {Msg && Msg.type == "success" && <p 
+                                style={{color : 'green',
+                                        textAlign : "center",
+                                        marginTop : "10px",
+                                        backgroundColor : "#99eb9194",
+                                        padding : "5px"
+                                      }}
+                                      >{Msg.msg}</p> }
                             </div>
+                        ) :  (
+                        <div className={Style.LottieContainer}>
+                            <DotLottieReact className={Style.Lottie} src="/Lotties/EmptyState.lottie" loop autoplay  /> 
+                            <p>{t("Cards.selectCard")}</p>   
+                        </div>
                         )}
                     </div>
                 </div>

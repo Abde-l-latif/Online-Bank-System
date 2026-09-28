@@ -22,6 +22,8 @@ const AddCard = ({ accounts, email }) => {
         return acc;
 
     }, {});
+    console.log(AccountOptions);
+    
 
     const AddCard = async () => {
         if(myAccountId["Account Number"] == null || CardType == null || selectedBrand == null )

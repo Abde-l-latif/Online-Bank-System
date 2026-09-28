@@ -5,15 +5,20 @@ import {  CreditCard, CalendarFold, User, BanknoteArrowUp } from 'lucide-react';
 import visa from '../../assets/visa.png';
 import mastercard from '../../assets/mastercard.png';
 import { apiFetch } from "../../utils/functions/ApiFunction";
+import { useTranslation } from "react-i18next";
 
 const Deposit = ({accounts}) => 
 {
+    const { t } = useTranslation();
     const [selectAccountNumber , setSelectAccountNumber] = useState("")
     const [amount, setAmount] = useState("")
-    const [cardInfo, setCardInfo] = useState({cardNum : "", Expiration : "", cvc : "", name : ""})
+    const [cardInfo, setCardInfo] = useState({cardNum : "", Expiration : "", cvc : "", name : ""});
+    const [Message, setMessage] = useState({type : null, msg: null});
 
 
     const handelAction = async () => {
+        
+        setMessage({type : null, msg: null});
 
         if(selectAccountNumber != "" && amount != "" && cardInfo.Expiration != "" &&
             cardInfo.cardNum != "" && cardInfo.cvc != "" && cardInfo.name != ""
@@ -32,11 +37,14 @@ const Deposit = ({accounts}) =>
                         })
                     }, localStorage.getItem("Email"));
 
+                    const msg = await response.text();
+
                     if(response.ok)
                     {
-                        const msg = await response.text();
-                        console.log(msg); 
+                        setMessage({type : "success", msg: msg})
                     }   
+                    else
+                        setMessage({type : "failed", msg: msg})     
                 }
                 catch(e)
                 {
@@ -50,33 +58,33 @@ const Deposit = ({accounts}) =>
     
     return (
         <div className={Style.DepositContainer}>
-            <h3>Deposit</h3>
-            <p>Add money to your account</p>
+            <h3>{t("Actions.deposit")}</h3>
+            <p>{t("Actions.depositDescription")}</p>
             <div className={Style.SelectAccount}>
-                <h4>Select an account</h4>
+                <h4>{t("Actions.selectAccount")}</h4>
                 <SelectAccounts accounts={accounts} selectAccountNumber={selectAccountNumber} setSelectAccountNumber={setSelectAccountNumber}/>
             </div>
             <div className={Style.AccountBoxAmount}>
-                <h4>Amount (MAD) </h4>     
+                <h4>{t("Actions.amount")}</h4>
                 <input
                    type="text"
                    inputMode="numeric"
                    pattern="[0-9]*"
-                   placeholder="Enter amount"
+                   placeholder={t("Actions.enterAmount")}
                    value={amount}
                    onChange={(event) => setAmount(event.target.value.replace(/\D/g, ""))}
                 />             
             </div>
             <div className={Style.paimentMethodContainer}>
-                <h4>Payment method</h4>
-                <p style={{marginTop : "5px"}}>Credit/Debit card : </p>
+                <h4>{t("Actions.paymentMethod")}</h4>
+                <p style={{marginTop : "5px"}}>{t("Actions.cardPayment")}</p>
                 <div className={Style.cardDetails}>
                     <div className={Style.RowOne}>
                         <div style={{display : "flex", alignItems : "center", gap : "20px"}}>
                             <CreditCard/>
                             <div className={Style.RowOneInfo}>
-                                <h5>Card number</h5>
-                                <input type="text" placeholder="Enter account number" 
+                                <h5>{t("Actions.cardNumber")}</h5>
+                                <input type="text" placeholder={t("Actions.cardNumberPlaceholder")}
                                 value={cardInfo.cardNum}
                                 pattern="[0-9]*"
                                 maxLength={16}
@@ -94,7 +102,7 @@ const Deposit = ({accounts}) =>
                         <div className={Style.RowTwoDate}>
                             <CalendarFold/>
                             <div>
-                                <h5>Expiration Date</h5>
+                                        <h5>{t("Actions.expiration")}</h5>
                                 <input type="text" placeholder="MM / YY" value={cardInfo.Expiration}
                                   maxLength={7}
                                 onChange={(event) => {
@@ -121,16 +129,21 @@ const Deposit = ({accounts}) =>
                     <div className={Style.RowThree}>
                         <User />
                         <div>
-                            <h5>Cardholder name</h5>
+                            <h5>{t("Actions.cardholder")}</h5>
                             <input type="text" placeholder="John Doe" value={cardInfo.name}
                             onChange={(event) => setCardInfo({...cardInfo, name : event.target.value})}/>
                         </div>
                     </div>
                 </div>
 
+                {Message.type && <p style={{
+                    color : Message.type == "success" ? "green" : "red",
+                    marginTop : "10px"
+                }}>{Message.msg}</p> }
+
                 <button className={Style.BTNDeposit} onClick={handelAction}>
                     <BanknoteArrowUp />
-                    <p>Deposit</p>
+                    <p>{t("Actions.deposit")}</p>
                 </button>
             </div>
         </div>

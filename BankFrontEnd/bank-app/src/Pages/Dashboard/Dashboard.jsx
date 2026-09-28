@@ -43,7 +43,6 @@ const Dashboard = () => {
             const userData = await response.json();
 
             if (response.ok) {
-                console.log(userData?.userResponseDTO);
                 setUser(userData?.userResponseDTO);
             }
         }
@@ -76,7 +75,6 @@ const Dashboard = () => {
                 if(response.ok) 
                 {
                     setRecentTrans(data);
-                    console.log(data);
                 }
 
             } catch(err) {
@@ -124,7 +122,6 @@ const Dashboard = () => {
 
             if(response.ok) 
             {
-                console.log(data);
                 setRecentTrans(data);
             } 
 
@@ -185,7 +182,7 @@ const Dashboard = () => {
                     {activeMenu === 'accounts' && <Account UserInfo={user} />}
                     {activeMenu === 'cards' && <MyCard customerId={user?.customerID} email={user?.emailAddress} />}
                     {activeMenu === 'transactions' && <Transaction email={user?.emailAddress}/>}
-                    {activeMenu === 'settings' && <Setting UserInfo={user}/>}
+                    {activeMenu === 'settings' && <Setting UserInfo={user} setUserInfo={setUser}/>}
                 </div>
 
                 <div>

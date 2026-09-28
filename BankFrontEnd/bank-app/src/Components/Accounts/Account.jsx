@@ -7,6 +7,7 @@ import Transfer from "../Transfer/Transfer";
 import Deposit from "../Deposit/Deposit";
 import Withdraw from "../Withdraw/Withdraw";
 import { useTranslation } from 'react-i18next';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 
 const Account = ({ UserInfo }) => {
@@ -139,7 +140,9 @@ const Account = ({ UserInfo }) => {
         )
     });
 
-    let accountList = accounts.map((account) => {
+    let accountList = accounts?.length >= 1 ?
+    ( 
+        accounts.map((account) => {
         return (
             <div className={ account.accountType === 'Savings' ? Style.AccountCardSaving : Style.AccountCard} key={account.accountID}>
                 <div className={Style.iconCard}>
@@ -157,8 +160,12 @@ const Account = ({ UserInfo }) => {
                     </div>
                 </div>
             </div>
-        )
-    });
+        )}))
+        :    
+        (<div className={Style.LottieContainer}>
+            <DotLottieReact className={Style.Lottie} src="/Lotties/add.lottie" loop autoplay  /> 
+            <p>{t("Accounts.addAccount")}</p>   
+        </div>);
     
     return (
         <>
@@ -192,7 +199,7 @@ const Account = ({ UserInfo }) => {
                         </div>
                     </div>
                     
-                    <div className={Style.AccountList}>
+                    <div className={`${accounts.length >= 1 ? Style.AccountList : ""}`}>
                         {accountList}
                     </div>
 

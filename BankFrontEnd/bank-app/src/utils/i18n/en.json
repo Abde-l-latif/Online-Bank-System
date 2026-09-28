@@ -92,7 +92,8 @@
         "totalTransactions": "Total Transactions",
         "transfer": "Transfer",
         "deposit": "Deposit",
-        "withdraw": "Withdraw"
+        "withdraw": "Withdraw",
+        "addAccount" : "Add an account"
     },
     "Cards": {
         "title": "My Cards",
@@ -116,7 +117,10 @@
         "cardType": "Card Type",
         "debit": "Debit",
         "credit": "Credit",
-        "orderCard": "Order Card"
+        "orderCard": "Order Card",
+        "selectCard" : "Select a card",
+        "frozen" : "card has been frozen successfully",
+        "addCard" : "Add a card"
     },
     "Transactions": {
         "title": "Transaction",
@@ -175,6 +179,7 @@
         "paymentMethod": "Payment method",
         "cardPayment": "Credit/Debit card:",
         "cardNumber": "Card number",
+        "cardNumberPlaceholder": "Enter card number",
         "accountNumberInput": "Enter account number",
         "expiration": "Expiration Date",
         "cardholder": "Cardholder name",

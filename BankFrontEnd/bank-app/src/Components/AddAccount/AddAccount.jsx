@@ -13,6 +13,9 @@ const AddAccount = ({Email}) => {
 
     const submitAddAccount = async () => {
 
+        setResponse({status : false, msg : ""});
+        setcustomError({status : false, msg: ""})
+
         if(AccountType == null)
         {
             setcustomError({status : true, msg : t('Actions.selectAccountError')});
@@ -38,6 +41,11 @@ const AddAccount = ({Email}) => {
             {
                 setResponse({status : true, msg : data});
             }
+            else
+            {
+                setcustomError({status : true, msg: data});
+            }
+
 
         } catch(err) {
             console.log(err.message);

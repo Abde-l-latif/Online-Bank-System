@@ -5,14 +5,20 @@ import { CreditCard, CalendarFold, User, BanknoteArrowDown } from "lucide-react"
 import visa from '../../assets/visa.png';
 import mastercard from '../../assets/mastercard.png';
 import { apiFetch } from "../../utils/functions/ApiFunction";
+import { useTranslation } from "react-i18next";
 
 const Withdraw = ({accounts}) => 
 {
+    const { t } = useTranslation();
     const [selectAccountNumber, setSelectAccountNumber] = useState("");
     const [amount, setAmount] = useState("");
     const [cardInfo, setCardInfo] = useState({cardNum: "", Expiration: "", cvc: "", name: ""});
+    const [Message, setMessage] = useState({type : null, msg: null});
 
     const handelAction = async () => {
+        
+        setMessage({type : null, msg: null});
+
         if (selectAccountNumber !== "" && amount !== "" && cardInfo.Expiration !== "" &&
             cardInfo.cardNum !== "" && cardInfo.cvc !== "" && cardInfo.name !== "")
         {
@@ -28,10 +34,14 @@ const Withdraw = ({accounts}) =>
                     })
                 }, localStorage.getItem("Email"));
 
-                if (response.ok) {
-                    const msg = await response.text();
-                    console.log(msg);
-                }
+                const msg = await response.text();
+
+                if(response.ok)
+                {
+                    setMessage({type : "success", msg: msg})
+                }   
+                else
+                    setMessage({type : "failed", msg: msg})     
             }
             catch (error) {
                 console.log(error);
@@ -44,10 +54,10 @@ const Withdraw = ({accounts}) =>
 
     return (
         <div className={Style.WithdrawContainer}>
-            <h3>Withdraw</h3>
-            <p>Take money from your account</p>
+            <h3>{t("Actions.withdraw")}</h3>
+            <p>{t("Actions.withdrawDescription")}</p>
             <div className={Style.SelectAccount}>
-                <h4>Select an account</h4>
+                <h4>{t("Actions.selectAccount")}</h4>
                 <SelectAccounts
                     accounts={accounts}
                     selectAccountNumber={selectAccountNumber}
@@ -55,28 +65,28 @@ const Withdraw = ({accounts}) =>
                 />
             </div>
             <div className={Style.AccountBoxAmount}>
-                <h4>Amount (MAD)</h4>
+                <h4>{t("Actions.amount")}</h4>
                 <input
                     type="text"
                     inputMode="numeric"
                     pattern="[0-9]*"
-                    placeholder="Enter amount"
+                    placeholder={t("Actions.enterAmount")}
                     value={amount}
                     onChange={(event) => setAmount(event.target.value.replace(/\D/g, ""))}
                 />
             </div>
             <div className={Style.paimentMethodContainer}>
-                <h4>Payment method</h4>
-                <p style={{marginTop: "5px"}}>Credit/Debit card:</p>
+                <h4>{t("Actions.paymentMethod")}</h4>
+                <p style={{marginTop: "5px"}}>{t("Actions.cardPayment")}</p>
                 <div className={Style.cardDetails}>
                     <div className={Style.RowOne}>
                         <div className={Style.RowOneContent}>
                             <CreditCard />
                             <div className={Style.RowOneInfo}>
-                                <h5>Card number</h5>
+                                <h5>{t("Actions.cardNumber")}</h5>
                                 <input
                                     type="text"
-                                    placeholder="Enter account number"
+                                    placeholder={t("Actions.cardNumberPlaceholder")}
                                     value={cardInfo.cardNum}
                                     pattern="[0-9]*"
                                     maxLength={16}
@@ -94,7 +104,7 @@ const Withdraw = ({accounts}) =>
                         <div className={Style.RowTwoDate}>
                             <CalendarFold />
                             <div>
-                                <h5>Expiration Date</h5>
+                                <h5>{t("Actions.expiration")}</h5>
                                 <input
                                     type="text"
                                     placeholder="MM / YY"
@@ -124,7 +134,7 @@ const Withdraw = ({accounts}) =>
                     <div className={Style.RowThree}>
                         <User />
                         <div>
-                            <h5>Cardholder name</h5>
+                            <h5>{t("Actions.cardholder")}</h5>
                             <input
                                 type="text"
                                 placeholder="John Doe"
@@ -135,9 +145,14 @@ const Withdraw = ({accounts}) =>
                     </div>
                 </div>
 
+                {Message.type && <p style={{
+                    color : Message.type == "success" ? "green" : "red",
+                    marginTop : "10px"
+                }}>{Message.msg}</p> }
+
                 <button className={Style.BTNWithdraw} onClick={handelAction}>
                     <BanknoteArrowDown />
-                    <p>Withdraw</p>
+                    <p>{t("Actions.withdraw")}</p>
                 </button>
             </div>
         </div>

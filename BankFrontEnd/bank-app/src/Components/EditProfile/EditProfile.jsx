@@ -6,7 +6,7 @@ import flag from "../../assets/morocco2.svg";
 import { apiFetch } from "../../utils/functions/ApiFunction";
 import { useTranslation } from 'react-i18next';
 
-const EditProfile = ({ profile, onClose }) => {
+const EditProfile = ({ profile, setProfile, onClose }) => {
     const {
         register,
         handleSubmit,
@@ -60,6 +60,7 @@ const EditProfile = ({ profile, onClose }) => {
             {
                 const dataResponse = await Data.text();
                 setSuccess({status : true, msg : dataResponse})
+                setProfile({...profile, emailAddress : profileData.email, customer : {...profile?.customer, firstName : profileData.firstName, lastName : profileData.lastName, phoneNumber : profileData.phoneNumber} })
             }
 
         }

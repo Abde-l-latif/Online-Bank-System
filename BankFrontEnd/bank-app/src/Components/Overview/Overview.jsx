@@ -145,7 +145,7 @@ const Overview = () => {
 
                     <div className={Style.Cardinfo} >
                         <p>{t('Overview.totalBalance')}</p>
-                        <h5>{FilterAccount?.[0].balance.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD</h5>
+                        <h5>{FilterAccount?.[0]?.balance.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD</h5>
                         <p>{t('Overview.lastWeekChart')}</p>
                     </div> 
 

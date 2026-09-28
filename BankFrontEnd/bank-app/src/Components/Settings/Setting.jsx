@@ -7,7 +7,7 @@ import EditPassword from "../EditPassword/EditPassword";
 import { useNavigate } from "react-router";
 import { useTranslation } from 'react-i18next';
 
-const Setting = ({UserInfo}) => {
+const Setting = ({UserInfo, setUserInfo}) => {
 
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [isPasswordOpen, setIsPasswordOpen] = useState(false);
@@ -165,6 +165,7 @@ const Setting = ({UserInfo}) => {
         {isProfileOpen && (
             <EditProfile
                 profile={UserInfo}
+                setProfile={setUserInfo}
                 onClose={() => setIsProfileOpen(false)}
             />
         )}
